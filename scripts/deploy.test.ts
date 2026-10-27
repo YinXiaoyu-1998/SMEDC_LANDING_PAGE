@@ -130,16 +130,34 @@ esac`
   }
 );
 
-it("keeps releases manual, main-only, gated, pinned and independent of service credentials", async () => {
+it("automatically releases trusted main pushes after quality gates and preserves manual rollback", async () => {
   const workflow = await readFile(
     new URL("../.github/workflows/deploy.yml", import.meta.url),
     "utf8"
   );
   expect(workflow).toContain("workflow_dispatch:");
+  expect(workflow).toContain("push:\n    branches: [main]");
   expect(workflow).not.toContain("workflow_run:");
   expect(workflow).not.toContain("pull_request:");
   expect(workflow).toContain("github.ref == 'refs/heads/main'");
+  expect(workflow).toContain("github.event_name == 'push' || inputs.operation == 'deploy'");
   expect(workflow).toContain("needs.quality.result == 'success'");
+  expect(workflow).toContain(
+    "github.event_name == 'workflow_dispatch' && inputs.operation == 'rollback'"
+  );
+  expect(workflow).toContain(
+    "github.event_name == 'workflow_dispatch' && inputs.operation || 'deploy'"
+  );
+  expect(workflow).toContain("uses: ./.github/workflows/quality.yml");
+  expect(workflow).toContain("if: env.OPERATION == 'deploy'");
+  expect(workflow).toContain('current_main=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main"');
+  expect(workflow).toContain('if [ "$current_main" != "$GITHUB_SHA" ]; then');
+  expect(workflow.indexOf("Verify selected main commit")).toBeLessThan(
+    workflow.indexOf("Install the website SSH credential")
+  );
+  expect(workflow).toContain("group: smedc-landing-production");
+  expect(workflow).toContain("cancel-in-progress: false");
+  expect(workflow).toContain("name: landing-${{ github.sha }}");
   expect(workflow).toContain("name: landing-production");
   expect(workflow).toContain("StrictHostKeyChecking=yes");
   expect(workflow).toContain('test "$LANDING_DEPLOY_ENABLED" = true');
@@ -147,4 +165,11 @@ it("keeps releases manual, main-only, gated, pinned and independent of service c
   for (const match of workflow.matchAll(/uses: (actions\/[^\s]+)/g)) {
     expect(match[1]).toMatch(/@[a-f0-9]{40}$/);
   }
+  const quality = await readFile(
+    new URL("../.github/workflows/quality.yml", import.meta.url),
+    "utf8"
+  );
+  expect(quality).toContain("pull_request:");
+  expect(quality).toContain("workflow_call:");
+  expect(quality).not.toContain("push:");
 });

@@ -34,9 +34,9 @@ npm run preview
 
 ## 交付与静态安全策略
 
-静态文件通过本仓库手动触发的 `Deploy landing` 工作流交付，独立于业务服务镜像。nginx 配置位于 `deploy/nginx-marketing.conf`：首页只允许同源 frame，只有公开周报允许同源嵌入，新增三个明确的样例路径和静态 SVG 路径；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。
+main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静态文件，独立于业务服务镜像；PR 仅检查。手动发布和回滚入口继续保留。nginx 配置位于 `deploy/nginx-marketing.conf`：首页只允许同源 frame，只有公开周报允许同源嵌入，新增三个明确的样例路径和静态 SVG 路径；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。
 
-部署与回滚入口见 [部署手册](deploy/README.md)。应用主机配置与发布仍需独立授权。
+部署与回滚入口见 [部署手册](deploy/README.md)。常规官网发布随 main 更新自动执行；主机 nginx/TLS 配置变更按部署手册单独安排。
 
 方向箭头和关闭图标来自 [Phosphor Icons](https://github.com/phosphor-icons/core)，使用 MIT 许可，原始许可保存在 `public/assets/phosphor-license.txt`。不从远端加载字体或运行时脚本。
 
