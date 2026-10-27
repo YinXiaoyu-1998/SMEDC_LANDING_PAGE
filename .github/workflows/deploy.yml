@@ -1,0 +1,76 @@
+name: Deploy landing
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Deploy this main commit or restore the previous website
+        type: choice
+        required: true
+        default: deploy
+        options: [deploy, rollback]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smedc-landing-production
+  cancel-in-progress: false
+
+jobs:
+  quality:
+    if: github.ref == 'refs/heads/main' && inputs.operation == 'deploy'
+    uses: ./.github/workflows/quality.yml
+  deploy:
+    needs: quality
+    if: >-
+      ${{ !cancelled() && github.ref == 'refs/heads/main' &&
+          (needs.quality.result == 'success' || inputs.operation == 'rollback') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: landing-production
+      url: https://smedatacenter.xyz
+    env:
+      LANDING_DEPLOY_ENABLED: ${{ vars.LANDING_DEPLOY_ENABLED }}
+      LANDING_HOST: ${{ vars.LANDING_HOST }}
+      LANDING_SSH_USER: ${{ vars.LANDING_SSH_USER }}
+      OPERATION: ${{ inputs.operation }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Download this run's verified static site
+        if: inputs.operation == 'deploy'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: landing-${{ github.sha }}
+          path: artifact
+      - name: Install the website SSH credential
+        env:
+          LANDING_SSH_PRIVATE_KEY: ${{ secrets.LANDING_SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          test "$LANDING_DEPLOY_ENABLED" = true
+          [[ "$LANDING_HOST" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*$ ]]
+          [[ "$LANDING_SSH_USER" =~ ^[a-z_][a-z0-9_-]*$ ]]
+          test -n "$LANDING_SSH_PRIVATE_KEY"
+          umask 077
+          printf '%s\n' "$LANDING_SSH_PRIVATE_KEY" > "$RUNNER_TEMP/landing-key"
+          ssh-keygen -y -f "$RUNNER_TEMP/landing-key" >/dev/null
+      - name: Publish or roll back only the website
+        run: |
+          set -euo pipefail
+          options=(-i "$RUNNER_TEMP/landing-key" -o BatchMode=yes -o IdentitiesOnly=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=yes -o "UserKnownHostsFile=$PWD/deploy/known_hosts")
+          target="$LANDING_SSH_USER@$LANDING_HOST"
+          if [ "$OPERATION" = rollback ]; then
+            ssh "${options[@]}" "$target" 'bash -s -- rollback' < scripts/deploy-remote.sh
+          else
+            archive="/tmp/smedc-landing-$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.tar.gz"
+            digest=$(sha256sum artifact/landing.tar.gz | cut -d ' ' -f 1)
+            scp "${options[@]}" artifact/landing.tar.gz "$target:$archive"
+            # These trusted SHA/run identifiers intentionally expand on the runner.
+            # shellcheck disable=SC2029
+            ssh "${options[@]}" "$target" "bash -s -- deploy '$GITHUB_SHA' '$archive' '$digest'" < scripts/deploy-remote.sh
+          fi
+      - name: Remove the runner credential
+        if: always()
+        run: rm -f "$RUNNER_TEMP/landing-key"

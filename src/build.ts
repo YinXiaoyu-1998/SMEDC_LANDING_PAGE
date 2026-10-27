@@ -79,6 +79,6 @@ export async function buildSetupComposition(outputDirectory: string): Promise<vo
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  await buildSite(resolve(sourceDirectory, "../../../dist/marketing"));
-  await buildSetupComposition(resolve(sourceDirectory, "../../../dist/marketing-animation"));
+  await buildSite(resolve(sourceDirectory, "../dist/marketing"));
+  await buildSetupComposition(resolve(sourceDirectory, "../dist/marketing-animation"));
 }

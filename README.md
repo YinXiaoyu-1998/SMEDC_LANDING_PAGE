@@ -1,8 +1,18 @@
 # 企业智脑 SMEDC 官网
 
-中文静态介绍页，内容、图片与联系入口独立于业务服务。初始规格为 GitHub Issue #273。
+中文静态介绍页，内容、图片与联系入口独立于业务服务。从 [SME_DATA_CENTER](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER) 的 `apps/marketing-web` 独立拆出，保留该目录的 5 次 Git 提交。原始规格为 [Issue #273](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER/issues/273)。本仓库独立管理代码、素材、动画源、脱敏样例、测试、nginx 配置与静态发布。
 
-从仓库根目录运行 `npm run build:marketing`，产物为 `dist/marketing`。本地可用 `python3 -m http.server 4173 --bind 127.0.0.1 --directory dist/marketing` 预览。核心流程测试：`npm test -- apps/marketing-web/src/site.test.ts scripts/staging-deploy-workflow.test.ts`。
+使用 Node.js 22+，在本仓库执行：
+
+```sh
+npm ci
+npm run build
+npm run preview
+```
+
+本地预览为 `http://127.0.0.1:4173`，官网产物为 `dist/marketing`，动画编辑产物为 `dist/marketing-animation`。只发布前者。无需启动 SMEDC、数据库、Docker 或配置业务凭据。
+
+检查：`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`。测试覆盖原有页面交互、静态隔离和发布/失败恢复。完整发布及拆仓切换说明见 [部署手册](deploy/README.md)。
 
 - `src/index.html`：餐厅场景、真实脱敏周报、两种服务方式、四类日常工作、FAQ 与联系入口。无 JavaScript 时，所有业务说明可读，周报通过普通链接打开。
 - `src/styles.css`：深墨色、纸白与砖红；系统宋体/黑体回退，手机布局和减少动态效果支持。
@@ -20,13 +30,13 @@
 
 演示进入视口后播放一次，离开视口或页面隐藏时暂停，提供播放、重播和进度拖动。减少动态效果或 JavaScript 不可用时保留完整静态示意。复制按钮始终取完整安装请求；剪贴板失败时显示完整对话以便手动复制。演示不执行实际安装、连接或登录，具体客户端按官方 Skill 的当前说明完成配置，登录由用户确认。
 
-修改后先运行 `npm run build:marketing`，再用 `npx hyperframes lint dist/marketing-animation` 和 `npx hyperframes check dist/marketing-animation` 检查。可在 `dist/marketing-animation` 目录运行 `npx hyperframes preview` 编辑时间轴。网页内的示意会随同一次构建更新。
+修改后先运行 `npm run build`，再用 `npx hyperframes lint dist/marketing-animation` 和 `npx hyperframes check dist/marketing-animation` 检查。可在 `dist/marketing-animation` 目录运行 `npx hyperframes preview` 编辑时间轴。网页内的示意会随同一次构建更新。
 
 ## 交付与静态安全策略
 
-静态文件随既有 release-ops 镜像交付。上线本版前须应用更新的 `deploy/staging/nginx-marketing.conf`：首页只允许同源 frame，只有公开周报允许同源嵌入，新增三个明确的样例路径和静态 SVG 路径；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。
+静态文件通过本仓库手动触发的 `Deploy landing` 工作流交付，独立于业务服务镜像。nginx 配置位于 `deploy/nginx-marketing.conf`：首页只允许同源 frame，只有公开周报允许同源嵌入，新增三个明确的样例路径和静态 SVG 路径；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。
 
-部署与回滚入口见 [部署手册](../../docs/implementation/staging-deploy-runbook.md#企业智脑官网静态产物)。应用主机配置与发布仍需独立授权。
+部署与回滚入口见 [部署手册](deploy/README.md)。应用主机配置与发布仍需独立授权。
 
 方向箭头和关闭图标来自 [Phosphor Icons](https://github.com/phosphor-icons/core)，使用 MIT 许可，原始许可保存在 `public/assets/phosphor-license.txt`。不从远端加载字体或运行时脚本。
 
