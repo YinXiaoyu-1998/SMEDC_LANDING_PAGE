@@ -80,9 +80,10 @@ esac`
         await writeFile(join(bin, name), `#!/usr/bin/env bash\nset -euo pipefail\n${body}\n`);
         await chmod(join(bin, name), 0o755);
       }
+      // Replace the archive prefix before injecting a root that may itself use /tmp.
       const script = source
-        .replaceAll("/opt/smedc", root)
-        .replaceAll("/tmp/smedc-landing-", `${root}/smedc-landing-`);
+        .replaceAll("/tmp/smedc-landing-", `${root}/smedc-landing-`)
+        .replaceAll("/opt/smedc", root);
       const run = (args: string[], fail = false) =>
         spawnSync("bash", ["-s", "--", ...args], {
           input: script,
