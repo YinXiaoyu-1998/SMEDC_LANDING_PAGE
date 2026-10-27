@@ -1,6 +1,8 @@
 name: Deploy landing
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       operation:
@@ -19,13 +21,14 @@ concurrency:
 
 jobs:
   quality:
-    if: github.ref == 'refs/heads/main' && inputs.operation == 'deploy'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || inputs.operation == 'deploy')
     uses: ./.github/workflows/quality.yml
   deploy:
     needs: quality
     if: >-
       ${{ !cancelled() && github.ref == 'refs/heads/main' &&
-          (needs.quality.result == 'success' || inputs.operation == 'rollback') }}
+          (needs.quality.result == 'success' ||
+           (github.event_name == 'workflow_dispatch' && inputs.operation == 'rollback')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
@@ -35,11 +38,22 @@ jobs:
       LANDING_DEPLOY_ENABLED: ${{ vars.LANDING_DEPLOY_ENABLED }}
       LANDING_HOST: ${{ vars.LANDING_HOST }}
       LANDING_SSH_USER: ${{ vars.LANDING_SSH_USER }}
-      OPERATION: ${{ inputs.operation }}
+      OPERATION: ${{ github.event_name == 'workflow_dispatch' && inputs.operation || 'deploy' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Verify selected main commit
+        if: env.OPERATION == 'deploy'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          current_main=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')
+          if [ "$current_main" != "$GITHUB_SHA" ]; then
+            echo "A newer main commit exists; deploy it instead." >&2
+            exit 1
+          fi
       - name: Download this run's verified static site
-        if: inputs.operation == 'deploy'
+        if: env.OPERATION == 'deploy'
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: landing-${{ github.sha }}

@@ -2,22 +2,29 @@
 
 本仓库只管理 `smedatacenter.xyz` / `www.smedatacenter.xyz` 的静态文件及专属 nginx 配置。API、数据库、业务密钥、服务镜像和 `runtime.env` 仍由 [SME_DATA_CENTER](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER) 管理。使用当前 Linux nginx 主机，不增加常驻服务或镜像仓库。
 
-## 拆仓切换顺序
+## 自动发布
 
-1. 合并新仓库的独立构建/发布 PR，确认 `Landing quality` 通过。新仓库的初始 `main` 只保存提取的历史快照，独立工具链在该 PR 中；在合并前使用 `codex/standalone-landing` 分支。
-2. 合并服务仓库的拆分 PR，并确认其受控发布完成、旧发布任务排空。之后服务部署/回滚不再读写官网。此前不可启用新发布，否则旧流程仍可能覆盖官网；切换后禁止重跑拆分前的服务发布工作流。
-3. 在新仓库配置下面的 GitHub Environment。只有完成前两步才把 `LANDING_DEPLOY_ENABLED` 设为 `true`。
-4. 获得官网发布授权后，在新仓库 Actions → **Deploy landing** → `main` → `deploy` 手动执行，核对页面、样例、跳转和版本。网站切换不要求搬服务器、改 DNS 或修改现有 nginx/TLS。
+每次 PR 合并或提交推送到 `main`，自动运行 `Deploy landing`：调用质量工作流 → 检查、测试和构建 → 上传本次提交的静态产物 → 通过 `landing-production` 发布 → 公网校验。无需再点手动发布。
 
-本地拆分、推送和 PR 不代表步骤 1–4 已完成。没有自动推送上线触发器；创建 PR 或向 main 推送只触发质量检查。
+PR 只运行 `Landing quality` 检查，不接触发布凭据。main 的质量检查由发布工作流调用一次，不额外重复运行独立检查。任何检查失败都会阻止发布；网站校验失败自动恢复原版本。
+
+仍可在 Actions → **Deploy landing** → `main` 手动选择 `deploy` 重发当前 main，或选择 `rollback` 恢复前一官网版本。发布前会核对本次提交仍为当前 main，防止重跑旧工作流覆盖新版本；该检查失败时应发布最新 main。
+
+工作流使用 `smedc-landing-production` 并发组，进行中的发布不会被新提交中断。GitHub 同一并发组只保留一个等待任务，连续推送时较新的等待任务可能替换旧任务；如需每个版本都上线，应等前次发布结束再合并下一版。
+
+## 服务仓库接管边界
+
+官网已从服务仓库拆出，使用现有 Linux 主机和 `/opt/smedc/marketing` 静态目录。服务发布和回滚不再改写官网。不要重跑拆分前的服务发布工作流，否则旧脚本仍可能覆盖官网。
+
+重新接管主机时，应先完成服务拆分版本的受控部署并排空旧任务，再启用 `LANDING_DEPLOY_ENABLED`。现有站点通常无需更改 DNS、nginx 或 TLS；全新主机按本文末尾的首次启用步骤准备。
 
 ## GitHub Environment
 
-创建 `landing-production`，按 GitHub 套餐支持情况限制为 `main` 并配置所需审核人。工作流自身也只允许 `main`；开启开关和配置凭据不会自动发布。
+创建 `landing-production`，按 GitHub 套餐支持情况限制为 `main` 并配置所需审核人。工作流自身也只允许 `main`；开关开启且凭据就绪后，后续 main 提交会自动发布。
 
 | 类型     | 名称                      | 配置                                                            |
 | -------- | ------------------------- | --------------------------------------------------------------- |
-| Variable | `LANDING_DEPLOY_ENABLED`  | 完成上面迁移顺序后设为 `true`；未配置时失败关闭                 |
+| Variable | `LANDING_DEPLOY_ENABLED`  | 完成服务仓接管后设为 `true`；未配置时失败关闭                   |
 | Variable | `LANDING_HOST`            | 当前主机 `39.96.66.185`，换主机须重新核实并更新 `known_hosts`   |
 | Variable | `LANDING_SSH_USER`        | 已获准的部署用户，须能写官网目录并获取 `/opt/smedc/deploy.lock` |
 | Secret   | `LANDING_SSH_PRIVATE_KEY` | 从获准的密钥管理渠道配置；GitHub 旧仓库 secret 不会自动迁移     |
@@ -26,7 +33,7 @@
 
 ## 发布事务
 
-`Deploy landing` 的 deploy 操作先调用同一运行内的质量工作流，独立 `npm ci`，运行格式、lint、类型、测试和构建，打包 `dist/marketing` 并上传对应完整提交 SHA 的 artifact。凭据只注入后续 Environment 部署 job；PR 不接触发布凭据。部署下载同一运行的产物，SSH 上传后核对 SHA-256，不从服务仓库下载任何代码或镜像。
+`Deploy landing` 的自动或手动 deploy 操作先调用同一运行内的质量工作流，独立 `npm ci`，运行格式、lint、类型、测试和构建，打包 `dist/marketing` 并上传对应完整提交 SHA 的 artifact。凭据只注入后续 Environment 部署 job；PR 不接触发布凭据。部署下载同一运行的产物，SSH 上传后核对 SHA-256，不从服务仓库下载任何代码或镜像。
 
 `deploy-remote.sh` 在主机锁内将包解压到 `/opt/smedc/marketing/releases/<full-sha>.<suffix>`，验证必需文件，记录 `release-commit.txt`，原子切换 `current` 符号链接。继续使用原官网目录，可直接接管现有页面。新回滚指针为 `/opt/smedc/marketing/previous-release`；不读写旧服务使用的 `/opt/smedc/previous-marketing-release`。两仓库并发组互不通用，所以迁移期仍共享主机锁。
 
