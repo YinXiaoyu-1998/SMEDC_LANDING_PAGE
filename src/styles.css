@@ -326,16 +326,6 @@ h1 {
 .scroll-link:hover .icon {
   transform: translateY(4px);
 }
-.section-meta {
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-  align-items: center;
-  margin-bottom: 14px;
-  font-size: 14px;
-  color: var(--muted);
-  font-family: var(--serif);
-}
 .report-section {
   padding-block: 52px 64px;
 }
@@ -470,10 +460,6 @@ summary::-webkit-details-marker {
 }
 .choice-content .text-link {
   margin-top: 12px;
-  font-size: 14px;
-}
-.service-note {
-  margin-top: 20px;
   font-size: 14px;
 }
 .scenarios {
@@ -939,9 +925,6 @@ summary::-webkit-details-marker {
   }
   h2 {
     font-size: 33px;
-  }
-  .section-meta {
-    font-size: 12px;
   }
   .report-feature {
     grid-template-columns: 1fr;
