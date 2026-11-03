@@ -21,11 +21,15 @@ describe("public marketing page", () => {
       expect(html).toContain('data-composition-id="smedc-setup"');
       expect(html).toContain('id="copy-setup-prompt"');
       expect(html).toContain('href="/guides/automation-user-guide.html"');
+      expect(html).toContain('class="guide-teaser"');
+      expect(html).toContain("查看详细步骤");
       const guide = await readFile(join(directory, "guides/automation-user-guide.html"), "utf8");
       expect(guide).toContain("餐饮管理人员使用指南");
       expect(guide).not.toMatch(/<style\b|\sstyle=|<script>/);
       expect(guide).toContain('href="./automation-user-guide.css"');
       expect(guide).toContain('src="./automation-user-guide.js"');
+      expect(guide).toContain('class="illustration illustration-hero"');
+      expect(guide).toContain('class="illustration illustration-wide"');
       expect(await readFile(join(directory, "guides/automation-user-guide.css"), "utf8")).toContain(
         ".route-help"
       );

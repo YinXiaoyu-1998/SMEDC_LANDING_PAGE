@@ -32,6 +32,14 @@ npm run preview
 
 修改后先运行 `npm run build`，再用 `npx hyperframes lint dist/marketing-animation` 和 `npx hyperframes check dist/marketing-animation` 检查。可在 `dist/marketing-animation` 目录运行 `npx hyperframes preview` 编辑时间轴。网页内的示意会随同一次构建更新。
 
+## 新用户定时任务指南
+
+首页在「完全 AI 原生接入」示意下方用一块深色入口介绍定时任务指南：它面向第一次设置定时任务、升级这台电脑的旧任务、从旧电脑换到新电脑三种情况，点击「查看详细步骤」进入独立指南页。
+
+指南页 `public/guides/automation-user-guide.html` 复用官网的纸白、墨色与砖红视觉体系，样式单独放在 `public/guides/automation-user-guide.css`，便于和上游同步正文。正文、示例提示词与上游 `SME_DATA_CENTER/docs/guides/automation-user-guide.html` 保持一致，只增加官网导航与视觉容器；页面仍在原位置展开三条路线，脚本只负责路线切换与复制提示词。
+
+指南预留了两处插图占位（首屏、路线 C 换机横幅）。生成方向与中英文提示词见 [指南插图提示词](docs/guide-illustration-prompts.md)；替换时按文件内 HTML 注释，把 `.illustration-frame` 占位框换成对应的 `<img>`。
+
 ## 交付与静态安全策略
 
 main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静态文件，独立于业务服务镜像；PR 仅检查。手动发布和回滚入口继续保留。nginx 配置位于 `deploy/nginx-marketing.conf`：首页只允许同源 frame，只有公开周报允许同源嵌入，新增三个明确的样例路径和静态 SVG 路径；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。

@@ -1142,14 +1142,67 @@ summary::-webkit-details-marker {
   width: 100%;
   min-width: 0;
 }
-.integrations .automation-guide-link {
+.guide-teaser {
   grid-column: 1 / -1;
-  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 48px;
+  padding: 46px 48px;
+  background: #22211f;
+  color: #fff;
 }
-.automation-guide-link a {
-  color: inherit;
-  font-weight: 700;
-  text-underline-offset: 0.22em;
+.integrations .guide-teaser p.guide-teaser-kicker {
+  margin: 0 0 16px;
+  color: #b9b2a8;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+.integrations .guide-teaser h3 {
+  max-width: 24ch;
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: clamp(26px, 2.9vw, 38px);
+  line-height: 1.42;
+}
+.integrations .guide-teaser p {
+  max-width: 58ch;
+  margin: 0;
+  color: #cfc9c1;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.guide-teaser-routes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: #efe9e1;
+}
+.guide-teaser-routes li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.guide-teaser-routes span {
+  color: #d8847a;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.guide-teaser-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.integrations .guide-teaser-action p {
+  color: #8f8880;
+  font-size: 12px;
+  line-height: 1.7;
 }
 .setup-demo-heading {
   display: flex;
@@ -1235,5 +1288,16 @@ summary::-webkit-details-marker {
   .integrations .setup-demo-caption {
     width: 100%;
     margin-left: 0;
+  }
+  .guide-teaser {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px 24px;
+  }
+  .integrations .guide-teaser h3 {
+    font-size: 27px;
+  }
+  .guide-teaser-routes {
+    gap: 10px 20px;
   }
 }
