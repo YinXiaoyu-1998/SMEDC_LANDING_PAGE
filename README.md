@@ -38,7 +38,7 @@ npm run preview
 
 指南页 `public/guides/automation-user-guide.html` 复用官网的纸白、墨色与砖红视觉体系，样式单独放在 `public/guides/automation-user-guide.css`，便于和上游同步正文。正文、示例提示词与上游 `SME_DATA_CENTER/docs/guides/automation-user-guide.html` 保持一致，只增加官网导航与视觉容器；页面仍在原位置展开三条路线，脚本只负责路线切换与复制提示词。
 
-指南预留了两处插图占位（首屏、路线 C 换机横幅）。生成方向与中英文提示词见 [指南插图提示词](docs/guide-illustration-prompts.md)；替换时按文件内 HTML 注释，把 `.illustration-frame` 占位框换成对应的 `<img>`。
+指南首屏与路线 C 已插入两张配图：`public/assets/automation-guide-hero.webp` 与 `automation-guide-handover.webp`。如需重做或换图，生成方向与中英文提示词保留在 [指南插图提示词](docs/guide-illustration-prompts.md)；样式仍保留 `.illustration-frame` 占位规则，替换同名文件后重新构建即可。
 
 ## 交付与静态安全策略
 
