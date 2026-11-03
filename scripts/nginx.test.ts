@@ -18,6 +18,11 @@ it("keeps the public static host separate from authenticated API and business pa
   expect(site).toMatch(/location = \/samples\/weekly-report\.html\s*\{[^}]*frame-ancestors 'self'/);
   expect(site).toContain("location = /samples/weekly-report.css");
   expect(site).toContain("location = /samples/weekly-report.js");
+  for (const extension of ["html", "css", "js"]) {
+    expect(site).toContain(
+      `location = /guides/automation-user-guide.${extension} { try_files $uri =404; }`
+    );
+  }
   expect(site).not.toContain("'unsafe-inline'");
   expect(bootstrap).toContain("/.well-known/acme-challenge/");
   expect(bootstrap).not.toContain("ssl_certificate");

@@ -1142,6 +1142,15 @@ summary::-webkit-details-marker {
   width: 100%;
   min-width: 0;
 }
+.integrations .automation-guide-link {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.automation-guide-link a {
+  color: inherit;
+  font-weight: 700;
+  text-underline-offset: 0.22em;
+}
 .setup-demo-heading {
   display: flex;
   justify-content: space-between;

@@ -53,3 +53,5 @@ main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静
 | `agent-codex.png`       | [Codex](https://openai.com/codex/) 官方 macOS 客户端 26.1021.31345 的 `Contents/Resources/icon-codex-light.png`                                                    |
 
 接入文案不等于各客户端已经完成登录到业务工具的完整验收；实际适配沿用官方 launcher 的客户端能力核对、配置与试运行边界，不在本页面改动中变更协议或客户端支持矩阵。
+
+The public automation guide in `public/guides/` mirrors [SME_DATA_CENTER's user guide](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER/blob/fa608baa/docs/guides/automation-user-guide.html). Update the three site files together when syncing the guide. Keep styles and scripts external so the site CSP permits them.
