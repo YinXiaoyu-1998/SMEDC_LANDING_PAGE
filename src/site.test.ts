@@ -20,6 +20,20 @@ describe("public marketing page", () => {
       expect(html).not.toMatch(/<form\b/);
       expect(html).toContain('data-composition-id="smedc-setup"');
       expect(html).toContain('id="copy-setup-prompt"');
+      expect(html).toContain('href="/guides/automation-user-guide.html"');
+      const guide = await readFile(join(directory, "guides/automation-user-guide.html"), "utf8");
+      expect(guide).toContain("餐饮管理人员使用指南");
+      expect(guide).not.toMatch(/<style\b|\sstyle=|<script>/);
+      expect(guide).toContain('href="./automation-user-guide.css"');
+      expect(guide).toContain('src="./automation-user-guide.js"');
+      expect(await readFile(join(directory, "guides/automation-user-guide.css"), "utf8")).toContain(
+        ".route-help"
+      );
+      const guideScript = await readFile(
+        join(directory, "guides/automation-user-guide.js"),
+        "utf8"
+      );
+      expect(() => new Script(guideScript)).not.toThrow();
       expect(html).not.toContain("__SETUP_DEMO__");
       expect(html).not.toMatch(/<script[^>]+src="https?:/);
       const client = await readFile(join(directory, "client.js"), "utf8");
