@@ -1,8 +1,8 @@
-# 定时任务指南插图：待生成位置与提示词
+# 定时任务指南插图：位置与提示词
 
-`public/guides/automation-user-guide.html` 里预留了两处插图占位（虚线框），
-生成后按本文说明替换即可。两处都按落地页的视觉方向来：暖调、写实、餐馆现场感，
-暗部为主，画面里不要出现可读文字、Logo 或聊天界面文案。
+`public/guides/automation-user-guide.html` 的首屏与路线 C 已按下面的方向生成并插入两张配图。
+本文保留提示词、尺寸与替换方法，方便以后重做或换图。两处都按落地页的视觉方向来：暖调、写实、
+餐馆现场感，暗部为主，画面里不要出现可读文字或聊天界面文案。
 
 ## 通用风格
 
@@ -13,7 +13,7 @@
 - 横构图或 4:3；主体偏一侧，另一侧留出干净的暗部（便于叠字）
 - 不出现：可读的文字、品牌 Logo、二维码、水印、畸形手指、正对镜头的清晰人脸
 
-建议生成后转成 WebP（质量 82 左右），文件名和尺寸见下。
+生成后转成 WebP（质量 82–84），文件名和尺寸见下；替换同名文件后重新 `npm run build`。
 
 ---
 
@@ -22,10 +22,8 @@
 - 文件：`public/assets/automation-guide-hero.webp`
 - 尺寸：1200 × 900（4:3）
 - 位置：指南首屏标题右侧，深色背景中显示，宽度约 420px
-- 替换：把 `public/guides/automation-user-guide.html` 里
-  `<figure class="illustration illustration-hero">` 内的
-  `.illustration-frame` 占位框换成 HTML 注释里给出的 `<img>`
-- alt 建议：`闭店后的餐馆里，经理在笔记本前核对当天的定时任务。`
+- 状态：已插入。换图时替换同名 WebP 即可，建议保持 4:3 横构图
+- alt：`闭店后的餐馆里，经理在笔记本前核对当天的定时任务。`
 
 中文提示词：
 
@@ -56,11 +54,10 @@ Negative prompt（如模型支持）：
 ## 插图 2 · 路线 C 换机横幅
 
 - 文件：`public/assets/automation-guide-handover.webp`
-- 尺寸：1600 × 800（2:1）
+- 尺寸：源图 1448 × 1086（4:3）；页面按 2:1 裁切显示，保留中间两台电脑和交接动作
 - 位置：路线 C“旧电脑已经无法使用？先看恢复条件”之后、步骤列表之前
-- 替换：把 `<figure class="illustration illustration-wide">` 内的
-  `.illustration-frame` 占位框换成 HTML 注释里给出的 `<img>`
-- alt 建议：`旧电脑和新电脑并排，定时任务从旧电脑交接到新电脑。`
+- 状态：已插入。换图时替换同名 WebP 即可，新图建议主体居中，便于 2:1 裁切
+- alt：`旧电脑和新电脑并排，一只手把资料从旧电脑递向新电脑。`
 
 中文提示词：
 
@@ -96,7 +93,7 @@ Negative prompt：
 
 ## 插入后的检查
 
-1. 把图片放进 `public/assets/`，运行 `npm run build`。
+1. 把新图放进 `public/assets/` 并覆盖同名文件，运行 `npm run build`。
 2. 本地预览 `http://127.0.0.1:4173/guides/automation-user-guide.html`，确认首屏和路线 C 的图片裁切正常。
 3. 手机宽度（≤760px）下再看一次，首屏图为 16:9 裁切，路线 C 横幅保持 2:1。
 4. `npm test` 会检查指南仍然只引用站内资源、没有内联脚本或样式。
