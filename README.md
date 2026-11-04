@@ -2,7 +2,7 @@
 
 中文静态介绍页，使用 Astro 组件生成静态 HTML，内容、图片与联系入口独立于业务服务。最早从 [SME_DATA_CENTER](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER) 的 `apps/marketing-web` 拆出；本仓库现在是官网与定时任务指南的唯一内容源，独立管理代码、素材、动画源、脱敏样例、测试、nginx 配置与静态发布。
 
-使用 Node.js 22+，在本仓库执行：
+使用 Node.js 24+，在本仓库执行：
 
 ```sh
 npm ci
