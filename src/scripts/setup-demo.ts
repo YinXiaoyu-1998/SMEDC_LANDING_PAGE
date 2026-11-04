@@ -14,7 +14,8 @@ if (root) {
   gsap.registerPlugin(TextPlugin);
   const request = root.querySelector<HTMLElement>(".setup-request-text");
   if (request) {
-    const prompt = request.textContent?.trim() ?? "";
+    const prompt = (request.textContent ?? "").replace(/\s+/g, " ").trim();
+    request.textContent = prompt;
     root.dataset.installPrompt = prompt;
 
     const timeline = gsap.timeline({ paused: true });
