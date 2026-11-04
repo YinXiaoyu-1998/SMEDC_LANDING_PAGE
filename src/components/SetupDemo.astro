@@ -8,8 +8,13 @@ const markup =
 
 <figure class="setup-demo-block" aria-labelledby="setup-demo-title">
   <div class="setup-demo-heading">
-    <h3 id="setup-demo-title">一句话，AI 原生接入。</h3>
-    <p>完全 AI 原生接入，安装配置交给您熟悉的主流 Agent。</p>
+    <div class="setup-demo-intro">
+      <h3 id="setup-demo-title">一句话，AI 原生接入。</h3>
+      <p>完全 AI 原生接入，安装配置交给您熟悉的主流 Agent。</p>
+    </div>
+    <button type="button" id="copy-setup-prompt" class="button setup-copy-button" hidden>
+      复制安装请求
+    </button>
   </div>
   <Fragment set:html={markup} />
   <p class="visually-hidden">
@@ -32,9 +37,6 @@ const markup =
         aria-label="安装演示进度"
       />
     </div>
-    <button type="button" id="copy-setup-prompt" hidden>
-      复制安装请求
-    </button>
     <p class="setup-demo-caption">完全 AI 原生接入示意 · 登录由您确认</p>
   </figcaption>
   <p class="setup-demo-status" id="setup-demo-status" role="status" aria-live="polite"></p>

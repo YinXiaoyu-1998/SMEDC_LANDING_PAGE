@@ -1210,16 +1210,25 @@
   .setup-demo-heading {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: 24px;
     margin-bottom: 22px;
+  }
+  .setup-demo-intro {
+    max-width: 62ch;
   }
   .integrations .setup-demo-heading h3 {
     font-size: 30px;
   }
   .integrations .setup-demo-heading p {
     font-size: 15px;
-    margin: 0;
+    margin: 8px 0 0;
+  }
+  .setup-copy-button {
+    flex-shrink: 0;
+    min-height: 48px;
+    padding: 0 22px;
+    font-size: 14px;
   }
   .setup-demo-footer {
     display: flex;
@@ -1233,8 +1242,7 @@
     align-items: center;
     gap: 16px;
   }
-  .setup-demo-controls button,
-  #copy-setup-prompt {
+  .setup-demo-controls button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1278,6 +1286,10 @@
     .integrations .setup-demo-heading p {
       margin-top: 8px;
       font-size: 14px;
+    }
+    .setup-copy-button {
+      width: 100%;
+      margin-top: 18px;
     }
     .setup-demo-footer {
       gap: 8px 20px;

@@ -17,6 +17,17 @@ describe("public marketing page", () => {
     expect(html).toContain('id="report-dialog"');
     expect(html).toContain('data-composition-id="smedc-setup"');
     expect(html).toContain('id="copy-setup-prompt"');
+    expect(html).toContain('class="button setup-copy-button"');
+    const setupRequest = html
+      .match(/<p class="setup-request-text">([\s\S]*?)<\/p>/)?.[1]
+      ?.replace(/\s+/g, " ")
+      .trim();
+    expect(setupRequest).toBe(
+      "帮我安装或更新 https://github.com/YinXiaoyu-1998/smedc-mcp-skill 的核心和配套 SKILL，并按官方说明安装、配置好。完成后告诉我下一步。"
+    );
+    const copyIndex = html.indexOf('id="copy-setup-prompt"');
+    expect(copyIndex).toBeGreaterThan(html.indexOf('class="setup-demo-heading"'));
+    expect(copyIndex).toBeLessThan(html.indexOf('class="setup-demo-footer"'));
     expect(html).toContain("data-work-panel");
     expect(html.match(/data-work-panel/g)).toHaveLength(4);
     expect(html).toContain('class="site-header"');
