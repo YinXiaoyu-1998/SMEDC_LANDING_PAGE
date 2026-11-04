@@ -1,0 +1,47 @@
+---
+import { contact } from "../content/site";
+---
+
+<section class="contact-section" id="contact" aria-labelledby="contact-title">
+  <img
+    class="contact-photo"
+    src="/assets/hero.webp"
+    alt=""
+    width="1619"
+    height="971"
+    loading="lazy"
+  />
+  <div class="container contact-inner">
+    <div data-reveal>
+      <h2 id="contact-title">
+        把具体的问题，
+        <br />
+        交给我们聊聊。
+      </h2>
+      <p>
+        一间店的日常，或一组门店的经营。
+        <br />
+        带上您的问题，我们一起找个起点。
+      </p>
+    </div>
+    <div class="contact-details" data-reveal>
+      <a class="button" href={`tel:${contact.phone}`}>
+        电话聊聊
+        <img class="icon" src="/assets/arrow-up-right.svg" alt="" width="20" height="20" />
+      </a>
+      <a class="contact-number" href={`tel:${contact.phone}`}>
+        {contact.phone}
+      </a>
+      <a class="contact-email" href={contact.emailHref}>
+        {contact.email}
+      </a>
+      <div class="contact-actions">
+        <a href={contact.emailHref}>邮件联系</a>
+        <button type="button" id="copy-contact" hidden>
+          复制联系方式
+        </button>
+      </div>
+      <p class="contact-status" id="copy-status" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>

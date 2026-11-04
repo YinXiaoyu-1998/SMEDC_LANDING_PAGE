@@ -12,7 +12,7 @@ PR 只运行 `Landing quality` 检查，不接触发布凭据。main 的质量�
 
 工作流使用 `smedc-landing-production` 并发组，进行中的发布不会被新提交中断。GitHub 同一并发组只保留一个等待任务，连续推送时较新的等待任务可能替换旧任务；如需每个版本都上线，应等前次发布结束再合并下一版。
 
-官网指南使用 `/guides/automation-user-guide.html` 及同目录的 CSS、JS。首次发布包含指南入口的版本前，按主机配置流程应用本仓库的 nginx 配置、验证并重新加载，使三个静态路径可访问。自动发布只更新静态文件。
+Astro 构建把 CSS/JS 放在 `/_astro/` 下，指南只保留 `/guides/automation-user-guide.html` 一个入口。**首次发布 Astro 版本前，必须先按主机配置流程应用本仓库的 nginx 配置并验证重载**，使 `/_astro/`、指南、首页和样例都可访问；否则静态资源会 404。自动发布只更新静态文件，不会改主机 nginx。
 
 ## 服务仓库接管边界
 

@@ -1,0 +1,45 @@
+---
+import animationSource from "../../animation/index.html?raw";
+import "../../animation/setup.css";
+
+const markup =
+  animationSource.split("<!-- setup-demo:start -->")[1]?.split("<!-- setup-demo:end -->")[0] ?? "";
+---
+
+<figure class="setup-demo-block" aria-labelledby="setup-demo-title">
+  <div class="setup-demo-heading">
+    <h3 id="setup-demo-title">一句话，AI 原生接入。</h3>
+    <p>完全 AI 原生接入，安装配置交给您熟悉的主流 Agent。</p>
+  </div>
+  <Fragment set:html={markup} />
+  <p class="visually-hidden">
+    安装示意：SMEDC 完全 AI 原生，全面支持主流 Agent
+    智能体。向您熟悉的智能体提出安装核心与配套技能、配置 MCP 的请求。
+    智能体读取官方说明，核对环境，安装技能并检查连接配置。完成登录后，即可查询资料和分析经营数据。
+  </p>
+  <figcaption class="setup-demo-footer">
+    <div class="setup-demo-controls" data-demo-playback hidden>
+      <button type="button" id="setup-play">
+        播放演示
+      </button>
+      <input
+        id="setup-progress"
+        type="range"
+        min="0"
+        max="18"
+        step="0.1"
+        value="18"
+        aria-label="安装演示进度"
+      />
+    </div>
+    <button type="button" id="copy-setup-prompt" hidden>
+      复制安装请求
+    </button>
+    <p class="setup-demo-caption">完全 AI 原生接入示意 · 登录由您确认</p>
+  </figcaption>
+  <p class="setup-demo-status" id="setup-demo-status" role="status" aria-live="polite"></p>
+</figure>
+
+<script>
+  import "../scripts/setup-demo";
+</script>

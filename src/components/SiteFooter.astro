@@ -1,0 +1,27 @@
+---
+const path = Astro.url.pathname;
+const isHome = path === "/" || path.endsWith("/index.html");
+const prefix = isHome ? "" : "/";
+const homeHref = prefix + "#main";
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a class="brand" href={homeHref}>
+      <img src="/assets/logo.png" width="32" height="43" alt="" />
+      <span>
+        企业智脑<small>SMEDC</small>
+      </span>
+    </a>
+    <div class="legal">
+      <p>北京殷实麦家管理咨询有限责任公司</p>
+      <a href="https://beian.miit.gov.cn/" rel="external">
+        京ICP备2026043481号-1
+      </a>
+    </div>
+    <a class="back-top" href="#main">
+      回到页首
+      <img class="icon" src="/assets/arrow-up-right.svg" alt="" width="18" height="18" />
+    </a>
+  </div>
+</footer>

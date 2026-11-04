@@ -45,18 +45,23 @@ it.each(["success", "verify-failure", "incomplete", "checksum-failure", "first-r
       for (const file of [
         "index.html",
         "version.json",
-        "styles.css",
-        "client.js",
+        "_astro/site.css",
+        "_astro/site.js",
         "assets/hero.webp",
+        "guides/automation-user-guide.html",
         "samples/weekly-report.html",
         "samples/weekly-report.css",
         "samples/weekly-report.js"
       ]) {
         const path = join(payload, file);
         await mkdir(join(path, ".."), { recursive: true });
-        await writeFile(path, "new website");
+        const content =
+          file === "index.html"
+            ? '<link rel="stylesheet" href="/_astro/site.css"><script type="module" src="/_astro/site.js"></script>'
+            : "new website";
+        await writeFile(path, content);
       }
-      if (scenario === "incomplete") await rm(join(payload, "client.js"));
+      if (scenario === "incomplete") await rm(join(payload, "_astro/site.js"));
       const packed = spawnSync("tar", ["-czf", archive, "-C", payload, "."], { encoding: "utf8" });
       expect(packed.status, packed.stderr).toBe(0);
       const digest = createHash("sha256")
@@ -102,7 +107,9 @@ esac`
       );
       if (scenario === "success") {
         expect(result.status, result.stderr).toBe(0);
-        expect(await readFile(join(site, "current/index.html"), "utf8")).toBe("new website");
+        expect(await readFile(join(site, "current/index.html"), "utf8")).toContain(
+          "/_astro/site.css"
+        );
         expect(await readFile(join(site, "current/release-commit.txt"), "utf8")).toBe(`${sha}\n`);
         expect(await readFile(join(site, "previous-release"), "utf8")).toBe("releases/old\n");
         const rolledBack = run(["rollback"]);

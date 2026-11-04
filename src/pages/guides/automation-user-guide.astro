@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GuideHero from "../../components/guide/GuideHero.astro";
+import RoutePanel from "../../components/guide/RoutePanel.astro";
+import { guideChoices, guideCopy, guideRoutes } from "../../content/guide";
+import "../../styles/guide.css";
+---
+
+<BaseLayout
+  title="SMEDC 自动任务｜餐饮管理人员使用指南"
+  description="按现在的情况选一条路线，按步骤完成 SMEDC 定时任务的首次设置、升级或换机迁移。"
+  canonical="https://smedatacenter.xyz/guides/automation-user-guide.html"
+  ogTitle="SMEDC 自动任务｜餐饮管理人员使用指南"
+  ogDescription="按现在的情况选一条路线，按步骤完成 SMEDC 定时任务的首次设置、升级或换机迁移。"
+  ogImage="https://smedatacenter.xyz/assets/automation-guide-hero.webp"
+>
+  <section aria-labelledby="choose-title" class="chooser" id="chooser">
+    <GuideHero />
+    <div class="wrap chooser-body">
+      <div class="section-label">{guideCopy.routesLabel}</div>
+      <div class="routes">
+        {guideChoices.map((choice) => (
+          <button
+            aria-controls={`route-${choice.key}`}
+            aria-expanded="false"
+            class="route route-choice"
+            data-route={choice.key}
+            type="button"
+          >
+            <span class="number">{choice.number}</span>
+            <strong>{choice.title}</strong>
+            <span>{choice.description}</span>
+            <b>{choice.cta}</b>
+          </button>
+        ))}
+      </div>
+      <p class="note">{guideCopy.note}</p>
+    </div>
+  </section>
+  {guideRoutes.map((route) => (
+    <RoutePanel route={route} />
+  ))}
+  <div class="wrap guide-footnotes">
+    {guideCopy.footerNotes.map((note) => (
+      <p>{note}</p>
+    ))}
+  </div>
+  <div class="wrap">
+    <p aria-live="polite" class="copy-status" id="copy-status" role="status"></p>
+  </div>
+  <script>
+    import "../../scripts/guide";
+  </script>
+</BaseLayout>

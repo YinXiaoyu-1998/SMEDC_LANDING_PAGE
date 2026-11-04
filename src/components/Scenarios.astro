@@ -1,0 +1,27 @@
+---
+import WorkTabs from "./WorkTabs.astro";
+import Integrations from "./Integrations.astro";
+---
+
+<section class="section scenarios" id="scenarios" aria-labelledby="scenarios-title">
+  <div class="container">
+    <div class="section-heading" data-reveal>
+      <div>
+        <h2 id="scenarios-title">
+          每天的事，
+          <br />
+          一件件办妥。
+        </h2>
+      </div>
+      <p>
+        先把一项工作接起来，
+        <br />
+        再让更多事情自然接续。
+      </p>
+    </div>
+    <div data-reveal>
+      <WorkTabs />
+    </div>
+    <Integrations />
+  </div>
+</section>

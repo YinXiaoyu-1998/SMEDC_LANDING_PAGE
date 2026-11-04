@@ -57,8 +57,13 @@ verify() {
   if [ ! -f /opt/smedc/marketing-enabled ]; then return 0; fi
   curl -fsS --max-time 15 https://smedatacenter.xyz/version.json | cmp - "$site_root/current/version.json"
   local path url destination status
-  for path in / /styles.css /client.js /assets/hero.webp /samples/weekly-report.html /samples/weekly-report.css /samples/weekly-report.js; do
+  for path in / /assets/hero.webp /guides/automation-user-guide.html /samples/weekly-report.html /samples/weekly-report.css /samples/weekly-report.js; do
     curl -fsS --max-time 15 -o /dev/null "https://smedatacenter.xyz$path"
+  done
+  local asset assets
+  assets=$(grep -o '/_astro/[^"]*\.\(css\|js\)' "$site_root/current/index.html" | sort -u || true)
+  for asset in $assets; do
+    curl -fsS --max-time 15 -o /dev/null "https://smedatacenter.xyz$asset"
   done
   for url in http://smedatacenter.xyz/ http://www.smedatacenter.xyz/ https://www.smedatacenter.xyz/; do
     destination=$(curl -sS --max-time 15 -o /dev/null -w '%{redirect_url}' "$url")
@@ -89,9 +94,11 @@ else
   pending=$(mktemp -d "$site_root/releases/$tag.XXXXXX")
   tar --no-same-owner -xzf "$archive" -C "$pending"
   test -z "$(find "$pending" -type l -print -quit)"
-  for path in index.html version.json styles.css client.js assets/hero.webp samples/weekly-report.html samples/weekly-report.css samples/weekly-report.js; do
+  for path in index.html version.json assets/hero.webp guides/automation-user-guide.html samples/weekly-report.html samples/weekly-report.css samples/weekly-report.js; do
     test -s "$pending/$path"
   done
+  test -n "$(find "$pending/_astro" -name '*.css' -print -quit)"
+  test -n "$(find "$pending/_astro" -name '*.js' -print -quit)"
   printf '%s\n' "$tag" > "$pending/release-commit.txt"
   chmod -R a+rX "$pending"
   armed=1

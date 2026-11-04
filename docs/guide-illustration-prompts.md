@@ -1,6 +1,6 @@
 # 定时任务指南插图：位置与提示词
 
-`public/guides/automation-user-guide.html` 的首屏与路线 C 已按下面的方向生成并插入两张配图。
+指南页（`src/pages/guides/automation-user-guide.astro`，首屏由 `GuideHero.astro` 渲染，路线 C 插图在 `RoutePanel.astro`）已按下面的方向生成并插入两张配图。
 本文保留提示词、尺寸与替换方法，方便以后重做或换图。两处都按落地页的视觉方向来：暖调、写实、
 餐馆现场感，暗部为主，画面里不要出现可读文字或聊天界面文案。
 
