@@ -1,0 +1,30 @@
+<dialog class="report-dialog" id="report-dialog" aria-labelledby="report-dialog-title">
+  <div class="reader-toolbar">
+    <div>
+      <h2 id="report-dialog-title">某餐饮企业 · 经营周报</h2>
+      <p>2026.10.12 — 10.18 · 企业及门店名称已匿名化</p>
+    </div>
+    <div class="reader-actions">
+      <a href="/samples/weekly-report.html" target="_blank" rel="noopener">
+        独立窗口
+        <img class="icon" src="/assets/arrow-up-right.svg" alt="" width="18" height="18" />
+      </a>
+      <button type="button" id="close-report" aria-label="关闭周报">
+        <img src="/assets/x.svg" width="24" height="24" alt="" />
+      </button>
+    </div>
+  </div>
+  <div class="reader-body">
+    <p class="reader-status" id="report-status" role="status">
+      正在打开周报…
+    </p>
+    <iframe
+      id="report-frame"
+      title="某餐饮企业完整经营周报"
+      data-src="/samples/weekly-report.html"
+      sandbox="allow-scripts"
+      referrerpolicy="no-referrer"
+      hidden
+    ></iframe>
+  </div>
+</dialog>

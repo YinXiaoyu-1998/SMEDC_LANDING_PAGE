@@ -1,0 +1,26 @@
+---
+import { navigation } from "../content/site";
+
+const path = Astro.url.pathname;
+const isHome = path === "/" || path.endsWith("/index.html");
+const prefix = isHome ? "" : "/";
+const links = navigation.map((item) => ({ ...item, href: prefix + item.href }));
+const homeHref = prefix + "#main";
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={homeHref} aria-label="企业智脑 SMEDC 首页">
+      <img src="/assets/logo.png" width="40" height="53" alt="" />
+      <span>
+        企业智脑<small>SMEDC</small>
+      </span>
+    </a>
+    <nav aria-label="主导航">
+      {links.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+  </div>
+  <div class="reading-progress" aria-hidden="true"></div>
+</header>

@@ -1,0 +1,22 @@
+---
+import { agents } from "../content/site";
+import SetupDemo from "./SetupDemo.astro";
+import GuideTeaser from "./GuideTeaser.astro";
+---
+
+<div class="integrations" id="integrations" data-reveal>
+  <div>
+    <h3>完全 AI 原生，全面支持主流 Agent 智能体。</h3>
+    <p>以 AI 原生方式接入您熟悉的工具，支持自行配置，也可由开发者协助托管。</p>
+  </div>
+  <ul class="agent-list" aria-label="全面支持的主流 Agent 智能体">
+    {agents.map((agent) => (
+      <li>
+        <img src={agent.src} width="36" height="36" alt="" loading="lazy" />
+        <span>{agent.name}</span>
+      </li>
+    ))}
+  </ul>
+  <SetupDemo />
+  <GuideTeaser />
+</div>

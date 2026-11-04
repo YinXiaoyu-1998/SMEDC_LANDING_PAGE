@@ -1,22 +1,24 @@
 # 企业智脑 SMEDC 官网
 
-中文静态介绍页，内容、图片与联系入口独立于业务服务。从 [SME_DATA_CENTER](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER) 的 `apps/marketing-web` 独立拆出，保留该目录的 5 次 Git 提交。原始规格为 [Issue #273](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER/issues/273)。本仓库独立管理代码、素材、动画源、脱敏样例、测试、nginx 配置与静态发布。
+中文静态介绍页，使用 Astro 组件生成静态 HTML，内容、图片与联系入口独立于业务服务。最早从 [SME_DATA_CENTER](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER) 的 `apps/marketing-web` 拆出；本仓库现在是官网与定时任务指南的唯一内容源，独立管理代码、素材、动画源、脱敏样例、测试、nginx 配置与静态发布。
 
-使用 Node.js 22+，在本仓库执行：
+使用 Node.js 24+，在本仓库执行：
 
 ```sh
 npm ci
-npm run build
+npm run dev      # 本地开发
+npm run build    # 生成 dist/marketing 与动画编辑产物
 npm run preview
 ```
 
 本地预览为 `http://127.0.0.1:4173`，官网产物为 `dist/marketing`，动画编辑产物为 `dist/marketing-animation`。只发布前者。无需启动 SMEDC、数据库、Docker 或配置业务凭据。
 
-检查：`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`。测试覆盖原有页面交互、静态隔离和发布/失败恢复。完整发布及拆仓切换说明见 [部署手册](deploy/README.md)。
+检查：`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`。`npm test` 会先构建再做输出检查；另有发布/失败恢复测试。完整发布说明见 [部署手册](deploy/README.md)。
 
-- `src/index.html`：餐厅场景、真实脱敏周报、两种服务方式、四类日常工作、FAQ 与联系入口。无 JavaScript 时，所有业务说明可读，周报通过普通链接打开。
-- `src/styles.css`：深墨色、纸白与砖红；系统宋体/黑体回退，手机布局和减少动态效果支持。
-- `src/client.ts`：首屏入场、一次性滚动渐入、轻微视差、阅读进度、键盘可操作的工作切换、服务展开、周报阅读层和联系方式复制。减少动态效果时取消装饰动效。
+- `src/pages/index.astro` + `src/components/`：首页按 Hero、周报、服务方式、日常工作、接入、FAQ 与联系拆成组件；无 JavaScript 时全部业务说明仍可读，周报通过普通链接打开。
+- `src/layouts/BaseLayout.astro` + `SiteHeader.astro` + `SiteFooter.astro`：所有 Astro 页面共用 head、favicon、品牌栏、导航、页脚与阅读进度，新页面放进 `src/pages/` 自动继承。
+- `src/styles/landing.css` / `src/styles/guide.css`：深墨色、纸白与砖红；两个样式文件分别放在 `landing` / `guide` 级联层，手机布局、减少动态效果和打印样式齐全。
+- `src/scripts/`：首屏入场、滚动渐入、轻微视差、阅读进度、工作切换、服务展开、周报阅读层、联系方式复制、安装示意与指南路线切换。全部为渐进增强，Astro 只输出外链脚本。
 - `public/assets/hero.webp`：2026-10-26 为用户选定视觉生成的餐馆场景；人物不是客户。周报缩略图来自脱敏报告的浏览器渲染；logo 沿用既有品牌资产。
 - `public/samples/weekly-report.*`：用户提供并授权作为公开范例的周报，企业名、全部分店名及嵌入数据中的对应标识已匿名化；经营数字、期间与分析逻辑保留。原始未脱敏文件不得入库。HTML 保留生成格式，样式和执行脚本外置以适配 CSP。后续替换样例时须重新检查正文、嵌入数据和缩略图。
 
@@ -26,7 +28,7 @@ npm run preview
 
 ## 智能体安装示意
 
-`animation/` 是 HyperFrames 合成源，包含 HTML、样式、GSAP 时间轴及局部视觉约定。构建时将同一份内容与本地 GSAP 3.14.2 / TextPlugin 合并进官网已有静态文件，并输出独立的 `dist/marketing-animation` 供 HyperFrames 编辑和验证；不增加公开路由或第三方运行时请求。GSAP 按其 [Standard License](https://gsap.com/standard-license/) 使用，构建保留库内许可头。
+`animation/` 是 HyperFrames 合成源，包含 HTML、样式、GSAP 时间轴及局部视觉约定。官网通过 `SetupDemo.astro` 读取同一份标记，`src/scripts/setup-demo.ts` 负责时间轴与播放控制；`scripts/build-animation.ts` 另外输出独立的 `dist/marketing-animation` 供 HyperFrames 编辑和验证，不增加公开路由或第三方运行时请求。GSAP 按其 [Standard License](https://gsap.com/standard-license/) 使用。
 
 演示进入视口后播放一次，离开视口或页面隐藏时暂停，提供播放、重播和进度拖动。减少动态效果或 JavaScript 不可用时保留完整静态示意。复制按钮始终取完整安装请求；剪贴板失败时显示完整对话以便手动复制。演示不执行实际安装、连接或登录，具体客户端按官方 Skill 的当前说明完成配置，登录由用户确认。
 
@@ -36,17 +38,17 @@ npm run preview
 
 首页在「完全 AI 原生接入」示意下方用一块深色入口介绍定时任务指南：它面向第一次设置定时任务、升级这台电脑的旧任务、从旧电脑换到新电脑三种情况，点击「查看详细步骤」进入独立指南页。
 
-指南页 `public/guides/automation-user-guide.html` 复用官网的纸白、墨色与砖红视觉体系，样式单独放在 `public/guides/automation-user-guide.css`，便于和上游同步正文。正文、示例提示词与上游 `SME_DATA_CENTER/docs/guides/automation-user-guide.html` 保持一致，只增加官网导航与视觉容器；页面仍在原位置展开三条路线，脚本只负责路线切换与复制提示词。
+指南页由 `src/pages/guides/automation-user-guide.astro` 生成，和首页使用同一个 `BaseLayout`、品牌栏、导航与页脚。三条路线、步骤和 33 段提示词存放在 `src/content/guide.json`，由 `src/components/guide/` 渲染；`src/scripts/guide.ts` 只负责路线切换与复制提示词。指南内容现在由本仓库维护，不再从 SME_DATA_CENTER 同步。
 
-指南首屏背景与路线 C 已插入两张配图：`public/assets/automation-guide-hero.webp` 与 `automation-guide-handover.webp`。如需重做或换图，生成方向与中英文提示词保留在 [指南插图提示词](docs/guide-illustration-prompts.md)；样式仍保留 `.illustration-frame` 占位规则，替换同名文件后重新构建即可。
+指南首屏背景与路线 C 使用 `public/assets/automation-guide-hero.webp` 与 `automation-guide-handover.webp`。如需重做或换图，生成方向与中英文提示词保留在 [指南插图提示词](docs/guide-illustration-prompts.md)；替换同名文件后重新构建即可。
 
 ## 页面 head 与图标
 
-构建时会扫描 `dist/marketing` 下的所有 HTML，给没有 `rel="icon"` 的页面自动补上指向 `assets/logo.png` 的图标链接，路径按页面深度生成；已显式声明的页面保持原样。以后往 `public/` 新增页面，不需要再手动加 favicon。
+Astro 页面由 `BaseLayout` 统一输出 head、favicon、OG 元信息与共享导航；新增页面放进 `src/pages/` 即自动继承。构建后的 `scripts/postbuild.ts` 还会扫描 `dist/marketing`，给没有 `rel="icon"` 的静态 HTML（例如周报样例）补上按页面深度计算的 `assets/logo.png` 相对路径。
 
 ## 交付与静态安全策略
 
-main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静态文件，独立于业务服务镜像；PR 仅检查。手动发布和回滚入口继续保留。nginx 配置位于 `deploy/nginx-marketing.conf`：首页只允许同源 frame，只有公开周报允许同源嵌入，新增三个明确的样例路径和静态 SVG 路径；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。
+main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静态文件，独立于业务服务镜像；PR 仅检查。手动发布和回滚入口继续保留。nginx 配置位于 `deploy/nginx-marketing.conf`：只放行 Astro 的 `/_astro/` 外链资源、首页、指南、周报样例和 `/assets` 图片；首页只允许同源 frame，只有公开周报允许同源嵌入；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。
 
 部署与回滚入口见 [部署手册](deploy/README.md)。常规官网发布随 main 更新自动执行；主机 nginx/TLS 配置变更按部署手册单独安排。
 
@@ -66,4 +68,4 @@ main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静
 
 接入文案不等于各客户端已经完成登录到业务工具的完整验收；实际适配沿用官方 launcher 的客户端能力核对、配置与试运行边界，不在本页面改动中变更协议或客户端支持矩阵。
 
-The public automation guide in `public/guides/` mirrors [SME_DATA_CENTER's user guide](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER/blob/fa608baa/docs/guides/automation-user-guide.html). Update the three site files together when syncing the guide. Keep styles and scripts external so the site CSP permits them.
+Guide content lives in `src/content/guide.json` and is maintained in this repository. The guide's "download this guide" prompt now points at `https://smedatacenter.xyz/guides/automation-user-guide.html`. Keep Astro output external-only: the site CSP allows no inline scripts or styles.

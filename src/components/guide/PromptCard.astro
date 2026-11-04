@@ -1,0 +1,19 @@
+---
+type Props = {
+  prompt: { id: string; text: string; label: string };
+  toolbarLabel: string;
+  ariaLabel: string;
+};
+
+const { prompt, toolbarLabel, ariaLabel } = Astro.props;
+---
+
+<div class="prompt-box">
+  <div class="prompt-toolbar">
+    <span>{toolbarLabel}</span>
+    <button class="copy-button" data-copy={prompt.id} type="button" aria-label={ariaLabel}>
+      复制提示词
+    </button>
+  </div>
+  <pre class="prompt" id={prompt.id}>{prompt.text}</pre>
+</div>

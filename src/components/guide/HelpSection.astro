@@ -1,0 +1,28 @@
+---
+import PromptCard from "./PromptCard.astro";
+import type { GuideRoute } from "../../content/guide";
+
+type Props = { route: GuideRoute };
+const { route } = Astro.props;
+---
+
+<section class="route-help">
+  <div class="section-label">{route.help.label}</div>
+  <h2>{route.help.title}</h2>
+  {route.help.sheets.map((sheet) => (
+    <article class="sheet">
+      <h3>{sheet.title}</h3>
+      <PromptCard
+        prompt={sheet.prompt}
+        toolbarLabel={sheet.prompt.label}
+        ariaLabel={`复制提示词：${sheet.title}`}
+      />
+    </article>
+  ))}
+  {route.help.details.map((detail) => (
+    <details>
+      <summary>{detail.summary}</summary>
+      <p>{detail.text}</p>
+    </details>
+  ))}
+</section>

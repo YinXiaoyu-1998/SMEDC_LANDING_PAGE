@@ -1,0 +1,25 @@
+---
+import { guideCopy } from "../../content/guide";
+---
+
+<div class="chooser-hero">
+  <img
+    class="chooser-hero-photo"
+    src={guideCopy.heroImage}
+    alt={guideCopy.heroAlt}
+    width="1448"
+    height="1086"
+    fetchpriority="high"
+  />
+  <div class="wrap chooser-hero-inner">
+    <div class="chooser-copy">
+      <div class="eyebrow">{guideCopy.eyebrow}</div>
+      <h1 id="choose-title" tabindex="-1">
+        {guideCopy.titleLines[0]}
+        <br />
+        {guideCopy.titleLines[1]}
+      </h1>
+      <p class="lead">{guideCopy.lead}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+---
+import { scenarios } from "../content/site";
+---
+
+<div class="work-selector">
+  <div class="work-tabs" aria-label="选择日常工作">
+    {scenarios.map((scenario) => (
+      <a class="work-tab" href={"#" + scenario.key} data-work-tab={scenario.key}>
+        {scenario.tab}
+      </a>
+    ))}
+  </div>
+  <div class="work-panels">
+    {scenarios.map((scenario) => (
+      <article class="work-panel" id={scenario.key} data-work-panel>
+        <p class="work-kicker">{scenario.kicker}</p>
+        <h3>
+          {scenario.title.map((line, index) => (
+            <span>
+              {line}
+              {index < scenario.title.length - 1 && <br />}
+            </span>
+          ))}
+        </h3>
+        <p>{scenario.body}</p>
+        <p class="work-outcome">{scenario.outcome}</p>
+        <a
+          class="text-link"
+          href={scenario.link.href}
+          data-open-report={scenario.link.openReport ? "" : undefined}
+          aria-haspopup={scenario.link.openReport ? "dialog" : undefined}
+        >
+          {scenario.link.label}
+          <img class="icon" src="/assets/arrow-up-right.svg" alt="" width="20" height="20" />
+        </a>
+      </article>
+    ))}
+  </div>
+</div>
+
+<script>
+  import "../scripts/work-tabs";
+</script>

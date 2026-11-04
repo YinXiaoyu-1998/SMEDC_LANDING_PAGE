@@ -1,0 +1,66 @@
+---
+import Step from "./Step.astro";
+import HelpSection from "./HelpSection.astro";
+import type { GuideRoute } from "../../content/guide";
+
+type Props = { route: GuideRoute };
+const { route } = Astro.props;
+---
+
+<section
+  aria-labelledby={`route-${route.key}-title`}
+  class="route-panel"
+  hidden
+  id={`route-${route.key}`}
+>
+  <div class="wrap">
+    <div class="route-toolbar">
+      <span>{route.toolbar}</span>
+      <button class="change-route" type="button">
+        重新选择
+      </button>
+    </div>
+    <div class="section-label">{route.label}</div>
+    <h2 id={`route-${route.key}-title`} tabindex="-1">
+      {route.title}
+    </h2>
+    <p class="intro">{route.intro}</p>
+    <p class="path-note">{route.pathNote}</p>
+    <details class="route-prep">
+      <summary>{route.prep.summary}</summary>
+      <aside class="ready-box">
+        <h3>{route.prep.heading}</h3>
+        <ul>
+          {route.prep.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="note">{route.prep.note}</p>
+      </aside>
+    </details>
+    {route.extraDetails.map((detail) => (
+      <details>
+        <summary>{detail.summary}</summary>
+        <p>{detail.text}</p>
+      </details>
+    ))}
+    {route.key === "c" && (
+      <figure class="illustration illustration-wide">
+        <img
+          src="/assets/automation-guide-handover.webp"
+          alt="旧电脑和新电脑并排，一只手把资料从旧电脑递向新电脑。"
+          width="1448"
+          height="1086"
+          loading="lazy"
+        />
+        <figcaption>换机时，旧电脑保存，新电脑准备，最后明确切换。</figcaption>
+      </figure>
+    )}
+    <ol class="steps">
+      {route.steps.map((step) => (
+        <Step routeKey={route.key} step={step} />
+      ))}
+    </ol>
+    <HelpSection route={route} />
+  </div>
+</section>

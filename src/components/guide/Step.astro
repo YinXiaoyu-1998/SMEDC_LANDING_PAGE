@@ -1,0 +1,34 @@
+---
+import PromptCard from "./PromptCard.astro";
+import type { GuideStep } from "../../content/guide";
+
+type Props = { routeKey: string; step: GuideStep };
+const { routeKey, step } = Astro.props;
+const prefix = routeKey.toUpperCase();
+---
+
+<li>
+  <span class="where">{step.where}</span>
+  <h3>{step.title}</h3>
+  {step.body.map((paragraph) => (
+    <p>{paragraph}</p>
+  ))}
+  {step.prompt && (
+    <PromptCard
+      prompt={step.prompt}
+      toolbarLabel={step.prompt.label}
+      ariaLabel={`复制提示词：${prefix} ${step.title}`}
+    />
+  )}
+  {step.done && (
+    <p class="done">
+      <strong>{step.done.label}</strong> {step.done.text}
+    </p>
+  )}
+  {step.note && (
+    <details class="step-note">
+      <summary>{step.note.summary}</summary>
+      <p>{step.note.text}</p>
+    </details>
+  )}
+</li>

@@ -3,3 +3,4 @@ dist/
 coverage/
 package-lock.json
 public/samples/weekly-report.html
+.astro/

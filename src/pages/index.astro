@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ReportSection from "../components/ReportSection.astro";
+import ReportDialog from "../components/ReportDialog.astro";
+import Workflow from "../components/Workflow.astro";
+import Scenarios from "../components/Scenarios.astro";
+import Faq from "../components/Faq.astro";
+import Contact from "../components/Contact.astro";
+---
+
+<BaseLayout
+  title="企业智脑 SMEDC｜生意在店里，功夫在细处"
+  description="完全 AI 原生，全面支持主流 Agent 智能体。经营分析、采购台账、顾客评价与企业资料，自行使用或由开发者托管。"
+  canonical="https://smedatacenter.xyz/"
+  ogTitle="企业智脑 SMEDC｜生意在店里，功夫在细处"
+  ogDescription="完全 AI 原生，全面支持主流 Agent 智能体。先看一份门店经营周报，再聊聊适合您的工作方式。"
+>
+  <Hero />
+  <ReportSection />
+  <Workflow />
+  <Scenarios />
+  <Faq />
+  <Contact />
+  <ReportDialog />
+</BaseLayout>

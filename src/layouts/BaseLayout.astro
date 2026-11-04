@@ -1,0 +1,55 @@
+---
+import "../styles/landing.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "完全 AI 原生，全面支持主流 Agent 智能体。经营分析、采购台账、顾客评价与企业资料，自行使用或由开发者托管。",
+  canonical,
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = "https://smedatacenter.xyz/assets/hero.webp"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#22211f" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/png" href="/assets/logo.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      跳到主要内容
+    </a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <script>
+      import "../scripts/enhance";
+    </script>
+  </body>
+</html>
