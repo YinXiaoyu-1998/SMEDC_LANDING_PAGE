@@ -17,7 +17,7 @@ describe("public marketing page", () => {
     expect(html).toContain('id="report-dialog"');
     expect(html).toContain('data-composition-id="smedc-setup"');
     expect(html).toContain('id="copy-setup-prompt"');
-    expect(html).toContain('class="button setup-copy-button"');
+    expect(html).toContain('class="setup-copy-button"');
     const setupRequest = html
       .match(/<p class="setup-request-text">([\s\S]*?)<\/p>/)?.[1]
       ?.replace(/\s+/g, " ")
