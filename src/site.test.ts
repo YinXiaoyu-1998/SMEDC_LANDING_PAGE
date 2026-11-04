@@ -28,8 +28,9 @@ describe("public marketing page", () => {
       expect(guide).not.toMatch(/<style\b|\sstyle=|<script>/);
       expect(guide).toContain('href="./automation-user-guide.css"');
       expect(guide).toContain('src="./automation-user-guide.js"');
-      expect(guide).toContain('class="illustration illustration-hero"');
+      expect(guide).toContain('class="chooser-hero-photo"');
       expect(guide).toContain('class="illustration illustration-wide"');
+      expect(guide).toContain('rel="icon"');
       expect(guide).toContain('src="../assets/automation-guide-hero.webp"');
       expect(guide).toContain('src="../assets/automation-guide-handover.webp"');
       expect(await readFile(join(directory, "guides/automation-user-guide.css"), "utf8")).toContain(
