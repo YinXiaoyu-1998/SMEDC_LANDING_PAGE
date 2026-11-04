@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Script } from "node:vm";
@@ -49,6 +49,34 @@ describe("public marketing page", () => {
       await rm(directory, { recursive: true, force: true });
     }
   });
+});
+
+it("adds the brand favicon to every built page, including pages added later", async () => {
+  const { buildSite, ensureFavicons } = await import("./build.js");
+  const directory = await mkdtemp(join(tmpdir(), "smedc-favicon-"));
+  try {
+    await buildSite(directory);
+    for (const page of [
+      "index.html",
+      "guides/automation-user-guide.html",
+      "samples/weekly-report.html"
+    ]) {
+      const icons = (await readFile(join(directory, page), "utf8")).match(
+        /<link[^>]+rel="icon"[^>]*>/g
+      );
+      expect(icons).toHaveLength(1);
+      expect(icons?.[0]).toContain("assets/logo.png");
+    }
+    const future = join(directory, "guides", "future.html");
+    await writeFile(
+      future,
+      "<!doctype html><html><head><title>新页面</title></head><body></body></html>\n"
+    );
+    await ensureFavicons(directory);
+    expect(await readFile(future, "utf8")).toContain('href="../assets/logo.png"');
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 it("ships the anonymized, interactive report as a lazy isolated reader with a direct-link fallback", async () => {

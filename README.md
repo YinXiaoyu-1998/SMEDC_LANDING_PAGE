@@ -40,6 +40,10 @@ npm run preview
 
 指南首屏背景与路线 C 已插入两张配图：`public/assets/automation-guide-hero.webp` 与 `automation-guide-handover.webp`。如需重做或换图，生成方向与中英文提示词保留在 [指南插图提示词](docs/guide-illustration-prompts.md)；样式仍保留 `.illustration-frame` 占位规则，替换同名文件后重新构建即可。
 
+## 页面 head 与图标
+
+构建时会扫描 `dist/marketing` 下的所有 HTML，给没有 `rel="icon"` 的页面自动补上指向 `assets/logo.png` 的图标链接，路径按页面深度生成；已显式声明的页面保持原样。以后往 `public/` 新增页面，不需要再手动加 favicon。
+
 ## 交付与静态安全策略
 
 main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静态文件，独立于业务服务镜像；PR 仅检查。手动发布和回滚入口继续保留。nginx 配置位于 `deploy/nginx-marketing.conf`：首页只允许同源 frame，只有公开周报允许同源嵌入，新增三个明确的样例路径和静态 SVG 路径；其他未知路径仍返回 404，未开放内联脚本、网络连接或业务服务代理。仅发布静态产物不会更新主机上已有的 nginx 配置。

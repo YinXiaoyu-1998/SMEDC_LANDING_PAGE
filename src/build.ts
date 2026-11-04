@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
-import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { cp, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { dirname, relative, resolve, sep } from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { clientSource } from "./client.js";
@@ -23,6 +23,36 @@ async function animationSources() {
     ?.split("<!-- setup-demo:end -->")[0];
   if (!markup) throw new Error("The setup composition is missing its embed markers.");
   return { document, markup, css, timeline, gsap, textPlugin };
+}
+
+const faviconPattern = /<link\b[^>]*\brel\s*=\s*["'][^"']*\bicon\b[^"']*["'][^>]*>/i;
+
+async function htmlFiles(directory: string): Promise<string[]> {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files: string[] = [];
+  for (const entry of entries) {
+    const path = resolve(directory, entry.name);
+    if (entry.isDirectory()) files.push(...(await htmlFiles(path)));
+    else if (entry.isFile() && entry.name.endsWith(".html")) files.push(path);
+  }
+  return files;
+}
+
+// Every page under the marketing site gets the brand favicon, including pages added later.
+export async function ensureFavicons(outputDirectory: string): Promise<void> {
+  const root = resolve(outputDirectory);
+  for (const file of await htmlFiles(root)) {
+    const html = await readFile(file, "utf8");
+    if (faviconPattern.test(html) || !/<head\b[^>]*>/i.test(html)) continue;
+    const href = relative(dirname(file), resolve(root, "assets/logo.png")).split(sep).join("/");
+    await writeFile(
+      file,
+      html.replace(
+        /<head\b[^>]*>/i,
+        (head) => `${head}\n    <link rel="icon" type="image/png" href="${href}" />`
+      )
+    );
+  }
 }
 
 export async function buildSite(outputDirectory: string): Promise<void> {
@@ -54,6 +84,7 @@ export async function buildSite(outputDirectory: string): Promise<void> {
     writeFile(resolve(outputDirectory, "client.js"), client),
     writeFile(resolve(outputDirectory, "version.json"), JSON.stringify({ revision }) + "\n")
   ]);
+  await ensureFavicons(outputDirectory);
 }
 
 // A standalone HyperFrames project reuses the exact markup, styles and timeline shipped in the page.
