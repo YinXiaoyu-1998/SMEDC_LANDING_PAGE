@@ -51,7 +51,7 @@ describe("public marketing page", () => {
     expect(guide).toContain("北京殷实麦家管理咨询有限责任公司");
     expect(guide).toContain('id="chooser"');
     expect(guide.match(/class="route-panel"/g)).toHaveLength(3);
-    expect(guide.match(/class="prompt"/g)).toHaveLength(33);
+    expect(guide.match(/class="prompt"/g)).toHaveLength(20);
     expect(guide).toContain("https://smedatacenter.xyz/guides/automation-user-guide.html");
     expect(guide).not.toContain("SME_DATA_CENTER");
     expect(guide).toContain('src="/assets/automation-guide-hero.webp"');
@@ -80,13 +80,17 @@ describe("public marketing page", () => {
   it("keeps the guide content structured and complete", () => {
     const routes = guideData.routes;
     expect(routes.map((route) => route.key)).toEqual(["a", "b", "c"]);
-    expect(routes.map((route) => route.steps.length)).toEqual([6, 7, 11]);
+    expect(routes.map((route) => route.steps.length)).toEqual([3, 3, 5]);
     const prompts = routes.flatMap((route) => [
       ...route.steps.flatMap((step) => (step.prompt ? [step.prompt.text] : [])),
       ...route.help.sheets.map((sheet) => sheet.prompt.text)
     ]);
-    expect(prompts).toHaveLength(33);
+    expect(prompts).toHaveLength(20);
     expect(prompts.every((prompt) => prompt.trim().length > 0)).toBe(true);
-    expect(prompts.join("\n")).toContain("继续验证 SMEDC 升级");
+    const ids = routes.flatMap((route) => [
+      ...route.steps.map((step) => step.prompt.id),
+      ...route.help.sheets.map((sheet) => sheet.prompt.id)
+    ]);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });

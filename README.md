@@ -38,7 +38,7 @@ npm run preview
 
 首页在「完全 AI 原生接入」示意下方用一块深色入口介绍定时任务指南：它面向第一次设置定时任务、升级这台电脑的旧任务、从旧电脑换到新电脑三种情况，点击「查看详细步骤」进入独立指南页。
 
-指南页由 `src/pages/guides/automation-user-guide.astro` 生成，和首页使用同一个 `BaseLayout`、品牌栏、导航与页脚。三条路线、步骤和 33 段提示词存放在 `src/content/guide.json`，由 `src/components/guide/` 渲染；`src/scripts/guide.ts` 只负责路线切换与复制提示词。指南内容现在由本仓库维护，不再从 SME_DATA_CENTER 同步。
+指南页由 `src/pages/guides/automation-user-guide.astro` 生成，和首页使用同一个 `BaseLayout`、品牌栏、导航与页脚。三条路线、步骤和 20 段提示词存放在 `src/content/guide.json`，由 `src/components/guide/` 渲染；`src/scripts/guide.ts` 只负责路线切换与复制提示词。指南内容由本仓库维护，不再从 SME_DATA_CENTER 同步。首次设置、同机更新、换机分别为 3、3、5 步；只在业务确认和设备切换处分步，安装与执行细节委托官方 `smedc-mcp` / `smedc-workflows`。核对行为时读取官方默认分支的 `installation.md`、`migration.md`、`invocation.md`；不把页面更新日期当作安装版本锁。
 
 指南首屏背景与路线 C 使用 `public/assets/automation-guide-hero.webp` 与 `automation-guide-handover.webp`。如需重做或换图，生成方向与中英文提示词保留在 [指南插图提示词](docs/guide-illustration-prompts.md)；替换同名文件后重新构建即可。
 
@@ -68,4 +68,4 @@ main 的提交自动通过 `Deploy landing` 工作流检查、构建并交付静
 
 接入文案不等于各客户端已经完成登录到业务工具的完整验收；实际适配沿用官方 launcher 的客户端能力核对、配置与试运行边界，不在本页面改动中变更协议或客户端支持矩阵。
 
-Guide content lives in `src/content/guide.json` and is maintained in this repository. The guide's "download this guide" prompt now points at `https://smedatacenter.xyz/guides/automation-user-guide.html`. Keep Astro output external-only: the site CSP allows no inline scripts or styles.
+Guide content lives in `src/content/guide.json` and is maintained in this repository. Keep Astro output external-only: the site CSP allows no inline scripts or styles.
