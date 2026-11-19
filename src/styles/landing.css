@@ -154,12 +154,6 @@
     font-weight: 650;
     letter-spacing: 0.04em;
   }
-  .brand small {
-    display: block;
-    margin-top: 6px;
-    font: 600 10px/1 var(--sans);
-    letter-spacing: 0.25em;
-  }
   nav {
     display: flex;
     align-items: center;
@@ -818,9 +812,6 @@
     }
     .brand span {
       font-size: 20px;
-    }
-    .brand small {
-      font-size: 9px;
     }
     h2 {
       font-size: 42px;

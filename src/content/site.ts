@@ -82,5 +82,5 @@ export const contact = {
   phone: "18514577162",
   email: "consyinxy@gmail.com",
   emailHref:
-    "mailto:consyinxy@gmail.com?subject=%E4%BC%81%E4%B8%9A%E6%99%BA%E8%84%91%20SMEDC%20%E6%BC%94%E7%A4%BA%E9%A2%84%E7%BA%A6"
+    "mailto:consyinxy@gmail.com?subject=%E4%BC%81%E4%B8%9A%E6%99%BA%E8%84%91%E6%BC%94%E7%A4%BA%E9%A2%84%E7%BA%A6"
 };
