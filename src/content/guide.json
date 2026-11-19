@@ -41,7 +41,12 @@
         ],
         "note": "同一台电脑尽量在同一段聊天中继续。密码和验证码只填官方页面；文件与配置交给 Codex 处理。"
       },
-      "extraDetails": [],
+      "extraDetails": [
+        {
+          "summary": "只想让 Codex 识别「企业智脑」这个新名称？",
+          "text": "官方基础 Skill 提供新版后，对 Codex 说“只更新 smedc-mcp 这个 Skill，不升级 launcher”，校验并重载后即可使用新名称。若要一起升级本机已有连接和官方定时任务，可说“帮我升级一下 SMEDC”。"
+        }
+      ],
       "steps": [
         {
           "where": "准备运行任务的 Mac",
