@@ -85,6 +85,10 @@ describe("public marketing page", () => {
     const routes = guideData.routes;
     expect(routes.map((route) => route.key)).toEqual(["a", "b", "c"]);
     expect(routes.map((route) => route.steps.length)).toEqual([3, 3, 5]);
+    const updateNotes = routes.find((route) => route.key === "b")?.extraDetails;
+    expect(updateNotes?.map(({ text }) => text).join(" ")).toContain(
+      "没有定时任务的已安装配套 Skill 也会更新。"
+    );
     const prompts = routes.flatMap((route) => [
       ...route.steps.flatMap((step) => (step.prompt ? [step.prompt.text] : [])),
       ...route.help.sheets.map((sheet) => sheet.prompt.text)
