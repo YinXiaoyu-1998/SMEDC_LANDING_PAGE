@@ -156,7 +156,7 @@
       "extraDetails": [
         {
           "summary": "只想让 Codex 识别「企业智脑」这个新名称？",
-          "text": "官方基础 Skill 提供新版后，对 Codex 说“只更新 smedc-mcp 这个 Skill，不升级 launcher”，校验并重载后即可使用新名称。说“给我升级一下 SMEDC”则会升级已有连接、已安装的官方配套 Skill 和已有官方定时任务。没有定时任务的已安装配套 Skill 也会更新。"
+          "text": "官方基础 Skill 提供新版后，对 Codex 说“只更新 smedc-mcp 这个 Skill，不升级 launcher”，校验并重载后即可使用新名称。说“给我升级一下 SMEDC”则会升级已有连接、本机所有已安装的官方配套 Skill 和已有官方定时任务。"
         }
       ],
       "steps": [

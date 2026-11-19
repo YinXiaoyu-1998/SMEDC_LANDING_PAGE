@@ -87,7 +87,7 @@ describe("public marketing page", () => {
     expect(routes.map((route) => route.steps.length)).toEqual([3, 3, 5]);
     const updateNotes = routes.find((route) => route.key === "b")?.extraDetails;
     expect(updateNotes?.map(({ text }) => text).join(" ")).toContain(
-      "没有定时任务的已安装配套 Skill 也会更新。"
+      "本机所有已安装的官方配套 Skill"
     );
     const prompts = routes.flatMap((route) => [
       ...route.steps.flatMap((step) => (step.prompt ? [step.prompt.text] : [])),
