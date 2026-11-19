@@ -10,6 +10,9 @@ const inlineScript = /<script(?![^>]*\bsrc=)[^>]*>/i;
 describe("public marketing page", () => {
   it("keeps contact, report and guide entry points without inline code", async () => {
     const html = await read("index.html");
+    expect(html).toContain("<title>企业智脑｜生意在店里，功夫在细处</title>");
+    expect(html).toContain('property="og:title" content="企业智脑｜生意在店里，功夫在细处"');
+    expect(html).toContain('aria-label="企业智脑首页"');
     expect(html).toContain('href="tel:18514577162"');
     expect(html).toContain('href="mailto:consyinxy@gmail.com?subject=');
     expect(html).toContain('href="/guides/automation-user-guide.html"');
@@ -45,7 +48,8 @@ describe("public marketing page", () => {
 
   it("ships the guide with every prompt and the shared header and footer", async () => {
     const guide = await read("guides/automation-user-guide.html");
-    expect(guide).toContain("餐饮管理人员使用指南");
+    expect(guide).toContain("<title>企业智脑自动任务｜餐饮管理人员使用指南</title>");
+    expect(guide).toContain('property="og:title" content="企业智脑自动任务｜餐饮管理人员使用指南"');
     expect(guide).toContain('class="site-header"');
     expect(guide).toContain('class="site-footer"');
     expect(guide).toContain("北京殷实麦家管理咨询有限责任公司");

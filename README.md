@@ -1,4 +1,4 @@
-# 企业智脑 SMEDC 官网
+# 企业智脑官网
 
 中文静态介绍页，使用 Astro 组件生成静态 HTML，内容、图片与联系入口独立于业务服务。最早从 [SME_DATA_CENTER](https://github.com/YinXiaoyu-1998/SME_DATA_CENTER) 的 `apps/marketing-web` 拆出；本仓库现在是官网与定时任务指南的唯一内容源，独立管理代码、素材、动画源、脱敏样例、测试、nginx 配置与静态发布。
 
@@ -11,7 +11,7 @@ npm run build    # 生成 dist/marketing 与动画编辑产物
 npm run preview
 ```
 
-本地预览为 `http://127.0.0.1:4173`，官网产物为 `dist/marketing`，动画编辑产物为 `dist/marketing-animation`。只发布前者。无需启动 SMEDC、数据库、Docker 或配置业务凭据。
+本地预览为 `http://127.0.0.1:4173`，官网产物为 `dist/marketing`，动画编辑产物为 `dist/marketing-animation`。只发布前者。无需启动企业智脑服务、数据库、Docker 或配置业务凭据。
 
 检查：`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`。`npm test` 会先构建再做输出检查；另有发布/失败恢复测试。完整发布说明见 [部署手册](deploy/README.md)。
 

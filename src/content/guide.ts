@@ -47,7 +47,7 @@ export const guideCopy = {
   heroImage: "/assets/automation-guide-hero.webp",
   heroAlt: "闭店后的餐馆里，经理在笔记本前核对当天的定时任务。",
   footerNotes: [
-    "SMEDC 企业资料中枢 · 复制提示词后，发给本步标明电脑的 Codex；核对完成标志，再继续下一步。",
+    "企业智脑 · 复制提示词后，发给本步标明电脑的 Codex；核对完成标志，再继续下一步。",
     "更新：2026-11-14。适用于 macOS Codex；版本与操作以当前官方技能及实际检查结果为准。"
   ]
 };
