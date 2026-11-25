@@ -31,8 +31,6 @@ describe("public marketing page", () => {
     const copyIndex = html.indexOf('id="copy-setup-prompt"');
     expect(copyIndex).toBeGreaterThan(html.indexOf('class="setup-demo-heading"'));
     expect(copyIndex).toBeLessThan(html.indexOf('class="setup-demo-footer"'));
-    expect(html).toContain("data-work-panel");
-    expect(html.match(/data-work-panel/g)).toHaveLength(4);
     expect(html).toContain('class="site-header"');
     expect(html).toContain('class="site-footer"');
     expect(html).toContain("北京殷实麦家管理咨询有限责任公司");
@@ -44,6 +42,42 @@ describe("public marketing page", () => {
     expect(html).toContain('rel="icon"');
     expect(html).toContain('href="/assets/logo.png"');
     expect(html).toMatch(/<link rel="stylesheet" href="\/_astro\//);
+  });
+
+  it("links the feature directory to twelve illustrated features before the combined examples", async () => {
+    const html = await read("index.html");
+    expect(html).toMatch(/<a[^>]*href="#features"[^>]*>\s*浏览全部功能/);
+    const directory = html.match(/<nav[^>]*aria-label="功能目录"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+    const headings = [...(directory ?? "").matchAll(/href="#([a-z-]+)"/g)].map((link) => link[1]);
+    expect(headings).toHaveLength(12);
+    expect(new Set(headings).size).toBe(12);
+    const sections = [
+      ...html.matchAll(/<section[^>]*\bid="([a-z-]+)"[^>]*>([\s\S]*?)<\/section>/g)
+    ];
+    const features = sections.filter((section) => headings.includes(section[1]));
+    expect(features.map((section) => section[1])).toEqual(headings);
+    expect(features[0]?.[1]).toBe("reports");
+    const examples = html.indexOf('id="combined-work"');
+    expect(examples).toBeGreaterThan(0);
+    for (const feature of features) {
+      expect(feature.index).toBeLessThan(examples);
+      const figures = feature[2].match(/<figure\b/g) ?? [];
+      expect(figures.length).toBeGreaterThanOrEqual(1);
+      expect(figures.length).toBeLessThanOrEqual(3);
+    }
+    const combination = sections.find((section) => section[1] === "combined-work")?.[2] ?? "";
+    for (const text of [
+      "午市收入为什么变了",
+      "下次巡检",
+      "这周要补羊肉吗",
+      "预计余量",
+      "低于补货线 8 斤"
+    ]) {
+      expect(combination).toContain(text);
+    }
+    expect(combination).toContain('href="#ledger"');
+    expect(combination).toContain('href="#cost-cards"');
+    expect(combination).toContain('href="#operating-data"');
   });
 
   it("ships the guide with every prompt and the shared header and footer", async () => {

@@ -1,0 +1,27 @@
+---
+import type { FeatureImage } from "../content/features";
+import { dimensions } from "../content/feature-image-dimensions";
+
+interface Props {
+  visual: FeatureImage;
+  report?: boolean;
+}
+
+const { visual, report = false } = Astro.props;
+const src = "/assets/" + visual.file;
+const [width, height] = dimensions[visual.file] ?? [1200, 800];
+---
+
+<figure class="feature-image">
+  <a
+    href={report ? "/samples/weekly-report.html" : src}
+    data-open-report={report || undefined}
+    aria-label={report ? "阅读完整周报 · " + visual.caption : "查看大图 · " + visual.caption}
+  >
+    <img {src} alt={visual.alt} {width} {height} loading="lazy" decoding="async" />
+  </a>
+  <figcaption>
+    <span>{visual.caption}</span>
+    <span aria-hidden="true">{report ? "读周报 ↗" : "查看大图 ↗"}</span>
+  </figcaption>
+</figure>

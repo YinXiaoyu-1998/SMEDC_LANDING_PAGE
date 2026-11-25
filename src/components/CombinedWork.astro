@@ -1,0 +1,109 @@
+---
+import AgentExample from "./AgentExample.astro";
+import FeatureImage from "./FeatureImage.astro";
+
+const applications = [
+  {
+    question: "午市收入为什么变了？",
+    sources: [{ href: "#operating-data", label: "营业汇总、店内订单、菜品销量" }],
+    result: "对比同口径餐段的订单量、客单价及主要菜品销量，找出值得复盘的变化。"
+  },
+  {
+    question: "哪些服务问题值得下次巡检再看？",
+    sources: [
+      { href: "#reviews", label: "顾客评价" },
+      { href: "#inspections", label: "巡检记录" },
+      { href: "#documents", label: "服务 SOP" }
+    ],
+    result: "把顾客反复提到的问题与现场记录和检查标准对照，列出待复查事项。"
+  },
+  {
+    question: "这周要补羊肉吗？",
+    sources: [
+      { href: "#ledger", label: "收货台账" },
+      { href: "#cost-cards", label: "成本卡" },
+      { href: "#operating-data", label: "菜品销量" }
+    ],
+    result: "加上期初盘点和门店补货线，估算余量并判断何时复核和补货。"
+  }
+];
+---
+
+<section class="section combined-work" id="combined-work" aria-labelledby="combined-title">
+  <div class="container">
+    <div class="combined-lead">
+      <h2 id="combined-title">把不同来源的资料放在一起，能回答哪些问题？</h2>
+      <p>
+        营业报表里有收入，评价里有顾客原话，巡检表里有现场记录。资料归集到企业智脑后，员工可以让自己的
+        Agent 按权限取用同一家门店、同一时段的记录，一起分析。
+      </p>
+    </div>
+    <ul class="combined-applications">
+      {applications.map(({ question, sources, result }) => (
+        <li>
+          <h3>{question}</h3>
+          <ul aria-label="资料来源">
+            {sources.map(({ href, label }) => (
+              <li>
+                <a href={href}>{label}</a>
+              </li>
+            ))}
+          </ul>
+          <p>{result}</p>
+        </li>
+      ))}
+    </ul>
+    <div class="stock-example">
+      <div class="stock-heading">
+        <h3>算一遍示例东城店的羊肉余量</h3>
+        <p>同一个营业周，按同规格净羊肉换算。期初盘点和补货线由店长提供。</p>
+      </div>
+      <div class="stock-visuals">
+        <FeatureImage
+          visual={{
+            kind: "image",
+            file: "ledger-document.webp",
+            caption: "模拟门店收货台账节选",
+            alt: "示例东城店净羊肉收货台账 PDF"
+          }}
+        />
+        <AgentExample
+          example={{
+            kind: "agent",
+            caption: "按门店补货线判断",
+            question: "上周日收档盘了 12 斤羊肉，补货线是 20 斤。帮我算算这周还剩多少？",
+            answer:
+              "本周预计还剩 12 斤，低于补货线 8 斤。建议今天收档先盘点实物，再联系供应商安排补货。",
+            source: "示例东城店 · 模拟数据"
+          }}
+        />
+      </div>
+      <dl class="stock-basis">
+        <div>
+          <dt>本周收货</dt>
+          <dd>
+            30 公斤＋20 公斤＝<strong>100 斤</strong>
+          </dd>
+        </div>
+        <div>
+          <dt>羊肉串</dt>
+          <dd>
+            400 份 × 75 克＝<strong>60 斤</strong>
+          </dd>
+        </div>
+        <div>
+          <dt>炖羊肉</dt>
+          <dd>
+            80 份 × 250 克＝<strong>40 斤</strong>
+          </dd>
+        </div>
+      </dl>
+      <p class="stock-total">
+        期初 12 斤 ＋ 收货 100 斤 − 理论耗用 100 斤 <strong>＝ 预计余量 12 斤</strong>
+      </p>
+      <p class="stock-note">
+        示例假设只有这两道菜使用该原料，期间无调拨、退货、报损或其他领用。期初数据缺失时，可以先核对期间净变化。订货量还要结合到货时间和后续需求。
+      </p>
+    </div>
+  </div>
+</section>
