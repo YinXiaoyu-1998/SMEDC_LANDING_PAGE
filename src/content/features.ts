@@ -10,6 +10,8 @@ export type FeatureImage = {
   file: keyof typeof dimensions;
   caption: string;
   alt: string;
+  preview?: keyof typeof dimensions;
+  reportRoute?: string;
 };
 
 export type AgentExample = {
@@ -26,11 +28,17 @@ type Feature = {
   visuals: (FeatureImage | AgentExample)[];
 };
 
-const image = (file: FeatureImage["file"], caption: string, alt: string): FeatureImage => ({
+const image = (
+  file: FeatureImage["file"],
+  caption: string,
+  alt: string,
+  options?: Pick<FeatureImage, "preview" | "reportRoute">
+): FeatureImage => ({
   kind: "image",
   file,
   caption,
-  alt
+  alt,
+  ...options
 });
 
 const example = (caption: string, question: string, answer: string): AgentExample => ({
@@ -49,12 +57,17 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
         title: "多店经营周报",
         description: "经营会前先看哪些门店值得借鉴、哪些要复盘，再把收入变化追到餐段、档口和菜品。",
         visuals: [
-          image("weekly-report-preview.webp", "经营顾问反馈", "新版周报的经营顾问反馈和逐店分析"),
-          image("report-quadrant.webp", "门店四象限", "按增长和经营表现对照门店分布的四象限"),
+          image("weekly-report-preview.webp", "经营顾问反馈", "新版周报的经营顾问反馈和逐店分析", {
+            reportRoute: "#/alpha/priorities"
+          }),
+          image("report-quadrant.webp", "门店四象限", "按增长和经营表现对照门店分布的四象限", {
+            reportRoute: "#/alpha/chart/2"
+          }),
           image(
             "report-attribution.webp",
             "档口归因的数据说明",
-            "新版周报说明本期可用数据与档口归因的覆盖范围"
+            "新版周报说明本期可用数据与档口归因的覆盖范围",
+            { reportRoute: "#/alpha/chart/13" }
           )
         ]
       },
@@ -109,8 +122,13 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
         id: "inspections",
         title: "门店巡检与反馈",
         description:
-          "总部维护检查标准，门店记录状态、评分、评价和照片，也可以让自己的智能体 根据现场证据填表并提出复查建议。",
+          "总部维护检查标准，门店记录状态、评分、评价和照片，也可以让自己的智能体根据现场证据填表并提出复查建议。",
         visuals: [
+          image(
+            "inspection-sheet.webp",
+            "门店巡检卷上的记录",
+            "巡检填报页的冷藏柜食材标签检查题和现场评价"
+          ),
           image(
             "inspection-template.webp",
             "总部设置检查标准",
@@ -120,11 +138,6 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
             "根据现场证据填报",
             "示例东城店巡检，发现两盒食材未贴标签，已补贴品名和日期。请填到冷藏柜食材标签题。",
             "已把现场事实写入巡检记录。建议下一班交接时抽查冷藏柜标签。"
-          ),
-          image(
-            "inspection-sheet.webp",
-            "门店巡检卷上的记录",
-            "巡检填报页的冷藏柜食材标签检查题和现场评价"
           )
         ]
       },
@@ -135,14 +148,15 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           "将配送收货单与检疫照片整理成每日台账，门店可按进货日期下载 PDF 以备核对和检查。",
         visuals: [
           image(
+            "ledger-real-sample.webp",
+            "每日台账成品节选",
+            "脱敏收货台账，预览展示食品名称、规格、数量和金额，完整大图共 11 列",
+            { preview: "ledger-table-preview.webp" }
+          ),
+          image(
             "ledger-download.webp",
             "按门店和日期查找台账",
             "台账 PDF 下载中心的门店日期筛选和查询结果"
-          ),
-          image(
-            "ledger-real-sample.webp",
-            "每日台账成品节选",
-            "从实际门店台账制作的脱敏 PDF 截图，展示收货单号、食品、规格、金额、供货单位等 11 列"
           )
         ]
       },

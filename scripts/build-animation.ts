@@ -30,7 +30,7 @@ await writeFile(resolve(outputDirectory, "setup.css"), animation.css);
 await writeFile(resolve(outputDirectory, "setup.js"), animation.timeline);
 await writeFile(resolve(outputDirectory, "gsap.min.js"), animation.gsap);
 await writeFile(resolve(outputDirectory, "TextPlugin.min.js"), animation.textPlugin);
-for (const name of ["check-circle.svg", "arrow-up-right.svg"]) {
+for (const name of ["check-circle.svg"]) {
   await cp(
     resolve(sourceDirectory, "../public/assets", name),
     resolve(outputDirectory, "assets", name)

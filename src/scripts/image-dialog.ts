@@ -3,15 +3,14 @@ const title = document.getElementById("image-dialog-title");
 const picture = document.querySelector<HTMLImageElement>("#image-dialog-picture");
 const content = dialog?.querySelector<HTMLElement>(".image-dialog-content");
 const closeButton = document.getElementById("close-image");
-const zoomButton = document.getElementById("image-zoom");
+const zoom = document.querySelector<HTMLSelectElement>("#image-zoom");
 
-if (dialog && title && picture && content && closeButton && zoomButton && "showModal" in dialog) {
+if (dialog && title && picture && content && closeButton && zoom && "showModal" in dialog) {
   let trigger: HTMLAnchorElement | null = null;
 
-  const setZoom = (originalSize: boolean) => {
-    content.classList.toggle("is-original-size", originalSize);
-    zoomButton.setAttribute("aria-pressed", String(originalSize));
-    if (!originalSize) content.scrollTo(0, 0);
+  const setZoom = () => {
+    content.dataset.zoom = zoom.value;
+    if (zoom.value === "fit") content.scrollTo(0, 0);
   };
 
   for (const link of document.querySelectorAll<HTMLAnchorElement>("a[data-open-image]")) {
@@ -29,14 +28,13 @@ if (dialog && title && picture && content && closeButton && zoomButton && "showM
       picture.src = link.href;
       picture.hidden = false;
       dialog.showModal();
-      setZoom(false);
+      zoom.value = "fit";
+      setZoom();
       closeButton.focus({ preventScroll: true });
     });
   }
 
-  zoomButton.addEventListener("click", () => {
-    setZoom(zoomButton.getAttribute("aria-pressed") !== "true");
-  });
+  zoom.addEventListener("change", setZoom);
   closeButton.addEventListener("click", () => dialog.close());
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();

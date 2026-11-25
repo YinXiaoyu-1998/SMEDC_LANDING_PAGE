@@ -9,6 +9,7 @@
   request.textContent = prompt;
   root.dataset.installPrompt = prompt;
   const timeline = gsap.timeline({ paused: true });
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   timeline.from(
     root.querySelector(".setup-request"),
     { x: 16, opacity: 0, duration: 0.5, ease: "power3.out" },
@@ -45,4 +46,8 @@
   );
   window.__timelines = window.__timelines || {};
   window.__timelines["smedc-setup"] = timeline;
+  if (reduceMotion.matches) timeline.progress(1);
+  reduceMotion.addEventListener("change", () => {
+    if (reduceMotion.matches) timeline.pause().progress(1);
+  });
 })();

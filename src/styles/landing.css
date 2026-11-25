@@ -1,3 +1,6 @@
+/* Hallmark · v2.0.0 · redesign: polish · theme: existing SMEDC · genre: modern-minimal */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: H, give product evidence a readable scale */
+/* Hallmark · answered F19 · bold figures in the example keep their emphasis against the quieter section heads */
 @layer landing, guide;
 
 @layer landing {
@@ -11,6 +14,48 @@
     --serif: "Songti SC", "STSong", "Noto Serif CJK SC", SimSun, serif;
     --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --selection: #ead0c8;
+    --progress-ink: #be3a32;
+    --hero-underlay: #26221c;
+    --contact-underlay: #25211d;
+    --on-photo-muted: #e1d9d0;
+    --footer-surface: #ece9e2;
+    --report-surface: #f5f7fa;
+    --surface-hover: #e8e5df;
+    --red-surface: #fbf0ee;
+    --warm-paper: #f5f2eb;
+    --image-surface: #f3f0e9;
+    --agent-surface: #faf8f2;
+    --agent-question: #eee7dc;
+    --estimate-surface: #f5eee4;
+    --estimate-ink: #902b24;
+    --caption-ink: #59534b;
+    --agent-label: #695e50;
+    --warm-rule: #bbb1a4;
+    --warm-rule-strong: #aa9787;
+    --image-rule: #e1dcd2;
+    --image-rule-hover: #947d68;
+    --agent-rule: #dfd8cc;
+    --agent-rule-soft: #e6e0d5;
+    --summary-rule: #ab9d8f;
+    --summary-divider: #d4c9bc;
+    --estimate-rule: #ded6ca;
+    --service-rule: #a5a099;
+    --service-divider: #aaa49c;
+    --sticky-header: rgba(31, 30, 28, 0.96);
+    --on-photo-outline: rgb(255 255 255 / 45%);
+    --on-photo-hover: rgb(255 255 255 / 12%);
+    --contact-outline: rgb(255 255 255 / 65%);
+    --hero-scrim: rgba(0, 0, 0, 0.2);
+    --hero-scrim-narrow: rgba(0, 0, 0, 0.37);
+    --contact-scrim: rgba(20, 16, 12, 0.75);
+    --report-backdrop: rgba(12, 12, 12, 0.76);
+    --image-backdrop: rgb(15 13 11 / 78%);
+    --hero-shade-strong: rgb(24 20 17 / 82%);
+    --hero-shade-middle: rgb(24 20 17 / 35%);
+    --hero-shade-light: rgb(24 20 17 / 16%);
+    --hero-mobile-strong: rgb(24 20 17 / 78%);
+    --hero-mobile-light: rgb(24 20 17 / 43%);
     color: var(--ink);
     background: var(--paper);
     font: 16px/1.75 var(--sans);
@@ -20,11 +65,15 @@
   * {
     box-sizing: border-box;
   }
+  html,
+  body {
+    overflow-x: clip;
+  }
   body {
     margin: 0;
   }
   body.reader-open {
-    overflow: hidden;
+    overflow-y: hidden;
   }
   [hidden] {
     display: none !important;
@@ -56,6 +105,8 @@
     font-family: var(--serif);
     font-weight: 600;
     text-wrap: balance;
+    overflow-wrap: break-word;
+    min-width: 0;
   }
   h2 {
     font-size: clamp(34px, 4.3vw, 56px);
@@ -76,6 +127,7 @@
   }
   a:focus-visible,
   button:focus-visible,
+  select:focus-visible,
   summary:focus-visible {
     outline: 2px solid var(--red);
     outline-offset: 6px;
@@ -85,7 +137,7 @@
     scroll-margin-top: 100px;
   }
   ::selection {
-    background: #ead0c8;
+    background: var(--selection);
     color: var(--ink);
   }
   .container {
@@ -116,12 +168,12 @@
     position: sticky;
     top: 0;
     z-index: 20;
-    color: #fff;
-    background: #22211f;
+    color: var(--paper);
+    background: var(--ink);
     transition: background 240ms ease;
   }
   .site-header.is-scrolled {
-    background: rgba(31, 30, 28, 0.96);
+    background: var(--sticky-header);
     backdrop-filter: blur(12px);
   }
   .header-inner {
@@ -173,7 +225,7 @@
     left: 0;
     width: 100%;
     height: 1px;
-    background: #fff;
+    background: var(--paper);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 300ms var(--ease);
@@ -185,12 +237,12 @@
   .site-header .registration-link {
     min-height: 44px;
     padding-inline: 16px;
-    border: 1px solid rgb(255 255 255 / 45%);
+    border: 1px solid var(--on-photo-outline);
     border-radius: 2px;
     white-space: nowrap;
   }
   .site-header .registration-link:hover {
-    background: rgb(255 255 255 / 12%);
+    background: var(--on-photo-hover);
   }
   .site-header .registration-link::after {
     content: none;
@@ -199,7 +251,7 @@
   .hero a:focus-visible,
   .contact-section a:focus-visible,
   .contact-section button:focus-visible {
-    outline-color: #fff;
+    outline-color: var(--paper);
   }
   .reading-progress {
     position: absolute;
@@ -207,7 +259,7 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: #be3a32;
+    background: var(--progress-ink);
     transform: scaleX(0);
     transform-origin: left;
   }
@@ -215,15 +267,15 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    color: #fff;
-    background: #26221c;
+    color: var(--paper);
+    background: var(--hero-underlay);
   }
   .hero::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--hero-scrim);
   }
   .hero-photo {
     position: absolute;
@@ -254,7 +306,7 @@
   }
   .hero-description {
     margin-top: 24px;
-    color: #fff;
+    color: var(--paper);
     font-size: 18px;
     line-height: 1.8;
   }
@@ -318,7 +370,7 @@
     display: grid;
     grid-template-columns: 0.85fr 1.15fr;
     gap: 64px;
-    border-top: 1px solid #a5a099;
+    border-top: 1px solid var(--service-rule);
     padding-top: 46px;
   }
   .section-lead h2 {
@@ -328,7 +380,7 @@
     padding-top: 10px;
   }
   .service-choice {
-    border-bottom: 1px solid #aaa49c;
+    border-bottom: 1px solid var(--service-divider);
   }
   .service-choice summary {
     display: flex;
@@ -407,14 +459,14 @@
     isolation: isolate;
     overflow: hidden;
     color: white;
-    background: #25211d;
+    background: var(--contact-underlay);
   }
   .contact-section::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: rgba(20, 16, 12, 0.75);
+    background: var(--contact-scrim);
   }
   .contact-photo {
     position: absolute;
@@ -436,7 +488,7 @@
     font-size: clamp(32px, 3.4vw, 46px);
   }
   .contact-inner p {
-    color: #e1d9d0;
+    color: var(--on-photo-muted);
   }
   .contact-details {
     display: flex;
@@ -449,16 +501,17 @@
     gap: 12px;
   }
   .contact-primary-actions .button-outline {
-    border-color: rgb(255 255 255 / 65%);
+    border-color: var(--contact-outline);
     background: transparent;
   }
   .contact-primary-actions .button-outline:hover {
-    background: rgb(255 255 255 / 12%);
+    background: var(--on-photo-hover);
   }
   .contact-number {
     margin-top: 22px;
     font-size: 25px;
     letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
   }
   .contact-email {
     margin-top: 4px;
@@ -487,7 +540,7 @@
     margin: 6px 0 0;
   }
   .site-footer {
-    background: #ece9e2;
+    background: var(--footer-surface);
     padding-block: 30px;
   }
   .footer-inner {
@@ -524,13 +577,13 @@
     display: none;
     position: fixed;
     inset: 0;
-    width: min(1440px, calc(100vw - 64px));
+    width: min(1440px, calc(100% - 64px));
     height: calc(100dvh - 48px);
     max-width: none;
     max-height: none;
     padding: 0;
     border: 0;
-    background: #f5f7fa;
+    background: var(--report-surface);
     color: var(--ink);
     overflow: hidden;
   }
@@ -539,8 +592,7 @@
     flex-direction: column;
   }
   .report-dialog::backdrop {
-    background: rgba(12, 12, 12, 0.76);
-    backdrop-filter: blur(5px);
+    background: var(--report-backdrop);
   }
   .reader-toolbar {
     display: flex;
@@ -583,7 +635,7 @@
     transition: background 160ms;
   }
   .reader-actions button:hover {
-    background: #e8e5df;
+    background: var(--surface-hover);
   }
   .reader-body {
     position: relative;
@@ -667,7 +719,7 @@
       object-position: 61% 50%;
     }
     .hero::after {
-      background: rgba(0, 0, 0, 0.37);
+      background: var(--hero-scrim-narrow);
     }
     h1 {
       font-size: clamp(43px, 10vw, 64px);
@@ -761,8 +813,7 @@
       font-size: 14px;
     }
     .reader-toolbar p {
-      font-size: 10px;
-      max-width: 24ch;
+      font-size: 12px;
     }
     .reader-actions {
       gap: 10px;
@@ -870,7 +921,7 @@
       color 160ms;
   }
   .setup-copy-button:hover {
-    background: #fbf0ee;
+    background: var(--red-surface);
   }
   .setup-copy-button:focus-visible {
     outline: 2px solid var(--red);

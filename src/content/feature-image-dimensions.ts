@@ -7,6 +7,7 @@ export const dimensions = {
   "ledger-document.webp": [839, 434],
   "ledger-download.webp": [1476, 1726],
   "ledger-real-sample.webp": [2021, 1429],
+  "ledger-table-preview.webp": [665, 384],
   "permissions-category.webp": [1090, 488],
   "permissions-grant.webp": [1090, 874],
   "report-attribution.webp": [1280, 192],
