@@ -227,9 +227,14 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
         id: "automation",
         title: "企业自动任务",
         description:
-          "用指定电脑定时执行每日数据入库、评价处理和经营周报，查看执行状态与授权。可在「评价处理范围」里只选指定门店和大众点评渠道。自然周经营周报按「周报范围」汇总上周一至周日。",
+          "用指定电脑定时执行每日数据入库、评价处理和经营周报，并查看执行状态。可按门店和渠道处理评价，或按门店分组汇总整周经营数据。",
         visuals: [
-          image("workflows-config.webp", "配置定时任务", "企业自动任务的任务类型和配置"),
+          image("workflows-config.webp", "配置每日数据入库", "企业自动任务的每日入库配置"),
+          image(
+            "workflows-options.webp",
+            "配置评价处理与自然周周报",
+            "评价处理的门店和渠道配置，以及自然周经营周报的门店组和邮件交付配置"
+          ),
           image("workflows-status.webp", "核对最近运行", "任务运行状态与执行电脑")
         ]
       },

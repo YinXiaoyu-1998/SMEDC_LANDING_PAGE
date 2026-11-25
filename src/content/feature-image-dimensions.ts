@@ -13,5 +13,6 @@ export const dimensions = {
   "reviews-workbook.webp": [1730, 632],
   "weekly-report-preview.webp": [1280, 1050],
   "workflows-config.webp": [1520, 1262],
+  "workflows-options.webp": [1292, 2128],
   "workflows-status.webp": [1494, 596]
 } satisfies Record<string, [number, number]>;
