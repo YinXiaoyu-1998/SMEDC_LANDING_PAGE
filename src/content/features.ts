@@ -1,6 +1,8 @@
+import type { dimensions } from "./feature-image-dimensions";
+
 export type FeatureImage = {
   kind: "image";
-  file: string;
+  file: keyof typeof dimensions;
   caption: string;
   alt: string;
   source?: string;
@@ -21,7 +23,12 @@ type Feature = {
   visuals: (FeatureImage | AgentExample)[];
 };
 
-const image = (file: string, caption: string, alt: string, source?: string): FeatureImage => ({
+const image = (
+  file: FeatureImage["file"],
+  caption: string,
+  alt: string,
+  source?: string
+): FeatureImage => ({
   kind: "image",
   file,
   caption,

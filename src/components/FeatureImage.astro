@@ -9,7 +9,7 @@ interface Props {
 
 const { visual, report = false } = Astro.props;
 const src = "/assets/" + visual.file;
-const [width, height] = dimensions[visual.file] ?? [1200, 800];
+const [width, height] = dimensions[visual.file];
 ---
 
 <figure class="feature-image">
