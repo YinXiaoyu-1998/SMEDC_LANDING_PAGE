@@ -112,11 +112,19 @@ describe("public marketing page", () => {
     expect(await readFile(join(output, "assets/automation-guide-handover.webp"))).toBeTruthy();
     expect(JSON.parse(await read("version.json")).revision).toMatch(/^[a-f0-9]{16}$/);
     const report = await read("samples/weekly-report.html");
-    expect(report).toContain("某餐饮企业");
-    expect(report).toContain('rel="icon"');
+    const reportMarkers = [
+      "某餐饮企业",
+      "经营顾问反馈",
+      "明星与问题门店四象限",
+      "52 周",
+      "2026-11-16",
+      'rel="icon"'
+    ];
+    expect(reportMarkers.filter((marker) => !report.includes(marker))).toEqual([]);
     const reportFrame = (await read("index.html")).match(/<iframe\b[^>]*>/)?.[0];
     expect(reportFrame).toContain('sandbox="allow-scripts"');
     expect(reportFrame).toContain('data-src="/samples/weekly-report.html"');
+    expect(reportFrame).not.toMatch(/\ssrc=/);
   });
 
   it("keeps the guide content structured and complete", () => {
