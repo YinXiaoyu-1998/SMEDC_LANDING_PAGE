@@ -1,3 +1,4 @@
+import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -18,6 +19,9 @@ describe("public marketing page", () => {
     expect(html).toContain('href="/guides/automation-user-guide.html"');
     expect(html).toContain("查看详细步骤");
     expect(html).toContain('id="report-dialog"');
+    const heroReportLink = html.match(/<a\b([^>]+)>\s*读一份完整周报\s*<\/a>/)?.[1];
+    expect(heroReportLink).toContain('href="/samples/weekly-report.html"');
+    expect(heroReportLink).toMatch(/\sdata-open-report(?:\s|=|$)/);
     expect(html).toContain('data-composition-id="smedc-setup"');
     expect(html).toContain('id="copy-setup-prompt"');
     expect(html).toContain('class="setup-copy-button"');
@@ -61,11 +65,13 @@ describe("public marketing page", () => {
     expect(examples).toBeGreaterThan(0);
     for (const feature of features) {
       expect(feature.index).toBeLessThan(examples);
-      const figures = feature[2].match(/<figure\b/g) ?? [];
+      const content = feature[2] ?? "";
+      const figures = content.match(/<figure\b/g) ?? [];
       expect(figures.length).toBeGreaterThanOrEqual(1);
       expect(figures.length).toBeLessThanOrEqual(3);
-      for (const match of feature[2].matchAll(/<img\b[^>]*\bsrc="\/assets\/([a-z-]+\.webp)"/g)) {
-        const screenshot = await readFile(join(output, "assets", match[1]));
+      for (const [, file] of content.matchAll(/<img\b[^>]*\bsrc="\/assets\/([a-z-]+\.webp)"/g)) {
+        assert(file, "Expected a WebP filename");
+        const screenshot = await readFile(join(output, "assets", file));
         expect(screenshot.subarray(8, 12).toString()).toBe("WEBP");
       }
     }

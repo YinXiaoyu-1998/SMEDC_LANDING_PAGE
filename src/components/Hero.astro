@@ -1,3 +1,7 @@
+---
+import { reportSample } from "../content/features";
+---
+
 <section class="hero" aria-labelledby="hero-title">
   <img
     class="hero-photo"
@@ -22,7 +26,7 @@
           浏览全部功能
           <img class="icon" src="/assets/arrow-down.svg" alt="" width="20" height="20" />
         </a>
-        <a class="text-link text-link-light" href="#reports">
+        <a class="text-link text-link-light" href={reportSample.url} data-open-report>
           读一份完整周报
         </a>
       </div>

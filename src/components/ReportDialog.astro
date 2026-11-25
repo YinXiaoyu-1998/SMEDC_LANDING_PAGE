@@ -1,11 +1,15 @@
+---
+import { reportSample } from "../content/features";
+---
+
 <dialog class="report-dialog" id="report-dialog" aria-labelledby="report-dialog-title">
   <div class="reader-toolbar">
     <div>
       <h2 id="report-dialog-title">多店经营周报</h2>
-      <p>2026 年 11 月 16–22 日 · 脱敏示例</p>
+      <p>{reportSample.period} · 脱敏示例</p>
     </div>
     <div class="reader-actions">
-      <a href="/samples/weekly-report.html" target="_blank" rel="noopener">
+      <a href={reportSample.url} target="_blank" rel="noopener">
         独立窗口
         <img class="icon" src="/assets/arrow-up-right.svg" alt="" width="18" height="18" />
       </a>
@@ -21,7 +25,7 @@
     <iframe
       id="report-frame"
       title="多店经营周报脱敏示例"
-      data-src="/samples/weekly-report.html"
+      data-src={reportSample.url}
       sandbox="allow-scripts"
       referrerpolicy="no-referrer"
       hidden

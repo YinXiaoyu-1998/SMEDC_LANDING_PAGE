@@ -2360,7 +2360,15 @@ renderGaps();
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && mobileNavOpen) setMobileNav(false, true);
+    if (event.key !== "Escape" || event.defaultPrevented) return;
+    if (document.querySelector(".px-dining-dialog[open]")) return;
+    if (mobileNavOpen) {
+      event.preventDefault();
+      setMobileNav(false, true);
+    } else if (window.parent !== window) {
+      event.preventDefault();
+      window.parent.postMessage({ type: "smedc-report:close" }, window.location.origin);
+    }
   });
 
   function shell(body) {

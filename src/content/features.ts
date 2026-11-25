@@ -1,5 +1,10 @@
 import type { dimensions } from "./feature-image-dimensions";
 
+export const reportSample = {
+  url: "/samples/weekly-report.html",
+  period: "2026 年 11 月 16–22 日"
+};
+
 export type FeatureImage = {
   kind: "image";
   file: keyof typeof dimensions;
@@ -70,8 +75,8 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           example(
             "从收入追到单量和客单价",
             "示例东城店这周午市收入下降，是订单少了还是客单价低了？",
-            "与上周同一组营业日、同一午市餐段相比，订单从 240 单降到 210 单，客单价均为 68 元。收入下降主要来自订单量。",
-            "营业汇总、店内订单 · 模拟数据"
+            "对比这家店本周和上周同一组营业日的午市，营业汇总从 18,360 元降到 16,320 元。店内少了 30 单（240→210），单均仍是 68 元。平台外卖收入两周都是 2,040 元。菜品销量里，午市套餐从 62 份降到 45 份，可优先复盘。",
+            "营业汇总、店内订单、菜品销量、平台外卖订单 · 模拟数据"
           )
         ]
       },
@@ -222,7 +227,7 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
         id: "automation",
         title: "企业自动任务",
         description:
-          "用指定电脑定时执行每日数据入库、评价处理和经营周报，查看任务配置、执行状态和授权。",
+          "用指定电脑定时执行每日数据入库、评价处理和经营周报，查看执行状态与授权。可在「评价处理范围」里只选指定门店和大众点评渠道。自然周经营周报按「周报范围」汇总上周一至周日。",
         visuals: [
           image("workflows-config.webp", "配置定时任务", "企业自动任务的任务类型和配置"),
           image("workflows-status.webp", "核对最近运行", "任务运行状态与执行电脑")

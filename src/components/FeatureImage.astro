@@ -1,5 +1,5 @@
 ---
-import type { FeatureImage } from "../content/features";
+import { reportSample, type FeatureImage } from "../content/features";
 import { dimensions } from "../content/feature-image-dimensions";
 
 interface Props {
@@ -14,7 +14,7 @@ const [width, height] = dimensions[visual.file];
 
 <figure class="feature-image">
   <a
-    href={report ? "/samples/weekly-report.html" : src}
+    href={report ? reportSample.url : src}
     data-open-report={report || undefined}
     aria-label={report ? "阅读完整周报 · " + visual.caption : "查看大图 · " + visual.caption}
   >
