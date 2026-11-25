@@ -22,6 +22,13 @@ describe("public marketing page", () => {
     expect(html).toMatch(
       /<a\b[^>]*href="\/assets\/ledger-real-sample\.webp"[^>]*data-open-image="每日台账成品节选"/
     );
+    expect(html).toContain('src="/assets/ledger-table-preview.webp"');
+    expect(html).toMatch(/<option value="detail">放大查看<\/option>/);
+    for (const route of ["priorities", "chart/2", "chart/13"]) {
+      expect(html).toContain(`href="/samples/weekly-report.html#/alpha/${route}"`);
+    }
+    expect(html).not.toContain("setup-titlebar");
+    expect(html).not.toContain("setup-composer");
     expect(html).toMatch(/<dialog\b[^>]*id="image-dialog"/);
     expect(html).toContain('href="tel:18514577162"');
     expect(html).toContain('href="mailto:consyinxy@gmail.com?subject=');

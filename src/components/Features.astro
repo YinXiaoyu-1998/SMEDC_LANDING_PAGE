@@ -75,11 +75,19 @@ import SetupDemo from "./SetupDemo.astro";
                 </ul>
               )}
             </div>
-            <div class:list={["feature-gallery", { "feature-gallery-integration": isIntegration }]}>
+            <div
+              class:list={[
+                "feature-gallery",
+                {
+                  "feature-gallery-integration": isIntegration,
+                  "feature-gallery-ledger": feature.id === "ledger"
+                }
+              ]}
+            >
               {isIntegration && <SetupDemo />}
               {feature.visuals.map((visual) =>
                 visual.kind === "image" ? (
-                  <FeatureImage {visual} report={isReport} />
+                  <FeatureImage {visual} />
                 ) : (
                   <AgentExample example={visual} />
                 )

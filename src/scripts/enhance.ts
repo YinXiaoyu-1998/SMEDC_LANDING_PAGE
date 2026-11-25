@@ -154,6 +154,7 @@ const dialog = document.getElementById("report-dialog") as HTMLDialogElement | n
 const frame = document.getElementById("report-frame") as HTMLIFrameElement | null;
 const reportStatus = document.getElementById("report-status");
 const closeButton = document.getElementById("close-report");
+const standalone = document.querySelector<HTMLAnchorElement>("#report-standalone");
 if (dialog && frame && closeButton && typeof dialog.showModal === "function") {
   let returnFocus: HTMLElement | null = null;
   let closing = false;
@@ -175,10 +176,11 @@ if (dialog && frame && closeButton && typeof dialog.showModal === "function") {
     if (animation) animation.finished.then(finish, finish);
     else finish();
   };
-  const openReport = (link: HTMLElement) => {
+  const openReport = (link: HTMLAnchorElement) => {
     if (dialog.open) return;
     returnFocus = link;
-    if (!frame.hasAttribute("src")) frame.src = frame.dataset.src ?? "";
+    frame.src = link.href;
+    if (standalone) standalone.href = link.href;
     document.body.classList.add("reader-open");
     dialog.showModal();
     closeButton.focus({ preventScroll: true });

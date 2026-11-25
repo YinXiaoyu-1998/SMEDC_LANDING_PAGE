@@ -2,9 +2,11 @@
   <div class="reader-toolbar">
     <h2 id="image-dialog-title">查看大图</h2>
     <div class="reader-actions">
-      <button class="image-zoom" type="button" id="image-zoom" aria-pressed="false">
-        原尺寸
-      </button>
+      <select class="image-zoom" id="image-zoom" aria-label="图片缩放">
+        <option value="fit">适合窗口</option>
+        <option value="detail">放大查看</option>
+        <option value="original">原尺寸</option>
+      </select>
       <button type="button" id="close-image" aria-label="关闭大图">
         <img src="/assets/x.svg" width="24" height="24" alt="" />
       </button>

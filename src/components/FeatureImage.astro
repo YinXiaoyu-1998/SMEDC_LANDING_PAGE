@@ -4,27 +4,37 @@ import { dimensions } from "../content/feature-image-dimensions";
 
 interface Props {
   visual: FeatureImage;
-  report?: boolean;
 }
 
-const { visual, report = false } = Astro.props;
-const src = "/assets/" + visual.file;
-const [width, height] = dimensions[visual.file];
+const { visual } = Astro.props;
+const preview = visual.preview ?? visual.file;
+const [width, height] = dimensions[preview];
+const report = Boolean(visual.reportRoute);
+const href = report ? reportSample.url + visual.reportRoute : "/assets/" + visual.file;
 ---
 
 <figure class="feature-image">
   <a
-    href={report ? reportSample.url : src}
+    {href}
     data-open-report={report || undefined}
     data-open-image={report ? undefined : visual.caption}
-    aria-label={report ? "阅读完整周报 · " + visual.caption : "查看大图 · " + visual.caption}
+    aria-label={report ? "查看周报：" + visual.caption : "查看大图：" + visual.caption}
   >
-    <img {src} alt={visual.alt} {width} {height} loading="lazy" decoding="async" />
+    <img
+      src={"/assets/" + preview}
+      alt={visual.alt}
+      {width}
+      {height}
+      loading="lazy"
+      decoding="async"
+    />
   </a>
   <figcaption>
     <span>{visual.caption}</span>
-    <span class="feature-image-action" aria-hidden="true">
-      {report ? "读周报 ↗" : "查看大图"}
-    </span>
+    {!report && (
+      <span class="feature-image-action" aria-hidden="true">
+        查看大图
+      </span>
+    )}
   </figcaption>
 </figure>
