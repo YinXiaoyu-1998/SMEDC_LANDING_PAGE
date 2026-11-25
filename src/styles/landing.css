@@ -182,6 +182,19 @@
   nav a[aria-current="location"]::after {
     transform: scaleX(1);
   }
+  .site-header .registration-link {
+    min-height: 44px;
+    padding-inline: 16px;
+    border: 1px solid rgb(255 255 255 / 45%);
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .site-header .registration-link:hover {
+    background: rgb(255 255 255 / 12%);
+  }
+  .site-header .registration-link::after {
+    content: none;
+  }
   .site-header a:focus-visible,
   .hero a:focus-visible,
   .contact-section a:focus-visible,
@@ -439,6 +452,18 @@
     flex-direction: column;
     align-items: flex-start;
   }
+  .contact-primary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .contact-primary-actions .button-outline {
+    border-color: rgb(255 255 255 / 65%);
+    background: transparent;
+  }
+  .contact-primary-actions .button-outline:hover {
+    background: rgb(255 255 255 / 12%);
+  }
   .contact-number {
     margin-top: 22px;
     font-size: 25px;
@@ -665,8 +690,8 @@
       font-size: 15px;
       margin-top: 20px;
     }
-    .hero-description span {
-      display: block;
+    .site-header .registration-link {
+      padding-inline: 9px;
     }
     .hero-actions {
       gap: 24px;
@@ -783,6 +808,12 @@
     }
     nav a {
       font-size: 12px;
+    }
+    .header-inner {
+      gap: 8px;
+    }
+    .site-header nav {
+      gap: 10px;
     }
     .brand span {
       font-size: 15px;

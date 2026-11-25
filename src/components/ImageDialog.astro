@@ -1,0 +1,20 @@
+<dialog class="image-dialog" aria-labelledby="image-dialog-title" id="image-dialog">
+  <div class="reader-toolbar">
+    <h2 id="image-dialog-title">查看大图</h2>
+    <div class="reader-actions">
+      <button class="image-zoom" type="button" id="image-zoom" aria-pressed="false">
+        原尺寸
+      </button>
+      <button type="button" id="close-image" aria-label="关闭大图">
+        <img src="/assets/x.svg" width="24" height="24" alt="" />
+      </button>
+    </div>
+  </div>
+  <div class="image-dialog-content" role="region" tabindex="0" aria-label="大图预览">
+    <img id="image-dialog-picture" alt="" hidden />
+  </div>
+</dialog>
+
+<script>
+  import "../scripts/image-dialog";
+</script>

@@ -6,6 +6,7 @@ export const dimensions = {
   "inspection-template.webp": [1680, 1966],
   "ledger-document.webp": [839, 434],
   "ledger-download.webp": [1476, 1726],
+  "ledger-real-sample.webp": [2021, 1429],
   "permissions-category.webp": [1090, 488],
   "permissions-grant.webp": [1090, 874],
   "report-attribution.webp": [1280, 192],

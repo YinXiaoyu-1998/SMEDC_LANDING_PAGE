@@ -1,0 +1,50 @@
+const dialog = document.querySelector<HTMLDialogElement>("#image-dialog");
+const title = document.getElementById("image-dialog-title");
+const picture = document.querySelector<HTMLImageElement>("#image-dialog-picture");
+const content = dialog?.querySelector<HTMLElement>(".image-dialog-content");
+const closeButton = document.getElementById("close-image");
+const zoomButton = document.getElementById("image-zoom");
+
+if (dialog && title && picture && content && closeButton && zoomButton && "showModal" in dialog) {
+  let trigger: HTMLAnchorElement | null = null;
+
+  const setZoom = (originalSize: boolean) => {
+    content.classList.toggle("is-original-size", originalSize);
+    zoomButton.setAttribute("aria-pressed", String(originalSize));
+    if (!originalSize) content.scrollTo(0, 0);
+  };
+
+  for (const link of document.querySelectorAll<HTMLAnchorElement>("a[data-open-image]")) {
+    link.setAttribute("aria-haspopup", "dialog");
+    link.addEventListener("click", (event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+        return;
+
+      const thumbnail = link.querySelector("img");
+      if (!thumbnail || dialog.open) return;
+      event.preventDefault();
+      trigger = link;
+      title.textContent = link.dataset.openImage ?? "";
+      picture.alt = thumbnail.alt;
+      picture.src = link.href;
+      picture.hidden = false;
+      dialog.showModal();
+      setZoom(false);
+      closeButton.focus({ preventScroll: true });
+    });
+  }
+
+  zoomButton.addEventListener("click", () => {
+    setZoom(zoomButton.getAttribute("aria-pressed") !== "true");
+  });
+  closeButton.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener("close", () => {
+    trigger?.focus({ preventScroll: true });
+    trigger = null;
+  });
+}
+
+export {};

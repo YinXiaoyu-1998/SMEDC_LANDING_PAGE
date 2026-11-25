@@ -1,5 +1,5 @@
 ---
-import { contact } from "../content/site";
+import { contact, registrationUrl } from "../content/site";
 ---
 
 <section class="contact-section" id="contact" aria-labelledby="contact-title">
@@ -25,10 +25,15 @@ import { contact } from "../content/site";
       </p>
     </div>
     <div class="contact-details" data-reveal>
-      <a class="button" href={`tel:${contact.phone}`}>
-        电话聊聊
-        <img class="icon" src="/assets/arrow-up-right.svg" alt="" width="20" height="20" />
-      </a>
+      <div class="contact-primary-actions">
+        <a class="button" href={`tel:${contact.phone}`}>
+          电话聊聊
+          <img class="icon" src="/assets/arrow-up-right.svg" alt="" width="20" height="20" />
+        </a>
+        <a class="button button-outline" href={registrationUrl}>
+          注册
+        </a>
+      </div>
       <a class="contact-number" href={`tel:${contact.phone}`}>
         {contact.phone}
       </a>

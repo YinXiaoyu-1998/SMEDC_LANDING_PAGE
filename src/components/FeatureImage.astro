@@ -16,6 +16,7 @@ const [width, height] = dimensions[visual.file];
   <a
     href={report ? reportSample.url : src}
     data-open-report={report || undefined}
+    data-open-image={report ? undefined : visual.caption}
     aria-label={report ? "阅读完整周报 · " + visual.caption : "查看大图 · " + visual.caption}
   >
     <img {src} alt={visual.alt} {width} {height} loading="lazy" decoding="async" />
@@ -26,7 +27,7 @@ const [width, height] = dimensions[visual.file];
       {!report && <small>{visual.source ?? "企业智脑界面 · 模拟数据"}</small>}
     </span>
     <span class="feature-image-action" aria-hidden="true">
-      {report ? "读周报 ↗" : "查看大图 ↗"}
+      {report ? "读周报 ↗" : "查看大图"}
     </span>
   </figcaption>
 </figure>

@@ -15,12 +15,18 @@
   }
 
   .hero h1 {
-    font-size: clamp(42px, 5.4vw, 77px);
+    font-size: clamp(62px, 9vw, 112px);
   }
 
-  .hero-description {
-    max-width: 46ch;
+  .hero .hero-description {
+    max-width: 23em;
+    font-size: clamp(20px, 2.35vw, 32px);
+    line-height: 1.6;
     text-wrap: pretty;
+  }
+
+  .hero-description span {
+    white-space: nowrap;
   }
 
   .feature-directory {
@@ -170,6 +176,64 @@
 
   .feature-image-action {
     color: var(--red);
+  }
+
+  body:has(.image-dialog[open]) {
+    overflow: hidden;
+  }
+
+  .image-dialog {
+    width: min(1440px, calc(100% - 24px));
+    max-width: none;
+    max-height: calc(100dvh - 24px);
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: #f5f2eb;
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  .image-dialog[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .image-dialog::backdrop {
+    background: rgb(15 13 11 / 78%);
+  }
+
+  .image-dialog-content {
+    min-height: 0;
+    overflow: auto;
+    padding: clamp(8px, 1.5vw, 22px);
+    overscroll-behavior: contain;
+  }
+
+  .image-dialog-content img {
+    margin-inline: auto;
+  }
+
+  .image-dialog-content.is-original-size img {
+    max-width: none;
+  }
+
+  .image-dialog .image-zoom {
+    width: auto;
+    padding-inline: 10px;
+    color: var(--red);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .image-dialog .image-zoom[aria-pressed="true"] {
+    background: #f5eee4;
+    border-color: var(--red);
+  }
+
+  .image-dialog-content:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: -2px;
   }
 
   .agent-example {
@@ -360,7 +424,7 @@
     }
 
     .hero h1 {
-      font-size: clamp(33px, 9.2vw, 48px);
+      font-size: clamp(54px, 13vw, 76px);
     }
 
     .hero-actions {
