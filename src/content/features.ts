@@ -49,8 +49,8 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           image("report-quadrant.webp", "门店四象限", "按增长和经营表现对照门店分布的四象限"),
           image(
             "report-attribution.webp",
-            "档口与菜品归因",
-            "从门店收入变化追到档口、基础分类和代表菜品"
+            "档口归因的数据说明",
+            "新版周报说明本期可用数据与档口归因的覆盖范围"
           )
         ]
       },
