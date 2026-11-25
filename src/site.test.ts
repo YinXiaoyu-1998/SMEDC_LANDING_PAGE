@@ -14,6 +14,15 @@ describe("public marketing page", () => {
     expect(html).toContain("<title>企业智脑｜生意在店里，功夫在细处</title>");
     expect(html).toContain('property="og:title" content="企业智脑｜生意在店里，功夫在细处"');
     expect(html).toContain('aria-label="企业智脑首页"');
+    expect(html).toMatch(/<h1\s+id="hero-title"[^>]*>\s*企业智脑\s*<\/h1>/);
+    const registerLinks = html.match(
+      /href="https:\/\/app\.smedatacenter\.xyz\/register"[^>]*>\s*注册/g
+    );
+    expect(registerLinks).toHaveLength(2);
+    expect(html).toMatch(
+      /<a\b[^>]*href="\/assets\/ledger-real-sample\.webp"[^>]*data-open-image="每日台账成品节选"/
+    );
+    expect(html).toMatch(/<dialog\b[^>]*id="image-dialog"/);
     expect(html).toContain('href="tel:18514577162"');
     expect(html).toContain('href="mailto:consyinxy@gmail.com?subject=');
     expect(html).toContain('href="/guides/automation-user-guide.html"');

@@ -1,5 +1,5 @@
 ---
-import { navigation } from "../content/site";
+import { navigation, registrationUrl } from "../content/site";
 
 const path = Astro.url.pathname;
 const isHome = path === "/" || path.endsWith("/index.html");
@@ -18,6 +18,9 @@ const homeHref = prefix + "#main";
       {links.map((item) => (
         <a href={item.href}>{item.label}</a>
       ))}
+      <a class="registration-link" href={registrationUrl}>
+        注册
+      </a>
     </nav>
   </div>
   <div class="reading-progress" aria-hidden="true"></div>

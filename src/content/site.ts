@@ -1,3 +1,5 @@
+export const registrationUrl = "https://app.smedatacenter.xyz/register";
+
 export const navigation = [
   { href: "#features", label: "功能" },
   { href: "#combined-work", label: "综合应用" },

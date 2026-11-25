@@ -153,10 +153,10 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
             "台账 PDF 下载中心的门店日期筛选和查询结果"
           ),
           image(
-            "ledger-document.webp",
+            "ledger-real-sample.webp",
             "每日台账成品节选",
-            "以模拟收货记录生成的台账 PDF 中的净羊肉进货数量",
-            "台账 PDF · 模拟数据"
+            "从实际门店台账制作的脱敏 PDF 截图，展示收货单号、食品、规格、金额、供货单位等 11 列",
+            "台账 PDF · 脱敏样例"
           )
         ]
       },
