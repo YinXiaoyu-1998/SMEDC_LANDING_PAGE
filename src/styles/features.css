@@ -128,6 +128,7 @@
 
   .feature-image {
     min-width: 0;
+    position: relative;
   }
 
   .feature-image a {
@@ -140,6 +141,12 @@
 
   .feature-image a:hover {
     border-color: #947d68;
+  }
+
+  .feature-image a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
   }
 
   .feature-image img {
