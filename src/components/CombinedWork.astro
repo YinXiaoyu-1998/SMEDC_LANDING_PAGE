@@ -33,10 +33,7 @@ const applications = [
   <div class="container">
     <div class="combined-lead">
       <h2 id="combined-title">把不同来源的资料放在一起，能回答哪些问题？</h2>
-      <p>
-        营业报表里有收入，评价里有顾客原话，巡检表里有现场记录。资料归集到企业智脑后，员工可以让自己的
-        Agent 按权限取用同一家门店、同一时段的记录，一起分析。
-      </p>
+      <p>智能体可以按权限结合不同来源的数据，分析同一家门店、同一时段的经营问题。</p>
     </div>
     <ul class="combined-applications">
       {applications.map(({ question, sources, result }) => (
@@ -63,9 +60,8 @@ const applications = [
           visual={{
             kind: "image",
             file: "ledger-document.webp",
-            caption: "模拟门店收货台账节选",
-            alt: "示例东城店净羊肉收货台账 PDF",
-            source: "台账 PDF · 模拟数据"
+            caption: "净羊肉收货记录",
+            alt: "示例东城店净羊肉收货台账 PDF"
           }}
         />
         <AgentExample
@@ -74,8 +70,7 @@ const applications = [
             caption: "按门店补货线判断",
             question: "上周日收档盘了 12 斤羊肉，补货线是 20 斤。帮我算算这周还剩多少？",
             answer:
-              "本周预计还剩 12 斤，低于补货线 8 斤。建议今天收档先盘点实物，再联系供应商安排补货。",
-            source: "示例东城店 · 模拟数据"
+              "本周预计还剩 12 斤，低于补货线 8 斤。建议今天收档先盘点实物，再联系供应商安排补货。"
           }}
         />
       </div>
@@ -103,10 +98,7 @@ const applications = [
         期初 12 斤 ＋ 收货 100 斤 − 理论耗用 100 斤 <strong>＝ 预计余量 12 斤</strong>
       </p>
       <p class="stock-note">
-        先核对同店同周的收货记录、数量单位及适用配方。遇到缺日、单位不清或门店配方待确认时，先列出待核对项。套餐按实际售出的子菜计入，每份只算一次。
-      </p>
-      <p class="stock-note">
-        示例假设只有这两道菜使用该原料，期间无调拨、退货、报损或其他领用。期初数据缺失时，可以先核对期间净变化。订货量还要结合到货时间和后续需求。
+        本例假设羊肉只用于这两道菜，期间无调拨、退货、报损或其他领用。实际估算时需核对同店同周的收货、单位和配方，套餐子菜只计一次。期初盘点缺失时只能先核对净变化。
       </p>
     </div>
   </div>

@@ -26,7 +26,10 @@ describe("public marketing page", () => {
     expect(html).toContain('href="tel:18514577162"');
     expect(html).toContain('href="mailto:consyinxy@gmail.com?subject=');
     expect(html).toContain('href="/guides/automation-user-guide.html"');
-    expect(html).toContain("查看详细步骤");
+    expect(html).toContain("查看定时任务指南");
+    expect(html).not.toContain("企业智脑界面 · 模拟数据");
+    expect(html).not.toContain("完全 AI 原生接入示意 · 登录由您确认");
+    expect(html).not.toContain("营业报表里有收入");
     expect(html).toContain('id="report-dialog"');
     const heroReportLink = html.match(/<a\b([^>]+)>\s*读一份完整周报\s*<\/a>/)?.[1];
     expect(heroReportLink).toContain('href="/samples/weekly-report.html"');
@@ -110,6 +113,7 @@ describe("public marketing page", () => {
     expect(guide.match(/class="route-panel"/g)).toHaveLength(3);
     expect(guide.match(/class="prompt"/g)).toHaveLength(20);
     expect(guide).toContain("https://smedatacenter.xyz/guides/automation-user-guide.html");
+    expect(guide).toContain("本指南适用于 macOS 上的 Codex 定时任务");
     expect(guide).not.toContain("SME_DATA_CENTER");
     expect(guide).toContain('src="/assets/automation-guide-hero.webp"');
     expect(guide).toContain('src="/assets/automation-guide-handover.webp"');

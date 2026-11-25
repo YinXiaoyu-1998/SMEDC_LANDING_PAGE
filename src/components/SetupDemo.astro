@@ -8,22 +8,17 @@ const markup =
 
 <figure class="setup-demo-block" aria-labelledby="setup-demo-title">
   <div class="setup-demo-heading">
-    <div class="setup-demo-intro">
-      <h3 id="setup-demo-title">安装与配置演示</h3>
-      <p>复制安装请求，交给您使用的 Agent。</p>
-    </div>
+    <h3 id="setup-demo-title">安装与配置演示</h3>
     <button type="button" id="copy-setup-prompt" class="setup-copy-button" hidden>
       复制安装请求
     </button>
   </div>
   <Fragment set:html={markup} />
   <p class="visually-hidden">
-    安装示意：企业智脑完全 AI 原生，全面支持主流 Agent
-    智能体。向您熟悉的智能体提出安装核心与配套技能、配置 MCP 的请求。
-    智能体读取官方说明，核对环境，安装技能并检查连接配置。完成登录后，即可查询资料和分析经营数据。
+    向您使用的智能体发送安装请求。智能体核对环境、安装配套技能并配置 MCP 连接。
   </p>
-  <figcaption class="setup-demo-footer">
-    <div class="setup-demo-controls" data-demo-playback hidden>
+  <div class="setup-demo-footer" data-demo-playback hidden>
+    <div class="setup-demo-controls">
       <button type="button" id="setup-play">
         播放演示
       </button>
@@ -37,8 +32,7 @@ const markup =
         aria-label="安装演示进度"
       />
     </div>
-    <p class="setup-demo-caption">完全 AI 原生接入示意 · 登录由您确认</p>
-  </figcaption>
+  </div>
   <p class="setup-demo-status" id="setup-demo-status" role="status" aria-live="polite"></p>
 </figure>
 

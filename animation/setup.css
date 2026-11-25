@@ -73,15 +73,6 @@
   border-radius: 5px;
   font-size: 14px;
 }
-.setup-other-task {
-  font-size: 13px;
-  color: var(--setup-muted);
-}
-.setup-sidebar-bottom {
-  margin-top: auto;
-  font-size: 12px;
-  color: var(--setup-muted);
-}
 .setup-main {
   display: flex;
   flex: 1;
@@ -97,10 +88,6 @@
   gap: 12px;
   font-size: 14px;
   flex-shrink: 0;
-}
-.setup-demo-label {
-  color: var(--setup-muted);
-  font-size: 12px;
 }
 .setup-conversation {
   width: 100%;
@@ -139,6 +126,11 @@
 .setup-agent-intro p {
   font-size: 16px;
   color: var(--setup-ink);
+}
+.setup-agent-intro span {
+  color: var(--setup-muted);
+  font-size: 12px;
+  white-space: nowrap;
 }
 .setup-steps {
   list-style: none;
@@ -198,9 +190,6 @@
   .setup-titlebar {
     padding: 14px 16px;
     font-size: 14px;
-  }
-  .setup-demo-label {
-    font-size: 11px;
   }
   .setup-conversation {
     padding: 18px 16px 10px;
