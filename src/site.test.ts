@@ -64,6 +64,10 @@ describe("public marketing page", () => {
       const figures = feature[2].match(/<figure\b/g) ?? [];
       expect(figures.length).toBeGreaterThanOrEqual(1);
       expect(figures.length).toBeLessThanOrEqual(3);
+      for (const match of feature[2].matchAll(/<img\b[^>]*\bsrc="\/assets\/([a-z-]+\.webp)"/g)) {
+        const screenshot = await readFile(join(output, "assets", match[1]));
+        expect(screenshot.subarray(8, 12).toString()).toBe("WEBP");
+      }
     }
     const combination = sections.find((section) => section[1] === "combined-work")?.[2] ?? "";
     for (const text of [

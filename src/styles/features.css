@@ -156,7 +156,12 @@
     color: #59534b;
   }
 
-  .feature-image figcaption span:last-child {
+  .feature-image figcaption small {
+    display: block;
+    font-size: 12px;
+  }
+
+  .feature-image-action {
     color: var(--red);
   }
 

@@ -3,6 +3,7 @@ export type FeatureImage = {
   file: string;
   caption: string;
   alt: string;
+  source?: string;
 };
 
 export type AgentExample = {
@@ -20,11 +21,12 @@ type Feature = {
   visuals: (FeatureImage | AgentExample)[];
 };
 
-const image = (file: string, caption: string, alt: string): FeatureImage => ({
+const image = (file: string, caption: string, alt: string, source?: string): FeatureImage => ({
   kind: "image",
   file,
   caption,
-  alt
+  alt,
+  source
 });
 
 const example = (
@@ -141,7 +143,8 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           image(
             "ledger-document.webp",
             "每日台账成品节选",
-            "以模拟收货记录生成的台账 PDF 中的净羊肉进货数量"
+            "以模拟收货记录生成的台账 PDF 中的净羊肉进货数量",
+            "台账 PDF · 模拟数据"
           )
         ]
       },
@@ -154,7 +157,8 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           image(
             "reviews-workbook.webp",
             "评价与拟回复审阅表",
-            "模拟顾客评价与对应处理状态及商家回复草稿"
+            "模拟顾客评价与对应处理状态及商家回复草稿",
+            "评价审阅表 · 模拟数据"
           ),
           example(
             "明确发布范围",
