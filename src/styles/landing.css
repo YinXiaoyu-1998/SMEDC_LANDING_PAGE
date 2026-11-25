@@ -324,9 +324,6 @@
   .section-lead h2 {
     font-size: clamp(36px, 4.8vw, 60px);
   }
-  .section-lead > p {
-    margin-top: 20px;
-  }
   .service-choices {
     padding-top: 10px;
   }
@@ -376,9 +373,6 @@
   .choice-content {
     padding-bottom: 24px;
     max-width: 60ch;
-  }
-  .choice-content p {
-    font-size: 15px;
   }
   .choice-content .text-link {
     margin-top: 12px;
@@ -443,9 +437,6 @@
   }
   .contact-inner p {
     color: #e1d9d0;
-  }
-  .contact-inner > div > p {
-    margin-top: 20px;
   }
   .contact-details {
     display: flex;
@@ -640,9 +631,6 @@
     .faq-grid {
       gap: 48px;
     }
-    .section-lead > p {
-      font-size: 14px;
-    }
   }
   @media (max-width: 760px) {
     .container {
@@ -720,9 +708,6 @@
     .section-lead h2 {
       font-size: 33px;
     }
-    .section-lead > p {
-      margin-top: 16px;
-    }
     .service-choices {
       padding-top: 0;
     }
@@ -730,9 +715,6 @@
       font-size: 24px;
     }
     .choice-description {
-      font-size: 14px;
-    }
-    .choice-content p {
       font-size: 14px;
     }
     .faq-grid {
@@ -755,9 +737,6 @@
     }
     .contact-inner h2 {
       font-size: 32px;
-    }
-    .contact-inner > div > p {
-      font-size: 14px;
     }
     .footer-inner {
       flex-wrap: wrap;
@@ -870,15 +849,8 @@
     gap: 24px;
     margin-bottom: 22px;
   }
-  .setup-demo-intro {
-    max-width: 62ch;
-  }
   .setup-demo-heading h3 {
     font-size: 30px;
-  }
-  .setup-demo-heading p {
-    font-size: 15px;
-    margin: 8px 0 0;
   }
   .setup-copy-button {
     display: inline-flex;
@@ -941,10 +913,6 @@
     outline: 2px solid var(--red);
     outline-offset: 4px;
   }
-  .setup-demo-caption {
-    margin: 0 0 0 auto;
-    font-size: 12px;
-  }
   .setup-demo-status {
     font-size: 13px;
     min-height: 24px;
@@ -956,10 +924,6 @@
     }
     .setup-demo-heading h3 {
       font-size: 27px;
-    }
-    .setup-demo-heading p {
-      margin-top: 8px;
-      font-size: 14px;
     }
     .setup-copy-button {
       width: 100%;
@@ -973,10 +937,6 @@
     }
     .setup-demo-controls input {
       width: 100px;
-    }
-    .setup-demo-caption {
-      width: 100%;
-      margin-left: 0;
     }
   }
 }

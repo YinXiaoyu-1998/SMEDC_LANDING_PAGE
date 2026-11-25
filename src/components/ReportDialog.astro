@@ -6,7 +6,7 @@ import { reportSample } from "../content/features";
   <div class="reader-toolbar">
     <div>
       <h2 id="report-dialog-title">多店经营周报</h2>
-      <p>{reportSample.period} · 脱敏示例</p>
+      <p>{reportSample.period}</p>
     </div>
     <div class="reader-actions">
       <a href={reportSample.url} target="_blank" rel="noopener">
@@ -24,7 +24,7 @@ import { reportSample } from "../content/features";
     </p>
     <iframe
       id="report-frame"
-      title="多店经营周报脱敏示例"
+      title="多店经营周报"
       data-src={reportSample.url}
       sandbox="allow-scripts"
       referrerpolicy="no-referrer"

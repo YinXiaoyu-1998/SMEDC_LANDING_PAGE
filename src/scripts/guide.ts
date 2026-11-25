@@ -61,8 +61,8 @@ document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => 
     button.textContent = copied ? "已复制" : "文字已选中";
     if (copyStatus) {
       copyStatus.textContent = copied
-        ? "已复制。请切到本步标明电脑的 Codex，粘贴并发送。"
-        : "未能自动复制。文字已选中，请按 Command+C 复制，再粘贴到 Codex。";
+        ? "已复制。请粘贴到本步骤指定电脑上的智能体。"
+        : "文字已选中。按 Command+C 复制后，粘贴到智能体。";
     }
   });
 });

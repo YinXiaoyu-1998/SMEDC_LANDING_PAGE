@@ -8,17 +8,13 @@ interface Props {
 const { example } = Astro.props;
 ---
 
-<figure class="agent-example">
-  <figcaption>
-    <span>Agent 使用示例</span>
-    <strong>{example.caption}</strong>
-  </figcaption>
+<figure class="agent-example" aria-label="智能体对话示例">
+  <figcaption>{example.caption}</figcaption>
   <div class="agent-example-thread">
     <p class="agent-example-question">{example.question}</p>
     <p class="agent-example-answer">
-      <span>Agent</span>
+      <span>智能体</span>
       {example.answer}
     </p>
-    {example.source && <p class="agent-example-source">{example.source}</p>}
   </div>
 </figure>

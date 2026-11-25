@@ -41,13 +41,10 @@ export const guideRoutes = guide.routes;
 export const guideCopy = {
   eyebrow: "先选你要做的事",
   titleLines: ["你想怎么", "使用定时任务？"],
-  lead: "选一条路线，把提示词发给对应电脑的 Codex。",
+  lead: "选择首次设置、同机更新或换机接管。本指南适用于 macOS 上的 Codex 定时任务。",
   routesLabel: "三条路线 · 按现在的情况选一条",
   note: "已有其他电脑执行同类任务，请选 C。同一台电脑尽量在同一段聊天中继续。",
   heroImage: "/assets/automation-guide-hero.webp",
   heroAlt: "闭店后的餐馆里，经理在笔记本前核对当天的定时任务。",
-  footerNotes: [
-    "企业智脑 · 复制提示词后，发给本步标明电脑的 Codex；核对完成标志，再继续下一步。",
-    "更新：2026-11-14。适用于 macOS Codex；版本与操作以当前官方技能及实际检查结果为准。"
-  ]
+  footerNotes: ["版本与操作以官方技能和实际检查结果为准。"]
 };

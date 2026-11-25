@@ -10,7 +10,6 @@ export type FeatureImage = {
   file: keyof typeof dimensions;
   caption: string;
   alt: string;
-  source?: string;
 };
 
 export type AgentExample = {
@@ -18,7 +17,6 @@ export type AgentExample = {
   caption: string;
   question: string;
   answer: string;
-  source?: string;
 };
 
 type Feature = {
@@ -28,25 +26,19 @@ type Feature = {
   visuals: (FeatureImage | AgentExample)[];
 };
 
-const image = (
-  file: FeatureImage["file"],
-  caption: string,
-  alt: string,
-  source?: string
-): FeatureImage => ({
+const image = (file: FeatureImage["file"], caption: string, alt: string): FeatureImage => ({
   kind: "image",
   file,
   caption,
-  alt,
-  source
+  alt
 });
 
-const example = (
-  caption: string,
-  question: string,
-  answer: string,
-  source?: string
-): AgentExample => ({ kind: "agent", caption, question, answer, source });
+const example = (caption: string, question: string, answer: string): AgentExample => ({
+  kind: "agent",
+  caption,
+  question,
+  answer
+});
 
 export const featureGroups: { title: string; features: Feature[] }[] = [
   {
@@ -70,13 +62,12 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
         id: "operating-data",
         title: "经营数据归集与查询",
         description:
-          "按门店和营业日归集营业、菜品销售、店内订单和平台外卖订单，需要时用 Agent 查询和对比。",
+          "按门店和营业日归集营业、菜品销售、店内订单和平台外卖订单，需要时用智能体查询和对比。",
         visuals: [
           example(
             "从收入追到单量和客单价",
             "示例东城店这周午市收入下降，是订单少了还是客单价低了？",
-            "对比这家店本周和上周同一组营业日的午市，营业汇总从 18,360 元降到 16,320 元。店内少了 30 单（240→210），单均仍是 68 元。平台外卖收入两周都是 2,040 元。菜品销量里，午市套餐从 62 份降到 45 份，可优先复盘。",
-            "营业汇总、店内订单、菜品销量、平台外卖订单 · 模拟数据"
+            "对比这家店本周和上周同一组营业日的午市，营业汇总从 18,360 元降到 16,320 元。店内少了 30 单（240→210），单均仍是 68 元。平台外卖收入两周都是 2,040 元。菜品销量里，午市套餐从 62 份降到 45 份，可优先复盘。"
           )
         ]
       },
@@ -88,14 +79,12 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           example(
             "核对总部套餐组成",
             "双人午市套餐里，主菜可以选什么？",
-            "主菜二选一：炖羊肉（小份）或烤鸡腿（单份）。时蔬是固定子菜。",
-            "总部菜品和套餐目录 · 模拟数据"
+            "主菜二选一：炖羊肉（小份）或烤鸡腿（单份）。时蔬是固定子菜。"
           ),
           example(
             "核对实际售出子菜",
             "示例东城店上周这个套餐实际选了什么？",
-            "炖羊肉小份 18 份，归热菜档口。烤鸡腿单份 12 份，归烧烤档口。",
-            "同店套餐子菜销售与部门归属 · 模拟数据"
+            "炖羊肉小份 18 份，归热菜档口。烤鸡腿单份 12 份，归烧烤档口。"
           )
         ]
       },
@@ -107,8 +96,7 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           example(
             "核对本店适用的配方",
             "示例东城店的羊肉串，单份需要多少净羊肉？",
-            "羊肉串（单份）标准配方为净羊肉 75 克。该店这份记录没有适用的例外配方，可按每份 75 克估算。",
-            "羊肉串单份成本卡 · 模拟数据"
+            "羊肉串（单份）标准配方为净羊肉 75 克。该店这份记录没有适用的例外配方，可按每份 75 克估算。"
           )
         ]
       }
@@ -121,7 +109,7 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
         id: "inspections",
         title: "门店巡检与反馈",
         description:
-          "总部维护检查标准，门店记录状态、评分、评价和照片，也可以让自己的 Agent 根据现场证据填表并提出复查建议。",
+          "总部维护检查标准，门店记录状态、评分、评价和照片，也可以让自己的智能体 根据现场证据填表并提出复查建议。",
         visuals: [
           image(
             "inspection-template.webp",
@@ -131,8 +119,7 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           example(
             "根据现场证据填报",
             "示例东城店巡检，发现两盒食材未贴标签，已补贴品名和日期。请填到冷藏柜食材标签题。",
-            "已把现场事实写入巡检记录。建议下一班交接时抽查冷藏柜标签。",
-            "店长现场记录 · 模拟数据"
+            "已把现场事实写入巡检记录。建议下一班交接时抽查冷藏柜标签。"
           ),
           image(
             "inspection-sheet.webp",
@@ -155,8 +142,7 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           image(
             "ledger-real-sample.webp",
             "每日台账成品节选",
-            "从实际门店台账制作的脱敏 PDF 截图，展示收货单号、食品、规格、金额、供货单位等 11 列",
-            "台账 PDF · 脱敏样例"
+            "从实际门店台账制作的脱敏 PDF 截图，展示收货单号、食品、规格、金额、供货单位等 11 列"
           )
         ]
       },
@@ -169,14 +155,12 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           image(
             "reviews-workbook.webp",
             "评价与拟回复审阅表",
-            "模拟顾客评价与对应处理状态及商家回复草稿",
-            "评价审阅表 · 模拟数据"
+            "模拟顾客评价与对应处理状态及商家回复草稿"
           ),
           example(
             "明确发布范围",
             "我已核对审阅表。只发布示例东城店这次明确通过的两条回复，发布后帮我核对。",
-            "我会按已确认的门店和两条记录处理，并把平台核对结果写回审阅记录。",
-            "评价处理任务 · 模拟数据"
+            "我会按已确认的门店和两条记录处理，并把平台核对结果写回审阅记录。"
           )
         ]
       }
@@ -194,8 +178,7 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           example(
             "从回答回到原文",
             "闭店时，晚班领班要核对什么？",
-            "核对冷藏柜标签、留存交接记录并签字。原文写道：「晚班领班检查冷藏备料的品名、日期与保质期限，并在交接表签字。」",
-            "《门店闭店与交接 SOP》· 模拟原文"
+            "核对冷藏柜标签、留存交接记录并签字。《门店闭店与交接 SOP》写道：「晚班领班检查冷藏备料的品名、日期与保质期限，并在交接表签字。」"
           )
         ]
       },
@@ -240,9 +223,9 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
       },
       {
         id: "integrations",
-        title: "用自己的 Agent 接入",
+        title: "用自己的智能体接入",
         description:
-          "从熟悉的 Agent 发起安装，再在企业智脑网页确认登录，按本人权限查询资料与处理工作。",
+          "从常用的智能体发起安装，再在企业智脑网页确认登录，按本人权限查询资料与处理工作。",
         visuals: [image("agent-login.webp", "企业智脑登录确认", "企业智脑第一方设备授权确认页面")]
       }
     ]

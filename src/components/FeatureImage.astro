@@ -22,10 +22,7 @@ const [width, height] = dimensions[visual.file];
     <img {src} alt={visual.alt} {width} {height} loading="lazy" decoding="async" />
   </a>
   <figcaption>
-    <span>
-      {visual.caption}
-      {!report && <small>{visual.source ?? "企业智脑界面 · 模拟数据"}</small>}
-    </span>
+    <span>{visual.caption}</span>
     <span class="feature-image-action" aria-hidden="true">
       {report ? "读周报 ↗" : "查看大图"}
     </span>

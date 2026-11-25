@@ -65,8 +65,7 @@ if (root) {
         try {
           await navigator.clipboard.writeText(prompt);
           if (demoStatus) {
-            demoStatus.textContent =
-              "安装请求已复制，发给您熟悉的主流 Agent 智能体，即可开始 AI 原生接入。";
+            demoStatus.textContent = "安装请求已复制，可发给您使用的智能体。";
           }
         } catch {
           timeline.progress(1).pause();
