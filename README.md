@@ -15,10 +15,10 @@ npm run preview
 
 检查：`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`。`npm test` 会先构建再做输出检查；另有发布/失败恢复测试。完整发布说明见 [部署手册](deploy/README.md)。
 
-- `src/pages/index.astro` + `src/components/`：首页按 Hero、周报、服务方式、日常工作、接入、FAQ 与联系拆成组件；无 JavaScript 时全部业务说明仍可读，周报通过普通链接打开。
+- `src/pages/index.astro` + `src/components/`：首页由首屏、四组功能目录、12 个功能、跨数据总结、服务方式、FAQ 与联系组成。无 JavaScript 时全部业务说明仍可读，周报可通过普通链接打开。
 - `src/layouts/BaseLayout.astro` + `SiteHeader.astro` + `SiteFooter.astro`：所有 Astro 页面共用 head、favicon、品牌栏、导航、页脚与阅读进度，新页面放进 `src/pages/` 自动继承。
 - `src/styles/landing.css` / `src/styles/guide.css`：深墨色、纸白与砖红；两个样式文件分别放在 `landing` / `guide` 级联层，手机布局、减少动态效果和打印样式齐全。
-- `src/scripts/`：首屏入场、滚动渐入、轻微视差、阅读进度、工作切换、服务展开、周报阅读层、联系方式复制、安装示意与指南路线切换。全部为渐进增强，Astro 只输出外链脚本。
+- `src/scripts/`：首屏入场、滚动渐入、轻微视差、阅读进度、服务展开、周报阅读层、联系方式复制、安装示意与指南路线切换。全部为渐进增强，Astro 只输出外链脚本。
 - `public/assets/hero.webp`：2026-10-26 为用户选定视觉生成的餐馆场景；人物不是客户。周报缩略图来自脱敏报告的浏览器渲染；logo 沿用既有品牌资产。
 - `public/samples/weekly-report.*`：用户提供并授权作为公开范例的周报，企业名、全部分店名及嵌入数据中的对应标识已匿名化；经营数字、期间与分析逻辑保留。原始未脱敏文件不得入库。HTML 保留生成格式，样式和执行脚本外置以适配 CSP。后续替换样例时须重新检查正文、嵌入数据和缩略图。
 
@@ -36,7 +36,7 @@ npm run preview
 
 ## 新用户定时任务指南
 
-首页在「完全 AI 原生接入」示意下方用一块深色入口介绍定时任务指南：它面向第一次设置定时任务、升级这台电脑的旧任务、从旧电脑换到新电脑三种情况，点击「查看详细步骤」进入独立指南页。
+首页的「企业自动任务」板块提供「查看详细步骤」入口。定时任务指南覆盖第一次设置定时任务、升级这台电脑的旧任务和从旧电脑换到新电脑三种情况。
 
 指南页由 `src/pages/guides/automation-user-guide.astro` 生成，和首页使用同一个 `BaseLayout`、品牌栏、导航与页脚。三条路线、步骤和 20 段提示词存放在 `src/content/guide.json`，由 `src/components/guide/` 渲染；`src/scripts/guide.ts` 只负责路线切换与复制提示词。指南内容由本仓库维护，不再从 SME_DATA_CENTER 同步。首次设置、同机更新、换机分别为 3、3、5 步；只在业务确认和设备切换处分步，安装与执行细节委托官方 `smedc-mcp` / `smedc-workflows`。核对行为时读取官方默认分支的 `installation.md`、`migration.md`、`invocation.md`；不把页面更新日期当作安装版本锁。
 

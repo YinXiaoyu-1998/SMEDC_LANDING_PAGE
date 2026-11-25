@@ -1,24 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import ReportSection from "../components/ReportSection.astro";
+import Features from "../components/Features.astro";
+import CombinedWork from "../components/CombinedWork.astro";
 import ReportDialog from "../components/ReportDialog.astro";
 import Workflow from "../components/Workflow.astro";
-import Scenarios from "../components/Scenarios.astro";
 import Faq from "../components/Faq.astro";
 import Contact from "../components/Contact.astro";
+import "../styles/features.css";
 ---
 
 <BaseLayout
   title="企业智脑｜生意在店里，功夫在细处"
-  description="完全 AI 原生，全面支持主流 Agent 智能体。经营分析、采购台账、顾客评价与企业资料，自行使用或由开发者托管。"
+  description="浏览企业智脑的多店经营周报、巡检、收货台账、顾客评价和总部管理功能，了解如何用自己的 Agent 组合经营资料。"
   canonical="https://smedatacenter.xyz/"
-  ogDescription="完全 AI 原生，全面支持主流 Agent 智能体。先看一份门店经营周报，再聊聊适合您的工作方式。"
+  ogDescription="查看 12 项门店和总部功能、真实界面和一份完整的多店经营周报。"
 >
   <Hero />
-  <ReportSection />
+  <Features />
+  <CombinedWork />
   <Workflow />
-  <Scenarios />
   <Faq />
   <Contact />
   <ReportDialog />

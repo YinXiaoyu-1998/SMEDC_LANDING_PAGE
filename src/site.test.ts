@@ -1,3 +1,4 @@
+import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -18,6 +19,9 @@ describe("public marketing page", () => {
     expect(html).toContain('href="/guides/automation-user-guide.html"');
     expect(html).toContain("查看详细步骤");
     expect(html).toContain('id="report-dialog"');
+    const heroReportLink = html.match(/<a\b([^>]+)>\s*读一份完整周报\s*<\/a>/)?.[1];
+    expect(heroReportLink).toContain('href="/samples/weekly-report.html"');
+    expect(heroReportLink).toMatch(/\sdata-open-report(?:\s|=|$)/);
     expect(html).toContain('data-composition-id="smedc-setup"');
     expect(html).toContain('id="copy-setup-prompt"');
     expect(html).toContain('class="setup-copy-button"');
@@ -31,8 +35,6 @@ describe("public marketing page", () => {
     const copyIndex = html.indexOf('id="copy-setup-prompt"');
     expect(copyIndex).toBeGreaterThan(html.indexOf('class="setup-demo-heading"'));
     expect(copyIndex).toBeLessThan(html.indexOf('class="setup-demo-footer"'));
-    expect(html).toContain("data-work-panel");
-    expect(html.match(/data-work-panel/g)).toHaveLength(4);
     expect(html).toContain('class="site-header"');
     expect(html).toContain('class="site-footer"');
     expect(html).toContain("北京殷实麦家管理咨询有限责任公司");
@@ -44,6 +46,48 @@ describe("public marketing page", () => {
     expect(html).toContain('rel="icon"');
     expect(html).toContain('href="/assets/logo.png"');
     expect(html).toMatch(/<link rel="stylesheet" href="\/_astro\//);
+  });
+
+  it("links the feature directory to twelve illustrated features before the combined examples", async () => {
+    const html = await read("index.html");
+    expect(html).toMatch(/<a[^>]*href="#features"[^>]*>\s*浏览全部功能/);
+    const directory = html.match(/<nav[^>]*aria-label="功能目录"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+    const headings = [...(directory ?? "").matchAll(/href="#([a-z-]+)"/g)].map((link) => link[1]);
+    expect(headings).toHaveLength(12);
+    expect(new Set(headings).size).toBe(12);
+    const sections = [
+      ...html.matchAll(/<section[^>]*\bid="([a-z-]+)"[^>]*>([\s\S]*?)<\/section>/g)
+    ];
+    const features = sections.filter((section) => headings.includes(section[1]));
+    expect(features.map((section) => section[1])).toEqual(headings);
+    expect(features[0]?.[1]).toBe("reports");
+    const examples = html.indexOf('id="combined-work"');
+    expect(examples).toBeGreaterThan(0);
+    for (const feature of features) {
+      expect(feature.index).toBeLessThan(examples);
+      const content = feature[2] ?? "";
+      const figures = content.match(/<figure\b/g) ?? [];
+      expect(figures.length).toBeGreaterThanOrEqual(1);
+      expect(figures.length).toBeLessThanOrEqual(3);
+      for (const [, file] of content.matchAll(/<img\b[^>]*\bsrc="\/assets\/([a-z-]+\.webp)"/g)) {
+        assert(file, "Expected a WebP filename");
+        const screenshot = await readFile(join(output, "assets", file));
+        expect(screenshot.subarray(8, 12).toString()).toBe("WEBP");
+      }
+    }
+    const combination = sections.find((section) => section[1] === "combined-work")?.[2] ?? "";
+    for (const text of [
+      "午市收入为什么变了",
+      "下次巡检",
+      "这周要补羊肉吗",
+      "预计余量",
+      "低于补货线 8 斤"
+    ]) {
+      expect(combination).toContain(text);
+    }
+    expect(combination).toContain('href="#ledger"');
+    expect(combination).toContain('href="#cost-cards"');
+    expect(combination).toContain('href="#operating-data"');
   });
 
   it("ships the guide with every prompt and the shared header and footer", async () => {
@@ -74,11 +118,19 @@ describe("public marketing page", () => {
     expect(await readFile(join(output, "assets/automation-guide-handover.webp"))).toBeTruthy();
     expect(JSON.parse(await read("version.json")).revision).toMatch(/^[a-f0-9]{16}$/);
     const report = await read("samples/weekly-report.html");
-    expect(report).toContain("某餐饮企业");
-    expect(report).toContain('rel="icon"');
+    const reportMarkers = [
+      "某餐饮企业",
+      "经营顾问反馈",
+      "明星与问题门店四象限",
+      "52 周",
+      "2026-11-16",
+      'rel="icon"'
+    ];
+    expect(reportMarkers.filter((marker) => !report.includes(marker))).toEqual([]);
     const reportFrame = (await read("index.html")).match(/<iframe\b[^>]*>/)?.[0];
     expect(reportFrame).toContain('sandbox="allow-scripts"');
     expect(reportFrame).toContain('data-src="/samples/weekly-report.html"');
+    expect(reportFrame).not.toMatch(/\ssrc=/);
   });
 
   it("keeps the guide content structured and complete", () => {

@@ -1,0 +1,96 @@
+---
+import { agents } from "../content/site";
+import { featureGroups, reportSample } from "../content/features";
+import AgentExample from "./AgentExample.astro";
+import FeatureImage from "./FeatureImage.astro";
+import SetupDemo from "./SetupDemo.astro";
+---
+
+<div class="features">
+  <section class="feature-directory" id="features" aria-labelledby="features-title">
+    <div class="container">
+      <h2 id="features-title">企业智脑功能</h2>
+      <nav aria-label="功能目录">
+        {featureGroups.map((group) => (
+          <div class="feature-directory-group">
+            <h3>{group.title}</h3>
+            <ul>
+              {group.features.map((feature) => (
+                <li>
+                  <a href={"#" + feature.id}>{feature.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </div>
+  </section>
+  {featureGroups.map((group) => (
+    <div class="container feature-group" role="group" aria-label={group.title}>
+      <h2 class="feature-group-title">{group.title}</h2>
+      {group.features.map((feature) => {
+        const isReport = feature.id === "reports";
+        const isIntegration = feature.id === "integrations";
+        return (
+          <section class="feature" id={feature.id} aria-labelledby={feature.id + "-title"}>
+            <div class="feature-copy">
+              <h3 id={feature.id + "-title"}>{feature.title}</h3>
+              <p>{feature.description}</p>
+              {isReport && (
+                <>
+                  <p class="feature-detail">{reportSample.period} · 脱敏示例</p>
+                  <a class="text-link" href={reportSample.url} data-open-report>
+                    阅读完整周报
+                    <img
+                      class="icon"
+                      src="/assets/arrow-up-right.svg"
+                      alt=""
+                      width="20"
+                      height="20"
+                    />
+                  </a>
+                </>
+              )}
+              {feature.id === "automation" && (
+                <>
+                  <p class="feature-detail">定时任务指南包括首次设置、同机升级和换机接管。</p>
+                  <a class="text-link" href="/guides/automation-user-guide.html">
+                    查看详细步骤
+                    <img
+                      class="icon"
+                      src="/assets/arrow-up-right.svg"
+                      alt=""
+                      width="20"
+                      height="20"
+                    />
+                  </a>
+                </>
+              )}
+              {isIntegration && (
+                <ul class="feature-agent-list" aria-label="部分可接入的 Agent">
+                  {agents.map((agent) => (
+                    <li>
+                      <img src={agent.src} width="22" height="22" alt="" loading="lazy" />
+                      {agent.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div class:list={["feature-gallery", { "feature-gallery-integration": isIntegration }]}>
+              {isIntegration && <SetupDemo />}
+              {feature.visuals.map((visual) =>
+                visual.kind === "image" ? (
+                  <FeatureImage {visual} report={isReport} />
+                ) : (
+                  <AgentExample example={visual} />
+                )
+              )}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  ))}
+</div>

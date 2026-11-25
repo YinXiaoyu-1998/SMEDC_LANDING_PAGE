@@ -1,16 +1,6 @@
-export type Scenario = {
-  key: string;
-  tab: string;
-  kicker: string;
-  title: string[];
-  body: string;
-  outcome: string;
-  link: { href: string; label: string; openReport?: boolean };
-};
-
 export const navigation = [
-  { href: "#reports", label: "经营成果" },
-  { href: "#workflow", label: "服务方式" },
+  { href: "#features", label: "功能" },
+  { href: "#combined-work", label: "综合应用" },
   { href: "#contact", label: "联系" }
 ];
 
@@ -20,45 +10,6 @@ export const agents = [
   { name: "豆包工作", src: "/assets/agent-doubao-work.png" },
   { name: "Qoder", src: "/assets/agent-qoder.png" },
   { name: "Codex", src: "/assets/agent-codex.png" }
-];
-
-export const scenarios: Scenario[] = [
-  {
-    key: "analysis",
-    tab: "经营分析",
-    kicker: "经营分析",
-    title: ["哪里变好了，", "哪里要多看一眼。"],
-    body: "把收银、外卖与门店经营资料放到一起看。从企业到门店，从餐段到菜品，找到变化，再追到原因。",
-    outcome: "按日掌握经营，按周、按月复盘。把分析变成下一次经营会可以讨论的事。",
-    link: { href: "/samples/weekly-report.html", label: "看一份完整周报", openReport: true }
-  },
-  {
-    key: "ledger",
-    tab: "采购与供应链",
-    kicker: "采购与供应链",
-    title: ["每天收到的货，", "每一笔都有来处。"],
-    body: "汇集采购、收货与供应链资料，整理每日采购台账。需要核对时，找得到记录，也找得到对应的原始单据。",
-    outcome: "按门店、日期与品项查看；也能围绕您现有的采购流程，配置更多整理与核对工作。",
-    link: { href: "#contact", label: "聊聊采购与供应链" }
-  },
-  {
-    key: "reviews",
-    tab: "顾客评价",
-    kicker: "顾客评价",
-    title: ["听见顾客的话，", "也把回应做好。"],
-    body: "收集顾客评价，准备贴合门店语气的回复。选择先审核再发布，或按约定范围配置自动处理，把顾客反复提到的问题留给经营复盘。",
-    outcome: "回复有门店的语气，反馈有后续的安排。",
-    link: { href: "#contact", label: "聊聊评价管理" }
-  },
-  {
-    key: "records",
-    tab: "企业资料",
-    kicker: "企业资料",
-    title: ["该用的资料，", "到需要它的人手里。"],
-    body: "经营报表、采购单据、流程与日常文档，集中整理、按权限使用。完全 AI 原生，全面支持主流 Agent 智能体基于您的企业资料工作，重要结论能追到来源。",
-    outcome: "从现有资料开始，按需接入更多数据与业务流程。",
-    link: { href: "#contact", label: "聊聊资料接入" }
-  }
 ];
 
 export const faqs = [
