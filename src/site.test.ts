@@ -14,7 +14,7 @@ describe("public marketing page", () => {
     expect(html).toContain("<title>企业智脑｜生意在店里，功夫在细处</title>");
     expect(html).toContain('property="og:title" content="企业智脑｜生意在店里，功夫在细处"');
     expect(html).toContain('aria-label="企业智脑首页"');
-    expect(html).toMatch(/<h1\s+id="hero-title"[^>]*>\s*企业智脑\s*<\/h1>/);
+    expect(html).toMatch(/<h1\s+id="hero-title"[^>]*>\s*让你的智能体，/);
     const registerLinks = html.match(
       /href="https:\/\/app\.smedatacenter\.xyz\/register"[^>]*>\s*注册/g
     );
@@ -30,6 +30,7 @@ describe("public marketing page", () => {
     expect(html).not.toContain("setup-titlebar");
     expect(html).not.toContain("setup-composer");
     expect(html).toMatch(/<dialog\b[^>]*id="image-dialog"/);
+    expect(html).toContain("殷啸宇");
     expect(html).toContain('href="tel:18514577162"');
     expect(html).toContain('href="mailto:consyinxy@gmail.com?subject=');
     expect(html).toContain('href="/guides/automation-user-guide.html"');
@@ -67,24 +68,32 @@ describe("public marketing page", () => {
     expect(html).toMatch(/<link rel="stylesheet" href="\/_astro\//);
   });
 
-  it("links the feature directory to twelve illustrated features before the combined examples", async () => {
+  it("renders the conversation and evidence from both operating cases before the illustrated catalogue", async () => {
     const html = await read("index.html");
-    expect(html).toMatch(/<a[^>]*href="#features"[^>]*>\s*浏览全部功能/);
-    const directory = html.match(/<nav[^>]*aria-label="功能目录"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
-    const headings = [...(directory ?? "").matchAll(/href="#([a-z-]+)"/g)].map((link) => link[1]);
-    expect(headings).toHaveLength(12);
-    expect(new Set(headings).size).toBe(12);
-    const sections = [
-      ...html.matchAll(/<section[^>]*\bid="([a-z-]+)"[^>]*>([\s\S]*?)<\/section>/g)
+    const flow = html.indexOf('id="combined-work"');
+    const catalogue = html.indexOf('id="features"');
+    expect(flow).toBeGreaterThan(html.indexOf('id="hero-title"'));
+    expect(catalogue).toBeGreaterThan(flow);
+    expect(html).toMatch(/href="#combined-work"[^>]*>\s*看它怎么算/);
+    const diagram = html.slice(flow, catalogue);
+    for (const fact of [
+      "records-beef",
+      "records-labor",
+      "理论耗用 48 公斤",
+      "备足 27 公斤",
+      "12.5%",
+      "每工时 135 → 105 元",
+      "客户原评",
+      "本轮自动回复"
+    ]) {
+      expect(diagram).toContain(fact);
+    }
+    const entries = [
+      ...html.matchAll(/<details class="feature-entry" id="([\w-]+)"[^>]*>([\s\S]*?)<\/details>/g)
     ];
-    const features = sections.filter((section) => headings.includes(section[1]));
-    expect(features.map((section) => section[1])).toEqual(headings);
-    expect(features[0]?.[1]).toBe("reports");
-    const examples = html.indexOf('id="combined-work"');
-    expect(examples).toBeGreaterThan(0);
-    for (const feature of features) {
-      expect(feature.index).toBeLessThan(examples);
-      const content = feature[2] ?? "";
+    expect(new Set(entries.map((entry) => entry[1])).size).toBe(12);
+    for (const [, , content] of entries) {
+      assert(content, "Expected feature content");
       const figures = content.match(/<figure\b/g) ?? [];
       expect(figures.length).toBeGreaterThanOrEqual(1);
       expect(figures.length).toBeLessThanOrEqual(3);
@@ -94,19 +103,22 @@ describe("public marketing page", () => {
         expect(screenshot.subarray(8, 12).toString()).toBe("WEBP");
       }
     }
-    const combination = sections.find((section) => section[1] === "combined-work")?.[2] ?? "";
-    for (const text of [
-      "午市收入为什么变了",
-      "下次巡检",
-      "这周要补羊肉吗",
-      "预计余量",
-      "低于补货线 8 斤"
-    ]) {
-      expect(combination).toContain(text);
+  });
+
+  it("shows one enrolment request and multiple rated automatic replies", async () => {
+    const html = await read("index.html");
+    const reviews = html.slice(
+      html.indexOf('class="story-result review-slip"'),
+      html.indexOf('id="combined-work"')
+    );
+    expect(reviews.match(/把万达店加入自动回复名单/g)).toHaveLength(1);
+    expect(reviews).toContain("自动回复已开启");
+    expect(reviews.match(/class="auto-answer"/g)).toHaveLength(3);
+    for (const rating of [5, 2.5, 3.5]) {
+      expect(reviews).toContain(`${rating} / 5 星`);
     }
-    expect(combination).toContain('href="#ledger"');
-    expect(combination).toContain('href="#cost-cards"');
-    expect(combination).toContain('href="#operating-data"');
+    expect(reviews.match(/class="half"/g)).toHaveLength(2);
+    expect(html).not.toMatch(/示例假设牛肉|由门店负责人审阅后决定是否发布|需要人工确认/);
   });
 
   it("ships the guide with every prompt and the shared header and footer", async () => {

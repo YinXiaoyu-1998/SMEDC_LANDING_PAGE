@@ -9,39 +9,61 @@ import SetupDemo from "./SetupDemo.astro";
 <div class="features">
   <section class="feature-directory" id="features" aria-labelledby="features-title">
     <div class="container">
-      <h2 id="features-title">企业智脑功能</h2>
+      <h2 id="features-title" data-reveal>
+        把门店的工作，逐项接起来。
+      </h2>
       <nav aria-label="功能目录">
         {featureGroups.map((group) => (
-          <div class="feature-directory-group">
-            <h3>{group.title}</h3>
-            <ul>
-              {group.features.map((feature) => (
-                <li>
-                  <a href={"#" + feature.id}>{feature.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <a href={`#group-${group.features[0]!.id}`}>{group.title} ↓</a>
         ))}
       </nav>
     </div>
   </section>
   {featureGroups.map((group) => (
-    <div class="container feature-group" role="group" aria-label={group.title}>
-      <h2 class="feature-group-title">{group.title}</h2>
+    <div
+      class="container feature-group"
+      id={`group-${group.features[0]!.id}`}
+      role="group"
+      aria-label={group.title}
+    >
+      <h2 class="feature-group-title" data-reveal>
+        {group.title}
+      </h2>
       {group.features.map((feature) => {
         const isReport = feature.id === "reports";
         const isIntegration = feature.id === "integrations";
         return (
-          <section class="feature" id={feature.id} aria-labelledby={feature.id + "-title"}>
-            <div class="feature-copy">
-              <h3 id={feature.id + "-title"}>{feature.title}</h3>
-              <p>{feature.description}</p>
-              {isReport && (
-                <>
-                  <p class="feature-detail">{reportSample.period}</p>
-                  <a class="text-link" href={reportSample.url} data-open-report>
-                    阅读完整周报
+          <details
+            class="feature-entry"
+            id={feature.id}
+            name={group.title}
+            open={["reports", "inspections", "permissions", "integrations"].includes(feature.id)}
+          >
+            <summary>
+              <h3>{feature.title}</h3>
+              <span aria-hidden="true"></span>
+            </summary>
+            <div class="feature">
+              <div class="feature-copy">
+                <p>{feature.description}</p>
+                {isReport && (
+                  <>
+                    <p class="feature-detail">{reportSample.period}</p>
+                    <a class="text-link" href={reportSample.url} data-open-report>
+                      阅读完整周报
+                      <img
+                        class="icon"
+                        src="/assets/arrow-up-right.svg"
+                        alt=""
+                        width="20"
+                        height="20"
+                      />
+                    </a>
+                  </>
+                )}
+                {feature.id === "automation" && (
+                  <a class="text-link" href="/guides/automation-user-guide.html">
+                    查看定时任务指南
                     <img
                       class="icon"
                       src="/assets/arrow-up-right.svg"
@@ -50,50 +72,38 @@ import SetupDemo from "./SetupDemo.astro";
                       height="20"
                     />
                   </a>
-                </>
-              )}
-              {feature.id === "automation" && (
-                <a class="text-link" href="/guides/automation-user-guide.html">
-                  查看定时任务指南
-                  <img
-                    class="icon"
-                    src="/assets/arrow-up-right.svg"
-                    alt=""
-                    width="20"
-                    height="20"
-                  />
-                </a>
-              )}
-              {isIntegration && (
-                <ul class="feature-agent-list" aria-label="可接入的智能体示例">
-                  {agents.map((agent) => (
-                    <li>
-                      <img src={agent.src} width="22" height="22" alt="" loading="lazy" />
-                      {agent.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
+                )}
+                {isIntegration && (
+                  <ul class="feature-agent-list" aria-label="可接入的智能体示例">
+                    {agents.map((agent) => (
+                      <li>
+                        <img src={agent.src} width="22" height="22" alt="" loading="lazy" />
+                        {agent.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div
+                class:list={[
+                  "feature-gallery",
+                  {
+                    "feature-gallery-integration": isIntegration,
+                    "feature-gallery-ledger": feature.id === "ledger"
+                  }
+                ]}
+              >
+                {isIntegration && <SetupDemo />}
+                {feature.visuals.map((visual) =>
+                  visual.kind === "image" ? (
+                    <FeatureImage {visual} />
+                  ) : (
+                    <AgentExample example={visual} />
+                  )
+                )}
+              </div>
             </div>
-            <div
-              class:list={[
-                "feature-gallery",
-                {
-                  "feature-gallery-integration": isIntegration,
-                  "feature-gallery-ledger": feature.id === "ledger"
-                }
-              ]}
-            >
-              {isIntegration && <SetupDemo />}
-              {feature.visuals.map((visual) =>
-                visual.kind === "image" ? (
-                  <FeatureImage {visual} />
-                ) : (
-                  <AgentExample example={visual} />
-                )
-              )}
-            </div>
-          </section>
+          </details>
         );
       })}
     </div>

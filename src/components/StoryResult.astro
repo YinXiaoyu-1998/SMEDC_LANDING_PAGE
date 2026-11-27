@@ -1,0 +1,49 @@
+---
+import { cases, reviewExamples, reviewStore } from "../content/story";
+import ReviewRating from "./ReviewRating.astro";
+interface Props {
+  scene: number;
+}
+const { scene } = Astro.props;
+const item = cases[scene];
+---
+
+{item ? (
+  <div class="story-result">
+    <header>
+      <span>{item.label}</span>
+      <span>经营建议</span>
+    </header>
+    <div class="slip-key">
+      {item.prefix} <strong>{item.value}</strong> {item.unit}
+    </div>
+    <p>{item.summary}</p>
+    <footer>
+      {item.id === "beef" ? "收档盘点后，按实存调整订量。" : "优先复核午市新增的 8 个工时。"}
+    </footer>
+  </div>
+) : (
+  <div class="story-result review-slip">
+    <header>
+      <span>{reviewStore}</span>
+      <span class="autoresponse-on">自动回复已开启</span>
+    </header>
+    <div class="review-queue">
+      {reviewExamples.map(({ rating, review, reply }, index) => (
+        <article class:list={["review-item", { "is-current": index === 0 }]}>
+          <div class="incoming-review">
+            <div class="review-meta">
+              <b>点评 · 新评价</b>
+              <ReviewRating rating={rating} />
+            </div>
+            <blockquote>{review}</blockquote>
+          </div>
+          <div class="auto-answer">
+            <b>AI 自动回复</b>
+            <p>{reply}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+)}
