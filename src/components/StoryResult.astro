@@ -1,5 +1,6 @@
 ---
-import { cases, automaticReply } from "../content/story";
+import { cases, reviewExamples, reviewStore } from "../content/story";
+import ReviewRating from "./ReviewRating.astro";
 interface Props {
   scene: number;
 }
@@ -24,11 +25,25 @@ const item = cases[scene];
 ) : (
   <div class="story-result review-slip">
     <header>
-      <span>AI 自动回复</span>
-      <span>常营天街店</span>
+      <span>{reviewStore}</span>
+      <span class="autoresponse-on">自动回复已开启</span>
     </header>
-    <blockquote>周末和朋友聚餐，吃烤串时还能配上酒喝一杯</blockquote>
-    <p>{automaticReply.split("！")[0]}！</p>
-    <footer>本轮自动回复 · 节选</footer>
+    <div class="review-queue">
+      {reviewExamples.map(({ rating, review, reply }, index) => (
+        <article class:list={["review-item", { "is-current": index === 0 }]}>
+          <div class="incoming-review">
+            <div class="review-meta">
+              <b>点评 · 新评价</b>
+              <ReviewRating rating={rating} />
+            </div>
+            <blockquote>{review}</blockquote>
+          </div>
+          <div class="auto-answer">
+            <b>AI 自动回复</b>
+            <p>{reply}</p>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 )}

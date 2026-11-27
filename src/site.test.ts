@@ -105,6 +105,22 @@ describe("public marketing page", () => {
     }
   });
 
+  it("shows one enrolment request and multiple rated automatic replies", async () => {
+    const html = await read("index.html");
+    const reviews = html.slice(
+      html.indexOf('class="story-result review-slip"'),
+      html.indexOf('id="combined-work"')
+    );
+    expect(reviews.match(/把万达店加入自动回复名单/g)).toHaveLength(1);
+    expect(reviews).toContain("自动回复已开启");
+    expect(reviews.match(/class="auto-answer"/g)).toHaveLength(3);
+    for (const rating of [5, 2.5, 3.5]) {
+      expect(reviews).toContain(`${rating} / 5 星`);
+    }
+    expect(reviews.match(/class="half"/g)).toHaveLength(2);
+    expect(html).not.toMatch(/示例假设牛肉|由门店负责人审阅后决定是否发布|需要人工确认/);
+  });
+
   it("ships the guide with every prompt and the shared header and footer", async () => {
     const guide = await read("guides/automation-user-guide.html");
     expect(guide).toContain("<title>企业智脑自动任务｜餐饮管理人员使用指南</title>");

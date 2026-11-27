@@ -1,4 +1,4 @@
-import { customerReview, automaticReply } from "./story";
+import { reviewExamples, reviewStore } from "./story";
 import type { dimensions } from "./feature-image-dimensions";
 
 export const reportSample = {
@@ -110,7 +110,7 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
           example(
             "核对本店适用的配方",
             "示例东城店的羊肉串，单份需要多少净羊肉？",
-            "羊肉串（单份）标准配方为净羊肉 75 克。该店这份记录没有适用的例外配方，可按每份 75 克估算。"
+            "这家店的羊肉串每份用 75 克净羊肉。"
           )
         ]
       }
@@ -165,8 +165,14 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
         id: "reviews",
         title: "顾客评价与 AI 自动回复",
         description:
-          "按门店与平台整理顾客评价，结合菜品、服务和用餐场景自动撰写回复，并核对平台回复状态。",
-        visuals: [example("常营天街店 · 门店评价自动回复", customerReview, automaticReply)]
+          "将门店加入自动回复名单后，新评价会自动收到结合菜品、服务和用餐场景撰写的回复。",
+        visuals: [
+          example(
+            `${reviewStore} · 门店评价自动回复`,
+            reviewExamples[0].review,
+            reviewExamples[0].reply
+          )
+        ]
       }
     ]
   },

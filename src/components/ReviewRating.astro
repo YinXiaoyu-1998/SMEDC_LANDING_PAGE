@@ -1,0 +1,15 @@
+---
+interface Props {
+  rating: number;
+}
+const { rating } = Astro.props;
+---
+
+<span class="review-rating">
+  <span class="review-stars" aria-hidden="true">
+    {Array.from({ length: 5 }, (_, i) => (
+      <span class:list={[{ filled: rating >= i + 1, half: rating === i + 0.5 }]}>★</span>
+    ))}
+  </span>
+  <span>{rating} / 5 星</span>
+</span>

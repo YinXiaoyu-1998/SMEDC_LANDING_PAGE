@@ -2,6 +2,31 @@ import { gsap } from "gsap";
 
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 
+function showReview(items: HTMLElement[], index: number) {
+  items.forEach((item, i) => {
+    item.classList.toggle("is-current", i === index);
+    item.inert = i !== index;
+  });
+}
+
+function queueReviews(timeline: gsap.core.Timeline, items: HTMLElement[]) {
+  const replies = items.map((item) => item.querySelector(".auto-answer")!);
+  gsap.set(replies, { autoAlpha: 0 });
+  items.forEach((item, index) => {
+    const arrival = 1.75 + index * 4.4;
+    timeline
+      .call(() => showReview(items, index), [], arrival)
+      .fromTo(
+        item,
+        { opacity: 0, y: 9 },
+        { opacity: 1, y: 0, duration: 0.3, immediateRender: false },
+        arrival
+      )
+      .to(replies[index]!, { autoAlpha: 1, duration: 0.35 }, arrival + 0.8);
+  });
+  return 1.75 + items.length * 4.4;
+}
+
 function mountConversation(stage: HTMLElement) {
   const controls = stage.querySelector<HTMLElement>(".scene-controls")!;
   const choices = [...stage.querySelectorAll<HTMLButtonElement>("[data-question]")];
@@ -32,11 +57,17 @@ function mountConversation(stage: HTMLElement) {
       frame.hidden = i !== index;
     });
     gsap.set([arrow, card], { clearProps: "transform,opacity" });
-    prompt.textContent = reduced.matches ? phrase : "";
+    const reviews = [...card.querySelectorAll<HTMLElement>(".review-item")];
+    const animate = !reduced.matches && !paused;
+    showReview(reviews, animate ? -1 : 0);
+    gsap.set(card.querySelectorAll(".auto-answer, .review-item"), {
+      clearProps: "transform,opacity,visibility"
+    });
+    prompt.textContent = animate ? "" : phrase;
     // A complete sentence stays available to assistive technology throughout typing.
     prompt.parentElement!.setAttribute("aria-label", phrase);
     prompt.setAttribute("aria-hidden", "true");
-    if (!reduced.matches) {
+    if (animate) {
       const typing = { length: 0 };
       timeline = gsap.timeline({
         paused: true,
@@ -61,10 +92,10 @@ function mountConversation(stage: HTMLElement) {
           },
           0
         )
-        .to(arrow, { scale: 0.84, yoyo: true, repeat: 1, duration: 0.12 }, 0.94)
-        .to(card, { opacity: 0, y: -8, duration: 0.25 }, 6.8);
+        .to(arrow, { scale: 0.84, yoyo: true, repeat: 1, duration: 0.12 }, 0.94);
+      const exit = reviews.length ? queueReviews(timeline, reviews) : 6.8;
+      timeline.to(card, { opacity: 0, y: -8, duration: 0.25 }, exit);
     }
-    if (paused) timeline?.seek(2, false);
     syncPlayback();
   }
 
@@ -76,7 +107,8 @@ function mountConversation(stage: HTMLElement) {
   );
   playback.addEventListener("click", () => {
     paused = !paused;
-    syncPlayback();
+    if (!paused && !timeline) showScene(current);
+    else syncPlayback();
   });
   new IntersectionObserver(([entry]) => {
     visible = entry!.isIntersecting;

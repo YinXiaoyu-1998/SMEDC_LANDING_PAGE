@@ -1,20 +1,25 @@
 ---
-import { customerReview, automaticReply } from "../content/story";
+import { reviewExamples, reviewStore } from "../content/story";
+import ReviewRating from "./ReviewRating.astro";
 ---
 
 <section class="container review-story" id="review-story" aria-labelledby="review-title">
   <div data-reveal>
-    <p class="source-line">常营天街店 · 评价示例</p>
+    <p class="source-line">{reviewStore} · 评价示例</p>
     <h2 id="review-title">顾客评价，AI 自动回复。</h2>
   </div>
-  <div class="review-exchange">
-    <figure data-reveal>
-      <figcaption>客户原评</figcaption>
-      <blockquote>{customerReview}</blockquote>
-    </figure>
-    <figure data-reveal>
-      <figcaption>本轮自动回复</figcaption>
-      <blockquote>{automaticReply}</blockquote>
-    </figure>
-  </div>
+  {reviewExamples.map(({ rating, review, reply }) => (
+    <div class="review-exchange" data-reveal>
+      <figure>
+        <figcaption>
+          客户原评 <ReviewRating rating={rating} />
+        </figcaption>
+        <blockquote>{review}</blockquote>
+      </figure>
+      <figure>
+        <figcaption>本轮自动回复</figcaption>
+        <blockquote>{reply}</blockquote>
+      </figure>
+    </div>
+  ))}
 </section>

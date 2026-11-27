@@ -15,7 +15,7 @@ npm run preview
 
 检查：`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`。`npm test` 会先构建再做输出检查；另有发布/失败恢复测试。完整发布说明见 [部署手册](deploy/README.md)。
 
-- `src/pages/index.astro` + `src/components/`：首页由三组员工智能体演示、可切换的牛肉补货和门店人效推演、评价自动回复示例、四组 12 项功能、接入方式、FAQ 与联系组成。无 JavaScript 时全部业务说明仍可读，周报可通过普通链接打开。
+- `src/pages/index.astro` + `src/components/`：首页由三组员工智能体演示、可切换的牛肉补货和门店人效推演、万达店评价自动回复演示（一次加入名单，逐条回复带星级评价）、四组 12 项功能、接入方式、FAQ 与联系组成。无 JavaScript 时全部业务说明仍可读，周报可通过普通链接打开。
 - `src/layouts/BaseLayout.astro` + `SiteHeader.astro` + `SiteFooter.astro`：所有 Astro 页面共用 head、favicon、品牌栏、导航、页脚与阅读进度，新页面放进 `src/pages/` 自动继承。
 - `src/styles/landing.css` / `src/styles/guide.css`：深墨色、纸白与砖红；两个样式文件分别放在 `landing` / `guide` 级联层，手机布局、减少动态效果和打印样式齐全。
 - `src/scripts/`：首屏场景切换与暂停、多来源经营依据展开与收起、滚动渐入、阅读进度、服务展开、周报阅读层、联系方式复制、安装示意与指南路线切换。全部为渐进增强，Astro 只输出外链脚本。

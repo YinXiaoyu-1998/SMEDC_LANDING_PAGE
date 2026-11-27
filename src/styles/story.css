@@ -139,7 +139,7 @@ body:has(.story-hero) [data-reveal] {
   display: grid;
   place-items: center;
   width: 100%;
-  min-height: 228px;
+  min-height: 245px;
 }
 .result-frame {
   width: min(82%, 352px);
@@ -256,16 +256,85 @@ body:has(.story-hero) [data-reveal] {
 .scene-controls .playback {
   color: #754a36;
 }
-.review-slip blockquote {
-  margin: 12px 0;
-  padding-left: 10px;
-  border-left: 2px solid #cdab8d;
-  font-size: 14px;
+.result-frame:has(.review-slip) {
+  width: min(100%, 430px);
 }
-.review-slip p {
+.review-slip {
+  padding: 14px 17px 16px;
+}
+.review-slip header .autoresponse-on {
+  color: #345b41;
+  background: #eaf1e7;
+  border-radius: 20px;
+  padding: 2px 9px;
+  font-weight: 600;
+}
+.review-queue {
+  display: grid;
+  margin-top: 10px;
+}
+.review-item {
+  grid-area: 1 / 1;
+  align-self: start;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.review-item:not(.is-current) {
+  visibility: hidden;
+}
+.review-meta,
+.review-exchange figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+.review-meta {
+  justify-content: space-between;
+  color: #674e3f;
+}
+.review-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #654a36;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.review-stars {
+  display: inline-flex;
+  gap: 1px;
+  color: #c5b7aa;
+  font-size: 15px;
+  line-height: 1;
+}
+.review-stars .filled {
+  color: #9f5725;
+}
+.review-stars .half {
+  background: linear-gradient(90deg, #9f5725 50%, #c5b7aa 50%);
+  background-clip: text;
+  color: transparent;
+}
+.incoming-review blockquote {
+  margin: 4px 0 0;
+}
+.auto-answer {
+  margin-top: 9px;
+  padding: 7px 10px 8px;
+  border-left: 2px solid #bc7d5d;
+  border-radius: 0 7px 7px 0;
+  background: #fcf0e4;
+}
+.auto-answer b {
+  color: var(--chili);
+  font-size: 12px;
+}
+.auto-answer p {
+  margin-top: 2px;
   color: #44382f;
-  font-size: 14px;
 }
+
 .flow-story {
   isolation: isolate;
   position: relative;
@@ -480,14 +549,6 @@ body:has(.story-hero) [data-reveal] {
   margin-bottom: 9px;
   color: var(--ink);
 }
-.case-note {
-  margin: 22px auto 0;
-  font-size: 13px;
-  max-width: 60em;
-}
-.folded .case-note {
-  visibility: hidden;
-}
 .mini-slip {
   align-self: stretch;
   display: flex;
@@ -527,9 +588,6 @@ body:has(.story-hero) [data-reveal] {
 @media (max-width: 840px) {
   .review-exchange {
     grid-template-columns: 1fr;
-  }
-  .folded .case-note {
-    display: none;
   }
 }
 .features .feature-directory {
@@ -654,7 +712,7 @@ body:has(.story-hero) [data-reveal] {
     padding-top: 34px;
   }
   .result-stack {
-    min-height: 208px;
+    min-height: 245px;
   }
   .prompt-strip {
     min-height: 66px;

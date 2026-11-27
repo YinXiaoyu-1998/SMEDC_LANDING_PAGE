@@ -1,7 +1,26 @@
-export const customerReview =
-  "常营天街的店，「内蒙羔羊肉」串和红柳枝烤肉都很好吃，酥脆肉加馍一如既往的好吃，手工凉皮软糯可口，周末和朋友聚餐，吃烤串时还能配上酒喝一杯，烤肉和炒菜都挺正宗的，店里很宽敞明亮，干净卫生，服务员也都很热情，很周到。";
-export const automaticReply =
-  "羊肉串、红柳枝烤肉，再配上一杯酒，这顿朋友聚餐听着就很有滋味！很高兴酥脆肉夹馍、手工凉皮，还有烤肉和炒菜都合大家的口味，连环境和服务也得到了您的认可。谢谢您把这些细节记在心里，也把这份热闹和好心情留给我们。有空再约朋友来坐坐，继续痛快吃肉、开心聊天呀！";
+export const reviewStore = "万达店";
+
+// Adapted from the supplied review examples for the fictional store in the demo.
+export const reviewExamples = [
+  {
+    rating: 5,
+    review: "招牌臊子面和尖椒肉夹馍都好吃。面条很劲道，辣子很香，吃完还想再来。",
+    reply:
+      "臊子面和尖椒肉夹馍都合您的口味，太开心了！谢谢您喜欢这口辣椒香和劲道的面。下次来，还是一碗面配一个馍，舒舒服服吃顿饭。"
+  },
+  {
+    rating: 2.5,
+    review: "常来吃，今天的牛肉泡馍汤太多，加点的牛肉也只有几片，挺失望的。",
+    reply:
+      "让您这次吃得失望了，实在抱歉。您提到汤多、加点的牛肉量少，我们会请后厨核对出品和加料分量。谢谢您常来，也谢谢您把问题说得这么具体。"
+  },
+  {
+    rating: 3.5,
+    review: "羊肉串好吃，摆得也干净。其他菜口味一般，凉菜的分量对这个价格来说有点少。",
+    reply:
+      "谢谢您夸羊肉串，也谢谢您直说凉菜的问题。我们会核对凉菜的分量，也会看看常点的菜还有哪些口味可以改进。希望下次您来，串以外也能吃到喜欢的菜。"
+  }
+] as const;
 
 // Illustrative single-store cases. Staff hours, physical counts and reserves come from the manager.
 export const cases = [
@@ -15,9 +34,7 @@ export const cases = [
     value: "15",
     unit: "公斤",
     summary: "预计还剩 12 公斤，周末备货目标 27 公斤。",
-    action:
-      "今晚先盘点。若实存 12 公斤，订 15 公斤，周五开档前到货；实存有差异，就用 27 减去实存重新下单。",
-    note: "示例假设牛肉只用于列出的两道菜，本期无退货、报损、调拨或其他领用。销量含实际售出的套餐子菜，每份只计一次。",
+    action: "今晚盘点后下单，周五开档前到货。用 27 公斤减去实际库存，就是本次订量。",
     sources: [
       {
         title: "盘点与收货",
@@ -57,7 +74,6 @@ export const cases = [
     summary: "每工时收入从 120 元降到 105 元，下降 12.5%。",
     action:
       "先核对午市多出的 8 个工时用在备菜还是接单。下周试着错开午市到岗、在晚高峰交接，再对照每工时收入和出餐反馈。",
-    note: "人效按营业收入除以店长提供的实际出勤工时计算。跨餐段备菜按相同规则分摊，两周均仅计午市与晚市。",
     sources: [
       {
         title: "营业收入",
@@ -89,5 +105,5 @@ export const cases = [
 
 export const scenes = [
   ...cases.map((item) => ({ label: item.label, question: item.question })),
-  { label: "自动回复", question: "常营天街这条聚餐好评，帮店里自动回一句。" }
+  { label: "自动回复", question: "把万达店加入自动回复名单" }
 ];
