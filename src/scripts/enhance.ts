@@ -3,7 +3,6 @@
 export {};
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const fineDesktop = window.matchMedia("(min-width: 761px) and (pointer: fine)");
 const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 const move = (
@@ -84,8 +83,6 @@ if (copyButton && copyStatus) {
 
 const header = document.querySelector(".site-header");
 const progress = document.querySelector<HTMLElement>(".reading-progress");
-const hero = document.querySelector(".hero");
-const heroPhoto = document.querySelector(".hero-photo");
 const navigation = [...document.querySelectorAll(".site-header nav a")];
 const navigationSections = navigation
   .map((link) => link.getAttribute("href") ?? "")
@@ -98,14 +95,6 @@ const renderScroll = () => {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
   if (progress) {
     progress.style.transform = "scaleX(" + (scrollable > 0 ? Math.min(y / scrollable, 1) : 0) + ")";
-  }
-  if (heroPhoto && hero) {
-    (heroPhoto as HTMLElement).style.transform =
-      !reducedMotion.matches && fineDesktop.matches
-        ? "translate3d(0," +
-          Math.min(y * 0.08, (hero as HTMLElement).offsetHeight * 0.045) +
-          "px,0)"
-        : "none";
   }
   let current = -1;
   navigationSections.forEach((section, index) => {

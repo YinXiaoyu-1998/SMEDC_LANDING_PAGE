@@ -1,0 +1,37 @@
+---
+import StoryResult from "./StoryResult.astro";
+import { scenes } from "../content/story";
+---
+
+<section class="container store-scenes" aria-label="更多门店场景">
+  {[
+    {
+      title: "一批货，凭证跟着走。",
+      detail: "把检疫照片和对应收货单放在一起，核对时按门店和日期就能找到。",
+      href: "#ledger",
+      link: "查看收货台账"
+    },
+    {
+      title: "先拟好，你看过再发。",
+      detail: "让智能体整理待回复评价、起草回复。负责人审阅后，再按批准的范围发布。",
+      href: "#reviews",
+      link: "查看评价处理"
+    }
+  ].map((item, i) => (
+    <article class="store-scene">
+      <div class="scene-copy" data-reveal>
+        <p class="source-line">{scenes[i + 1].label}</p>
+        <h2>{item.title}</h2>
+        <p>{item.detail}</p>
+        <a class="story-link" href={item.href}>
+          {item.link} ↗
+        </a>
+      </div>
+      <div class="scene-art" data-reveal>
+        <div class="mini-question">{scenes[i + 1].question}</div>
+        <StoryResult scene={i + 1} />
+        <small>员工智能体演示 · 示例数据</small>
+      </div>
+    </article>
+  ))}
+</section>

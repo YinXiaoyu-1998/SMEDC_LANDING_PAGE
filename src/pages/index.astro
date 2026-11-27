@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import StoreScenes from "../components/StoreScenes.astro";
 import Features from "../components/Features.astro";
 import CombinedWork from "../components/CombinedWork.astro";
 import ReportDialog from "../components/ReportDialog.astro";
@@ -9,6 +10,7 @@ import Workflow from "../components/Workflow.astro";
 import Faq from "../components/Faq.astro";
 import Contact from "../components/Contact.astro";
 import "../styles/features.css";
+import "../styles/story.css";
 ---
 
 <BaseLayout
@@ -18,8 +20,9 @@ import "../styles/features.css";
   ogDescription="查看 12 项门店和总部功能、真实界面和一份完整的多店经营周报。"
 >
   <Hero />
-  <Features />
   <CombinedWork />
+  <StoreScenes />
+  <Features />
   <Workflow />
   <Faq />
   <Contact />

@@ -1,0 +1,61 @@
+---
+import { lunch, fewerOrders, money } from "../content/story";
+interface Props {
+  scene: number;
+}
+const { scene } = Astro.props;
+---
+
+{scene === 0 ? (
+  <div class="story-result lunch-slip">
+    <header>
+      <span>堂食营业对照</span>
+      <span>午市</span>
+    </header>
+    <div class="slip-key">
+      少了 <strong>{fewerOrders}</strong> 单
+    </div>
+    <div class="bar-row">
+      <span>上周四</span>
+      <i></i>
+      <b>¥{money(lunch.previous.revenue)}</b>
+    </div>
+    <div class="bar-row current">
+      <span>本周四</span>
+      <i></i>
+      <b>¥{money(lunch.current.revenue)}</b>
+    </div>
+    <footer>两天的平均每单收入都是 52 元</footer>
+  </div>
+) : scene === 1 ? (
+  <div class="story-result delivery-slip">
+    <header>
+      <span>门店收货单</span>
+      <span>已收货</span>
+    </header>
+    <div class="slip-key">
+      冷鲜牛肉 <strong>20</strong> kg
+    </div>
+    <div class="delivery-line">
+      <span>收货批次</span>
+      <b>示例 · 1126</b>
+    </div>
+    <div class="proof-file">
+      <span aria-hidden="true">▧</span>
+      <div>
+        <b>动物检疫凭证</b>
+        <small>已关联本单 · 1 张照片</small>
+      </div>
+    </div>
+  </div>
+) : (
+  <div class="story-result review-slip">
+    <header>
+      <span>评价回复草稿</span>
+      <span>待审阅</span>
+    </header>
+    <blockquote>“味道不错，就是上菜有点慢。”</blockquote>
+    <p>谢谢您喜欢我们的菜。这次让您等久了，我们会跟当班同事核对出菜情况。</p>
+    <footer>由门店负责人审阅后决定是否发布</footer>
+  </div>
+)}
