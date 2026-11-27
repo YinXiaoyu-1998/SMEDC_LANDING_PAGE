@@ -1,6 +1,6 @@
 "use strict";
 
-export {};
+import { contact } from "../content/site";
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
@@ -73,7 +73,9 @@ if (copyButton && copyStatus) {
   copyButton.hidden = false;
   copyButton.addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText("企业智脑\n电话：18514577162\n邮箱：consyinxy@gmail.com");
+      await navigator.clipboard.writeText(
+        `企业智脑 · ${contact.name}\n电话：${contact.phone}\n邮箱：${contact.email}`
+      );
       copyStatus.textContent = "已复制联系方式，可粘贴到您的通讯工具。";
     } catch {
       copyStatus.textContent = "暂时无法自动复制，请选中上方电话或邮箱手动复制。";

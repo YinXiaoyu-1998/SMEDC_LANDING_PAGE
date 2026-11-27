@@ -1,74 +1,82 @@
 ---
-import { lunch, fewerOrders, revenueGap, money } from "../content/story";
+import { cases } from "../content/story";
 const traces = [
-  "M230 160 H275 Q295 160 295 140 V100 Q295 80 315 80 H405",
-  "M230 160 H275 Q295 160 295 180 V220 Q295 240 315 240 H405",
-  "M595 80 H685 Q705 80 705 100 V140 Q705 160 725 160 H770",
-  "M595 240 H685 Q705 240 705 220 V180 Q705 160 725 160 H770"
+  "M190 160 H218 Q230 160 230 148 V92 Q230 80 242 80 H270",
+  "M190 160 H218 Q230 160 230 172 V228 Q230 240 242 240 H270",
+  "M720 80 H742 Q754 80 754 92 V148 Q754 160 766 160 H790",
+  "M720 240 H742 Q754 240 754 228 V172 Q754 160 766 160 H790"
 ];
 ---
 
-<section class="flow-story" id="combined-work" aria-labelledby="combined-title">
+<section class="flow-story" id="combined-work" aria-label="跨来源经营分析">
   <div class="container">
-    <div class="flow-heading" data-reveal>
-      <div>
-        <p class="source-line">示例门店 · 午市复盘</p>
-        <h2 id="combined-title">
-          这 <em>{revenueGap}</em> 元，是怎么算出来的？
-        </h2>
-      </div>
-      <button
-        type="button"
-        class="flow-toggle"
-        aria-controls="lunch-records"
-        aria-expanded="true"
-        hidden
-      >
-        <span class="switch-track" aria-hidden="true"></span>
-        <span class="toggle-label">收起营业记录</span>
-      </button>
+    <div class="case-picker" role="group" aria-label="选择经营案例" hidden>
+      {cases.map((item, i) => (
+        <button aria-controls={`case-${item.id}`} aria-pressed={i === 0}>
+          {item.label}
+        </button>
+      ))}
     </div>
-    <div class="flow-map">
-      <svg class="flow-wires" viewBox="0 0 1000 320" preserveAspectRatio="none" aria-hidden="true">
-        {traces.map((d) => (
-          <g>
-            <path d={d} />
-            <path class="wire-pulse" d={d} pathLength="100" />
-          </g>
-        ))}
-      </svg>
-      <div class="flow-bookend flow-question">
-        <small>店长追问</small>
-        <h3>
-          把这两天的数摊开，
-          <br />
-          我看一眼。
-        </h3>
-        <span>同一家店 · 周四午市 · 堂食</span>
-      </div>
-      <div class="flow-records" id="lunch-records">
-        {[lunch.previous, lunch.current].map((day) => (
-          <article class="mini-slip">
-            <header>
-              <b>{day.day}</b>
-              <span>营业记录</span>
-            </header>
-            <p>
-              <strong>{day.orders} 单</strong> × {day.revenue / day.orders} 元
-            </p>
-            <footer>
-              堂食收入 <b>¥{money(day.revenue)}</b>
-            </footer>
-          </article>
-        ))}
-      </div>
-      <div class="flow-bookend flow-answer">
-        <small>我的智能体</small>
-        <h3>
-          少收 <strong>{revenueGap}</strong> 元
-        </h3>
-        <span>单均持平，堂食少了 {fewerOrders} 单。</span>
-      </div>
-    </div>
+    {cases.map((item) => (
+      <article class="business-case" id={`case-${item.id}`}>
+        <div class="flow-heading" data-reveal>
+          <div>
+            <p class="source-line">经营推演 · 示例数据</p>
+            <h2>{item.title}</h2>
+          </div>
+          <button
+            type="button"
+            class="flow-toggle"
+            aria-controls={`records-${item.id}`}
+            aria-expanded="true"
+            hidden
+          >
+            <span class="switch-track" aria-hidden="true"></span>
+            <span class="toggle-label">收起依据</span>
+          </button>
+        </div>
+        <div class="flow-map">
+          <svg
+            class="flow-wires"
+            viewBox="0 0 1000 320"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            {traces.map((d) => (
+              <g>
+                <path d={d} />
+                <path class="wire-pulse" d={d} pathLength="100" />
+              </g>
+            ))}
+          </svg>
+          <div class="flow-bookend flow-question">
+            <small>店长的问题</small>
+            <h3>{item.question}</h3>
+            <span>{item.scope}</span>
+          </div>
+          <div class="flow-records" id={`records-${item.id}`}>
+            {item.sources.map((record) => (
+              <article class="mini-slip">
+                <header>
+                  <b>{record.title}</b>
+                </header>
+                <p>{record.detail}</p>
+                <strong>{record.fact}</strong>
+                <footer>{record.source}</footer>
+              </article>
+            ))}
+          </div>
+          <div class="flow-bookend flow-answer">
+            <small>我的智能体 · 经营建议</small>
+            <h3>
+              {item.prefix} <strong>{item.value}</strong> {item.unit}
+            </h3>
+            <p>{item.summary}</p>
+            <span>{item.action}</span>
+          </div>
+        </div>
+        <p class="case-note">{item.note}</p>
+      </article>
+    ))}
   </div>
 </section>

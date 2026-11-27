@@ -1,61 +1,34 @@
 ---
-import { lunch, fewerOrders, money } from "../content/story";
+import { cases, automaticReply } from "../content/story";
 interface Props {
   scene: number;
 }
 const { scene } = Astro.props;
+const item = cases[scene];
 ---
 
-{scene === 0 ? (
-  <div class="story-result lunch-slip">
+{item ? (
+  <div class="story-result">
     <header>
-      <span>堂食营业对照</span>
-      <span>午市</span>
+      <span>{item.label}</span>
+      <span>经营建议</span>
     </header>
     <div class="slip-key">
-      少了 <strong>{fewerOrders}</strong> 单
+      {item.prefix} <strong>{item.value}</strong> {item.unit}
     </div>
-    <div class="bar-row">
-      <span>上周四</span>
-      <i></i>
-      <b>¥{money(lunch.previous.revenue)}</b>
-    </div>
-    <div class="bar-row current">
-      <span>本周四</span>
-      <i></i>
-      <b>¥{money(lunch.current.revenue)}</b>
-    </div>
-    <footer>两天的平均每单收入都是 52 元</footer>
-  </div>
-) : scene === 1 ? (
-  <div class="story-result delivery-slip">
-    <header>
-      <span>门店收货单</span>
-      <span>已收货</span>
-    </header>
-    <div class="slip-key">
-      冷鲜牛肉 <strong>20</strong> kg
-    </div>
-    <div class="delivery-line">
-      <span>收货批次</span>
-      <b>示例 · 1126</b>
-    </div>
-    <div class="proof-file">
-      <span aria-hidden="true">▧</span>
-      <div>
-        <b>动物检疫凭证</b>
-        <small>已关联本单 · 1 张照片</small>
-      </div>
-    </div>
+    <p>{item.summary}</p>
+    <footer>
+      {item.id === "beef" ? "收档盘点后，按实存调整订量。" : "优先复核午市新增的 8 个工时。"}
+    </footer>
   </div>
 ) : (
   <div class="story-result review-slip">
     <header>
-      <span>评价回复草稿</span>
-      <span>待审阅</span>
+      <span>AI 自动回复</span>
+      <span>常营天街店</span>
     </header>
-    <blockquote>“味道不错，就是上菜有点慢。”</blockquote>
-    <p>谢谢您喜欢我们的菜。这次让您等久了，我们会跟当班同事核对出菜情况。</p>
-    <footer>由门店负责人审阅后决定是否发布</footer>
+    <blockquote>周末和朋友聚餐，吃烤串时还能配上酒喝一杯</blockquote>
+    <p>{automaticReply.split("！")[0]}！</p>
+    <footer>本轮自动回复 · 节选</footer>
   </div>
 )}

@@ -167,8 +167,7 @@ body:has(.story-hero) [data-reveal] {
 .story-result header,
 .story-result footer,
 .mini-slip header,
-.mini-slip footer,
-.delivery-line {
+.mini-slip footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -203,29 +202,7 @@ body:has(.story-hero) [data-reveal] {
     serif;
   color: var(--chili);
 }
-.bar-row {
-  display: grid;
-  grid-template-columns: 3em 1fr 4em;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-  margin-top: 5px;
-}
-.bar-row i {
-  height: 7px;
-  border-radius: 0 4px 4px 0;
-  background: #c7b6a0;
-}
-.bar-row.current i {
-  width: 84%;
-  background: var(--chili);
-}
-.bar-row b {
-  text-align: right;
-}
-.prompt-strip,
-.mini-question {
+.prompt-strip {
   position: relative;
   display: flex;
   align-items: center;
@@ -279,28 +256,6 @@ body:has(.story-hero) [data-reveal] {
 .scene-controls .playback {
   color: #754a36;
 }
-.proof-file {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: #f1ede1;
-  margin-top: 10px;
-  padding: 9px 14px;
-  border-radius: 5px;
-}
-.proof-file > span {
-  color: #616b4a;
-  font-size: 28px;
-}
-.proof-file b,
-.proof-file small {
-  display: block;
-  font-size: 13px;
-}
-.proof-file small {
-  font-size: 11px;
-  color: var(--muted);
-}
 .review-slip blockquote {
   margin: 12px 0;
   padding-left: 10px;
@@ -338,8 +293,7 @@ body:has(.story-hero) [data-reveal] {
   margin-bottom: 9px;
   letter-spacing: 0.08em;
 }
-.flow-heading h2,
-.scene-copy h2 {
+.flow-heading h2 {
   font-size: clamp(34px, 3.7vw, 56px);
 }
 .flow-heading em {
@@ -381,7 +335,7 @@ body:has(.story-hero) [data-reveal] {
 .flow-map {
   position: relative;
   display: grid;
-  grid-template-columns: 26% 30% 26%;
+  grid-template-columns: 20% 48% 23%;
   justify-content: space-between;
   align-items: center;
   margin-top: 38px;
@@ -445,6 +399,7 @@ body:has(.story-hero) [data-reveal] {
 }
 .flow-records {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   align-items: center;
   height: 100%;
@@ -491,47 +446,91 @@ body:has(.story-hero) [data-reveal] {
 .folded .wire-pulse {
   animation: none;
 }
-.store-scenes {
-  padding-block: 30px 56px;
+
+.case-picker {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+  margin: 0 auto 26px;
+  padding: 4px;
+  border-radius: 24px;
+  border: 1px solid #d6c9b6;
+  background: #fffaf4;
 }
-.store-scene {
+.case-picker button {
+  border: 0;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 14px;
+  background: transparent;
+}
+.case-picker button[aria-pressed="true"] {
+  background: var(--ink);
+  color: white;
+}
+.business-case + .business-case {
+  margin-top: 32px;
+}
+.case-picker:not([hidden]) ~ .business-case {
+  margin-top: 0;
+}
+.flow-answer > p {
+  font-size: 15px;
+  margin-bottom: 9px;
+  color: var(--ink);
+}
+.case-note {
+  margin: 22px auto 0;
+  font-size: 13px;
+  max-width: 60em;
+}
+.folded .case-note {
+  visibility: hidden;
+}
+.mini-slip {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.mini-slip > strong {
+  font-size: 14px;
+}
+.review-story {
+  padding-block: clamp(40px, 6vw, 84px);
+}
+.review-exchange {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 10%;
-  margin-block: 55px 85px;
+  gap: clamp(18px, 4vw, 64px);
+  margin-top: 26px;
 }
-.scene-copy > p:not(.source-line) {
-  margin-block: 16px;
-  max-width: 25em;
+.review-exchange figure {
+  padding: 22px clamp(18px, 3vw, 40px);
+  border-left: 2px solid #bfae96;
+  background: #faf7f1;
 }
-.scene-art {
-  display: grid;
-  justify-items: center;
-  gap: 12px;
-  align-content: center;
-  padding: 28px;
-  background: radial-gradient(ellipse at center, #eee0cc 10%, #f7f2e8 50%, transparent 73%);
+.review-exchange figure:last-child {
+  border-color: var(--chili);
+  background: #fcf2e9;
 }
-.scene-art .story-result {
-  width: min(100%, 330px);
-  transform: rotate(-2deg);
-}
-.scene-art .mini-question {
-  width: fit-content;
+.review-exchange figcaption {
+  color: var(--chili);
+  font-weight: 600;
   font-size: 14px;
-  padding: 9px 18px;
 }
-.scene-art > small {
-  color: #726552;
-  font-size: 11px;
+.review-exchange blockquote {
+  margin: 12px 0 0;
+  line-height: 1.9;
 }
-.store-scene:first-child .scene-art {
-  grid-column: 1;
-  grid-row: 1;
-}
-.store-scene:first-child .scene-copy {
-  grid-column: 2;
+@media (max-width: 840px) {
+  .review-exchange {
+    grid-template-columns: 1fr;
+  }
+  .folded .case-note {
+    display: none;
+  }
 }
 .features .feature-directory {
   padding-block: 48px 35px;
@@ -634,6 +633,7 @@ body:has(.story-hero) [data-reveal] {
     margin: 6px 0;
   }
   .flow-records {
+    grid-template-columns: 1fr;
     height: auto;
     grid-template-rows: auto;
     gap: 14px;
@@ -643,9 +643,6 @@ body:has(.story-hero) [data-reveal] {
   }
   .folded .flow-records {
     display: none;
-  }
-  .store-scene {
-    gap: 20px;
   }
 }
 @media (max-width: 620px) {
@@ -675,18 +672,6 @@ body:has(.story-hero) [data-reveal] {
   .flow-heading h2 {
     font-size: clamp(29px, 7.4vw, 40px);
   }
-  .store-scene {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin: 42px 0;
-  }
-  .store-scenes {
-    padding-block: 6px 24px;
-  }
-  .scene-art {
-    padding: 20px 6px;
-  }
   .feature-directory nav a {
     padding: 3px 10px;
   }
@@ -706,7 +691,7 @@ body:has(.story-hero) [data-reveal] {
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .flow-story:not(.folded) .flow-answer strong {
+  .business-case:not(.folded) .flow-answer strong {
     display: inline-block;
     animation: settle-total 0.52s 1.8s both var(--ease);
   }
@@ -717,20 +702,6 @@ body:has(.story-hero) [data-reveal] {
     }
     to {
       color: var(--chili);
-      transform: none;
-    }
-  }
-  .scene-art.is-revealed .proof-file,
-  .scene-art.is-revealed .review-slip p {
-    animation: settle-evidence 0.48s 0.28s both var(--ease);
-  }
-  @keyframes settle-evidence {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
       transform: none;
     }
   }

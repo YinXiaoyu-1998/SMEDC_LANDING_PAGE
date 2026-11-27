@@ -1,15 +1,93 @@
-/** Fictional, same-store lunch service. Money is in yuan. */
-export const lunch = {
-  previous: { day: "上周四", orders: 100, revenue: 5200 },
-  current: { day: "本周四", orders: 84, revenue: 4368 }
-};
+export const customerReview =
+  "常营天街的店，「内蒙羔羊肉」串和红柳枝烤肉都很好吃，酥脆肉加馍一如既往的好吃，手工凉皮软糯可口，周末和朋友聚餐，吃烤串时还能配上酒喝一杯，烤肉和炒菜都挺正宗的，店里很宽敞明亮，干净卫生，服务员也都很热情，很周到。";
+export const automaticReply =
+  "羊肉串、红柳枝烤肉，再配上一杯酒，这顿朋友聚餐听着就很有滋味！很高兴酥脆肉夹馍、手工凉皮，还有烤肉和炒菜都合大家的口味，连环境和服务也得到了您的认可。谢谢您把这些细节记在心里，也把这份热闹和好心情留给我们。有空再约朋友来坐坐，继续痛快吃肉、开心聊天呀！";
 
-export const fewerOrders = lunch.previous.orders - lunch.current.orders;
-export const revenueGap = lunch.previous.revenue - lunch.current.revenue;
-export const money = (value: number) => value.toLocaleString("zh-CN");
+// Illustrative single-store cases. Staff hours, physical counts and reserves come from the manager.
+export const cases = [
+  {
+    id: "beef",
+    label: "牛肉补货",
+    title: "周末那批牛肉，今天补多少？",
+    question: "周五到周日只送这一次货。你算算，牛肉够用吗？",
+    scope: "周四收档 · 同店、同规格净牛肉",
+    prefix: "建议补",
+    value: "15",
+    unit: "公斤",
+    summary: "预计还剩 12 公斤，周末备货目标 27 公斤。",
+    action:
+      "今晚先盘点。若实存 12 公斤，订 15 公斤，周五开档前到货；实存有差异，就用 27 减去实存重新下单。",
+    note: "示例假设牛肉只用于列出的两道菜，本期无退货、报损、调拨或其他领用。销量含实际售出的套餐子菜，每份只计一次。",
+    sources: [
+      {
+        title: "盘点与收货",
+        source: "店长盘点＋收货单",
+        detail: "周初盘到 18 公斤，本周两批各收 22、20 公斤。",
+        fact: "可用量 60 公斤"
+      },
+      {
+        title: "销量折算用料",
+        source: "菜品销量＋套餐子菜＋成本卡",
+        detail: "牛肉串 300 份 × 120 克，炖牛肉 60 份 × 200 克。",
+        fact: "理论耗用 48 公斤"
+      },
+      {
+        title: "收档余量",
+        source: "盘点、收货与耗用合计",
+        detail: "18 ＋ 42 − 48，得到周四收档的账面估算。",
+        fact: "预计结余 12 公斤"
+      },
+      {
+        title: "周末备货目标",
+        source: "历史销量＋门店备货要求",
+        detail: "上周五至周日按同配方耗用 24 公斤；店长要求留 3 公斤机动量。",
+        fact: "备足 27 公斤"
+      }
+    ]
+  },
+  {
+    id: "labor",
+    label: "门店人效",
+    title: "收入涨了，人效怎么反而低了？",
+    question: "这周生意好了一点，新增工时用在哪个餐段更合适？",
+    scope: "连续两周 · 同店午市和晚市",
+    prefix: "每工时",
+    value: "105",
+    unit: "元",
+    summary: "每工时收入从 120 元降到 105 元，下降 12.5%。",
+    action:
+      "先核对午市多出的 8 个工时用在备菜还是接单。下周试着错开午市到岗、在晚高峰交接，再对照每工时收入和出餐反馈。",
+    note: "人效按营业收入除以店长提供的实际出勤工时计算。跨餐段备菜按相同规则分摊，两周均仅计午市与晚市。",
+    sources: [
+      {
+        title: "营业收入",
+        source: "门店营业汇总",
+        detail: "上周 12,000 元，本周 12,600 元，净增 600 元。",
+        fact: "收入增长 5%"
+      },
+      {
+        title: "实际工时",
+        source: "店长提供的出勤汇总",
+        detail: "午市 40 → 48 小时，晚市 60 → 72 小时。",
+        fact: "总工时增长 20%"
+      },
+      {
+        title: "午市单量回落",
+        source: "餐段营业与订单",
+        detail: "150 → 140 单，单均 36 元。收入 5,400 → 5,040 元。",
+        fact: "每工时 135 → 105 元"
+      },
+      {
+        title: "增量来自晚市",
+        source: "餐段营业与订单",
+        detail: "165 → 189 单，单均 40 元。收入 6,600 → 7,560 元。",
+        fact: "晚市多接 24 单"
+      }
+    ]
+  }
+] as const;
 
 export const scenes = [
-  { label: "午市复盘", question: "昨天午市，堂食怎么少收了八百多？" },
-  { label: "收货核对", question: "昨天那批牛肉，收货单和检疫照片一起给我看看。" },
-  { label: "评价回复", question: "这条说上菜慢。帮我拟一句，我看看再发。" }
-] as const;
+  ...cases.map((item) => ({ label: item.label, question: item.question })),
+  { label: "自动回复", question: "常营天街这条聚餐好评，帮店里自动回一句。" }
+];

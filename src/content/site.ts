@@ -32,6 +32,7 @@ export const faqs = [
 ];
 
 export const contact = {
+  name: "殷啸宇",
   phone: "18514577162",
   email: "consyinxy@gmail.com",
   emailHref:

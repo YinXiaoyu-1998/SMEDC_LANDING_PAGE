@@ -30,6 +30,7 @@ describe("public marketing page", () => {
     expect(html).not.toContain("setup-titlebar");
     expect(html).not.toContain("setup-composer");
     expect(html).toMatch(/<dialog\b[^>]*id="image-dialog"/);
+    expect(html).toContain("殷啸宇");
     expect(html).toContain('href="tel:18514577162"');
     expect(html).toContain('href="mailto:consyinxy@gmail.com?subject=');
     expect(html).toContain('href="/guides/automation-user-guide.html"');
@@ -67,7 +68,7 @@ describe("public marketing page", () => {
     expect(html).toMatch(/<link rel="stylesheet" href="\/_astro\//);
   });
 
-  it("renders the conversation and both receipts before the illustrated catalogue", async () => {
+  it("renders the conversation and evidence from both operating cases before the illustrated catalogue", async () => {
     const html = await read("index.html");
     const flow = html.indexOf('id="combined-work"');
     const catalogue = html.indexOf('id="features"');
@@ -75,7 +76,16 @@ describe("public marketing page", () => {
     expect(catalogue).toBeGreaterThan(flow);
     expect(html).toMatch(/href="#combined-work"[^>]*>\s*看它怎么算/);
     const diagram = html.slice(flow, catalogue);
-    for (const fact of ["lunch-records", "100 单", "84 单", "5,200", "4,368", "832", "待审阅"]) {
+    for (const fact of [
+      "records-beef",
+      "records-labor",
+      "理论耗用 48 公斤",
+      "备足 27 公斤",
+      "12.5%",
+      "每工时 135 → 105 元",
+      "客户原评",
+      "本轮自动回复"
+    ]) {
       expect(diagram).toContain(fact);
     }
     const entries = [

@@ -1,3 +1,4 @@
+import { customerReview, automaticReply } from "./story";
 import type { dimensions } from "./feature-image-dimensions";
 
 export const reportSample = {
@@ -162,21 +163,10 @@ export const featureGroups: { title: string; features: Feature[] }[] = [
       },
       {
         id: "reviews",
-        title: "顾客评价与回复",
+        title: "顾客评价与 AI 自动回复",
         description:
-          "汇集美团和大众点评评价，为待回复的文字评价准备草稿。负责人可集中审阅、按批准范围发布，再核对回复状态。",
-        visuals: [
-          image(
-            "reviews-workbook.webp",
-            "评价与拟回复审阅表",
-            "模拟顾客评价与对应处理状态及商家回复草稿"
-          ),
-          example(
-            "明确发布范围",
-            "我已核对审阅表。只发布示例东城店这次明确通过的两条回复，发布后帮我核对。",
-            "我会按已确认的门店和两条记录处理，并把平台核对结果写回审阅记录。"
-          )
-        ]
+          "按门店与平台整理顾客评价，结合菜品、服务和用餐场景自动撰写回复，并核对平台回复状态。",
+        visuals: [example("常营天街店 · 门店评价自动回复", customerReview, automaticReply)]
       }
     ]
   },

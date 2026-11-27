@@ -458,8 +458,11 @@
   .contact-primary-actions .button-outline:hover {
     background: var(--on-photo-hover);
   }
-  .contact-number {
+  .contact-name {
     margin-top: 22px;
+    font-weight: 600;
+  }
+  .contact-number {
     font-size: 25px;
     letter-spacing: 0.02em;
     font-variant-numeric: tabular-nums;
@@ -503,7 +506,6 @@
   .site-footer .brand > img {
     width: 28px;
     height: 38px;
-    filter: grayscale(1);
   }
   .site-footer .brand span {
     font-size: 18px;

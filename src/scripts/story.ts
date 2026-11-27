@@ -70,7 +70,7 @@ function mountConversation(stage: HTMLElement) {
 
   choices.forEach((button, i) =>
     button.addEventListener("click", () => {
-      paused = true;
+      paused = false;
       showScene(i);
     })
   );
@@ -100,7 +100,7 @@ function mountFlow(section: HTMLElement) {
     records.inert = !open;
     records.setAttribute("aria-hidden", String(!open));
     button.setAttribute("aria-expanded", String(open));
-    label.textContent = open ? "收起营业记录" : "展开营业记录";
+    label.textContent = open ? "收起依据" : "展开依据";
   }
   setOpen(reduced.matches);
   button.hidden = false;
@@ -129,10 +129,27 @@ function mountFlow(section: HTMLElement) {
 }
 
 const stage = document.querySelector<HTMLElement>(".agent-stage");
-const flow = document.querySelector<HTMLElement>(".flow-story");
-if (stage && flow && "IntersectionObserver" in window) {
+const picker = document.querySelector<HTMLElement>(".case-picker");
+if (stage && picker && "IntersectionObserver" in window) {
   mountConversation(stage);
-  mountFlow(flow);
+  const buttons = [...picker.querySelectorAll<HTMLButtonElement>("button")];
+  const panels = [...document.querySelectorAll<HTMLElement>(".business-case")];
+  function selectCase(index: number) {
+    panels.forEach((panel, i) => {
+      panel.hidden = i !== index;
+    });
+    buttons.forEach((button, i) => button.setAttribute("aria-pressed", String(i === index)));
+  }
+  selectCase(0);
+  panels.forEach(mountFlow);
+  buttons.forEach((button, i) => button.addEventListener("click", () => selectCase(i)));
+  document.querySelector(".story-cta")?.addEventListener("click", () => {
+    const active = [...stage.querySelectorAll("[data-question]")].findIndex(
+      (button) => button.getAttribute("aria-pressed") === "true"
+    );
+    selectCase(active === 1 ? 1 : 0);
+  });
+  picker.hidden = false;
 }
 
 // A catalogue deep link also opens the addressed disclosure on repeat clicks.
